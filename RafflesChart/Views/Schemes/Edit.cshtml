@@ -1,0 +1,61 @@
+﻿@model RafflesChart.Models.SchemeViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Scheme</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        @Html.Partial("_CreateOrEdit", Model)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/chosen")
+
+    <script type="text/javascript">
+        (function ($, window) {
+            $(function () {
+                $("#UserMarketIds").chosen({
+                    placeholder_text_multiple: "Please select markets"
+                });
+                $("#UserIndicatorIds").chosen({
+                    placeholder_text_multiple: "Please select indicators"
+                });
+                $("#UserBullBearTestIds").chosen({
+                    placeholder_text_multiple: "Please select bull bear tests"
+                });
+                $("#UserBackTestIds").chosen({
+                    placeholder_text_multiple: "Please select back tests"
+                });
+                $("#PatternScannerIds").chosen({
+                    placeholder_text_multiple: "Please select pattern scanners"
+                });
+                $("#ScannerIds").chosen({
+                    placeholder_text_multiple: "Please select scanners"
+                });
+            });
+        })(jQuery, window);
+    </script>
+}

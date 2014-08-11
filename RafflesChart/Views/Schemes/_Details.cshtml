@@ -1,0 +1,150 @@
+﻿@model RafflesChart.Models.SchemeViewModel
+
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.Description)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Description)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Name)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Name)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.AllUserMarkets)
+    </dt>
+
+    <dd>
+        @Html.ListBoxFor(m => m.UserMarketIds, Model.AllUserMarkets, new { disabled = true })
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.AllUserIndicators)
+    </dt>
+
+    <dd>
+        @Html.ListBoxFor(m => m.UserIndicatorIds, Model.AllUserIndicators, new { disabled = true })
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.AllUserBullBearTests)
+    </dt>
+
+    <dd>
+        @Html.ListBoxFor(m => m.UserBullBearTestIds, Model.AllUserBullBearTests, new { disabled = true })
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.AllUserBackTests)
+    </dt>
+
+    <dd>
+        @Html.ListBoxFor(m => m.UserBackTestIds, Model.AllUserBackTests, new { disabled = true })
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.AllPatternScanners)
+    </dt>
+
+    <dd>
+        @Html.ListBoxFor(m => m.PatternScannerIds, Model.AllPatternScanners, new { disabled = true })
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.AllScanners)
+    </dt>
+
+    <dd>
+        @Html.ListBoxFor(m => m.ScannerIds, Model.AllScanners, new { disabled = true })
+    </dd>
+
+    <dt>
+    </dt>
+
+    <dd>
+        <label>
+            @Html.DisplayFor(model => model.Scanner) Scanner
+        </label>
+    </dd>
+
+    <dt>
+    </dt>
+
+    <dd>
+        <label>
+            @Html.DisplayFor(model => model.CustomIndicators) Custom Indicators
+        </label>
+    </dd>
+
+    <dt>
+    </dt>
+
+    <dd>
+        <label>
+            @Html.DisplayFor(model => model.Live) Live
+        </label>
+    </dd>
+
+    <dt>
+    </dt>
+
+    <dd>
+        <label>
+            @Html.DisplayFor(model => model.CiAdd) CI Add
+        </label>
+    </dd>
+
+    <dt>
+    </dt>
+
+    <dd>
+        <label>
+            @Html.DisplayFor(model => model.ScannerAdd) Scanner Add
+        </label>
+    </dd>
+
+    <dt>
+
+    </dt>
+
+    <dd>
+        <label>
+            @Html.DisplayFor(model => model.SignalAdd) Signal Add
+        </label>
+    </dd>
+
+    <dt>
+    </dt>
+
+    <dd>
+        <label>
+            @Html.DisplayFor(model => model.TrendAdd) Trend Add
+        </label>
+    </dd>
+
+    <dt>
+    </dt>
+
+    <dd>
+        <label>
+            @Html.DisplayFor(model => model.PatternAdd) Pattern Add
+        </label>
+    </dd>
+
+    <dt>
+    </dt>
+
+    <dd>
+        <label>
+            @Html.DisplayFor(model => model.Expires) Expires
+        </label>
+    </dd>
+
+</dl>
