@@ -1,15 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
 namespace RafflesChart.Models {
-    public class UserBullBearTest {
-        public int Id { get; set; }
+    public class UserBullBearTest : IUserFunction {
 
-        public String Code { get; set; }
+        [Key, Column(Order = 1)]
+        public Guid UserId { get; set; }
 
-        public ICollection<Scheme> Schemes { get; set; }
+        [Key, Column(Order = 2)]
+        public string FormulaName { get; set; }
 
+        [NotMapped]
+        string IUserFunction.FunctionName {
+            get {
+                return this.FormulaName;
+            }
+            set {
+                this.FormulaName = value;
+            }
+        }
     }
 }

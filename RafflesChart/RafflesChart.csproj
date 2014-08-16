@@ -47,9 +47,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework.Extended">
+      <HintPath>..\packages\EntityFramework.Extended.6.1.0.95\lib\net45\EntityFramework.Extended.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\packages\NPOI.2.0.6\lib\net40\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -67,6 +73,18 @@
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>..\packages\NPOI.2.0.6\lib\net40\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>..\packages\NPOI.2.0.6\lib\net40\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>..\packages\NPOI.2.0.6\lib\net40\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>..\packages\NPOI.2.0.6\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -169,22 +187,26 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SchemesController.cs" />
     <Compile Include="EnforceTrueAttribute.cs" />
+    <Compile Include="Extensions\TempDataExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ActivateSchemeViewModel.cs" />
+    <Compile Include="Models\ActivateFunctionViewModel.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
-    <Compile Include="Models\PatternScanner.cs" />
-    <Compile Include="Models\Scanner.cs" />
+    <Compile Include="Models\IUserFunction.cs" />
     <Compile Include="Models\Scheme.cs" />
     <Compile Include="Models\SchemeViewModel.cs" />
     <Compile Include="Models\UserBackTest.cs" />
     <Compile Include="Models\UserBullBearTest.cs" />
     <Compile Include="Models\UserIndicator.cs" />
     <Compile Include="Models\UserMarket.cs" />
+    <Compile Include="Models\UserPatternScanner.cs" />
+    <Compile Include="Models\UserScanner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -272,9 +294,13 @@
     <Content Include="Views\Schemes\Index.cshtml" />
     <Content Include="Views\Schemes\_CreateOrEdit.cshtml" />
     <Content Include="Views\Schemes\_Details.cshtml" />
+    <Content Include="Views\Schemes\Activate.cshtml" />
+    <Content Include="Views\Schemes\ActivateFunction.cshtml" />
+    <Content Include="Views\Schemes\ActivateErrorEmails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\UserBackTests\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

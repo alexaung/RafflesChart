@@ -28,33 +28,3 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/chosen")
-
-    <script type="text/javascript">
-        (function ($, window) {
-            $(function () {
-                $("#UserMarketIds").chosen({
-                    placeholder_text_multiple: "Please select markets"
-                });
-                $("#UserIndicatorIds").chosen({
-                    placeholder_text_multiple: "Please select indicators"
-                });
-                $("#UserBullBearTestIds").chosen({
-                    placeholder_text_multiple: "Please select bull bear tests"
-                });
-                $("#UserBackTestIds").chosen({
-                    placeholder_text_multiple: "Please select back tests"
-                });
-                $("#PatternScannerIds").chosen({
-                    placeholder_text_multiple: "Please select pattern scanners"
-                });
-                $("#ScannerIds").chosen({
-                    placeholder_text_multiple: "Please select scanners"
-                });
-            });
-        })(jQuery, window);
-    </script>
-}

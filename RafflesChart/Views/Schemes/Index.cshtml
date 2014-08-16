@@ -12,37 +12,28 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Scanner)
+            @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CustomIndicators)
+            @Html.DisplayNameFor(model => model.Markets)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Live)
+            @Html.DisplayNameFor(model => model.Indicators)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CiAdd)
+            @Html.DisplayNameFor(model => model.BullBearTests)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ScannerAdd)
+            @Html.DisplayNameFor(model => model.BackTests)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SignalAdd)
+            @Html.DisplayNameFor(model => model.PatternScanners)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TrendAdd)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PatternAdd)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Expires)
+            @Html.DisplayNameFor(model => model.Scanners)
         </th>
         <th></th>
     </tr>
@@ -50,37 +41,28 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Scanner)
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>        
+        <td>
+            @Html.DisplayFor(modelItem => item.Markets)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CustomIndicators)
+            @Html.DisplayFor(modelItem => item.Indicators)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Live)
+            @Html.DisplayFor(modelItem => item.BullBearTests)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CiAdd)
+            @Html.DisplayFor(modelItem => item.BackTests)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ScannerAdd)
+            @Html.DisplayFor(modelItem => item.PatternScanners)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.SignalAdd)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TrendAdd)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PatternAdd)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Expires)
+            @Html.DisplayFor(modelItem => item.Scanners)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

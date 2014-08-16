@@ -1,12 +1,16 @@
 namespace RafflesChart.Migrations
 {
     using System;
+    using System.Configuration;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using System.Web.Security;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using RafflesChart.Models;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<RafflesChart.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         public Configuration()
         {
@@ -14,7 +18,7 @@ namespace RafflesChart.Migrations
             ContextKey = "RafflesChart.Models.ApplicationDbContext";
         }
 
-        protected override void Seed(RafflesChart.Models.ApplicationDbContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -27,32 +31,31 @@ namespace RafflesChart.Migrations
             //      new Person { FullName = "Brice Lambson" },
             //      new Person { FullName = "Rowan Miller" }
             //    );
-            //
+            //            
 
-            context.UserMarkets.AddOrUpdate(u => u.Code,
-                new UserMarket { Code = "SGX" },
-                new UserMarket { Code = "HKEX" },
-                new UserMarket { Code = "AMEX" },
-                new UserMarket { Code = "NYSE" },
-                new UserMarket { Code = "NASD" });
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            if (!roleManager.RoleExists("Admin")) {
+                var role = new IdentityRole();
+                role.Name = "Admin";
+                roleManager.Create(role);
+            }
 
-            context.UserIndicators.AddOrUpdate(u => u.Code,
-                new UserIndicator { Code = "MACD" },
-                new UserIndicator { Code = "Stochastic" });
+            var superAdminEmail = ConfigurationManager.AppSettings["SuperAdminEmail"] ?? "superadmin@gmail.com";
 
-            context.UserBullBearTests.AddOrUpdate(u => u.Code,
-                new UserBullBearTest { Code = "MACD UP" });
-
-            context.UserBackTests.AddOrUpdate(u => u.Code,
-                new UserBackTest { Code = "Stochstic UP" });
-
-            context.PatternScanners.AddOrUpdate(u => u.Code,
-                new PatternScanner { Code = "Triangle" },
-                new PatternScanner { Code = "Wedge" });
-
-            context.Scanners.AddOrUpdate(u => u.Code,
-                new Scanner { Code = "Breakout" },
-                new Scanner { Code = "MACD" });
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            var superAdmin = userManager.FindByEmail(superAdminEmail);
+            if (superAdmin == null) {
+                var user = new ApplicationUser() {
+                    Name = superAdminEmail,
+                    PhoneNumber = "123456",
+                    PhoneNumberConfirmed = true,
+                    UserName = superAdminEmail,
+                    Email = superAdminEmail,
+                    EmailConfirmed = true
+                };                
+                userManager.Create(user, "Super123!");
+                userManager.AddToRole(user.Id, "Admin");
+            }
         }
     }
 }

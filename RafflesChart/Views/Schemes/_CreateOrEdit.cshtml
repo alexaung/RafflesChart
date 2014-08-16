@@ -17,133 +17,49 @@
 </div>
 
 <div class="form-group">
-    @Html.LabelFor(model => model.UserMarketIds, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.LabelFor(model => model.Markets, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.ListBoxFor(m => m.UserMarketIds, Model.AllUserMarkets)
+        @Html.EditorFor(model => model.Markets, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Markets, "", new { @class = "text-danger" })
     </div>
 </div>
 
 <div class="form-group">
-    @Html.LabelFor(model => model.UserIndicatorIds, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.LabelFor(model => model.Indicators, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.ListBoxFor(m => m.UserIndicatorIds, Model.AllUserIndicators)
+        @Html.EditorFor(model => model.Indicators, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Indicators, "", new { @class = "text-danger" })
     </div>
 </div>
 
 <div class="form-group">
-    @Html.LabelFor(model => model.UserBullBearTestIds, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.LabelFor(model => model.BullBearTests, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.ListBoxFor(m => m.UserBullBearTestIds, Model.AllUserBullBearTests)
+        @Html.EditorFor(model => model.BullBearTests, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.BullBearTests, "", new { @class = "text-danger" })
     </div>
 </div>
 
 <div class="form-group">
-    @Html.LabelFor(model => model.UserBackTestIds, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.LabelFor(model => model.BackTests, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.ListBoxFor(m => m.UserBackTestIds, Model.AllUserBackTests)
+        @Html.EditorFor(model => model.BackTests, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.BackTests, "", new { @class = "text-danger" })
     </div>
 </div>
 
 <div class="form-group">
-    @Html.LabelFor(model => model.PatternScannerIds, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.LabelFor(model => model.PatternScanners, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.ListBoxFor(m => m.PatternScannerIds, Model.AllPatternScanners)
+        @Html.EditorFor(model => model.PatternScanners, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.PatternScanners, "", new { @class = "text-danger" })
     </div>
 </div>
 
 <div class="form-group">
-    @Html.LabelFor(model => model.ScannerIds, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.LabelFor(model => model.Scanners, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.ListBoxFor(m => m.ScannerIds, Model.AllScanners)
-    </div>
-</div>
-
-<div class="form-group">
-    <div class="checkbox">
-        <div class="col-md-offset-2 col-md-10">
-            <label>
-                @Html.EditorFor(model => model.Scanner) Scanner
-            </label>
-        </div>
-    </div>
-</div>
-
-<div class="form-group">
-    <div class="checkbox">
-        <div class="col-md-offset-2 col-md-10">
-            <label>
-                @Html.EditorFor(model => model.CustomIndicators) Custom Indicators
-            </label>
-        </div>
-    </div>
-</div>
-
-<div class="form-group">
-    <div class="checkbox">
-        <div class="col-md-offset-2 col-md-10">
-            <label>
-                @Html.EditorFor(model => model.Live) Live
-            </label>
-        </div>
-    </div>
-</div>
-
-<div class="form-group">
-    <div class="checkbox">
-        <div class="col-md-offset-2 col-md-10">
-            <label>
-                @Html.EditorFor(model => model.CiAdd) CI Add
-            </label>
-        </div>
-    </div>
-</div>
-
-<div class="form-group">
-    <div class="checkbox">
-        <div class="col-md-offset-2 col-md-10">
-            <label>
-                @Html.EditorFor(model => model.ScannerAdd) Scanner Add
-            </label>
-        </div>
-    </div>
-</div>
-
-<div class="form-group">
-    <div class="checkbox">
-        <div class="col-md-offset-2 col-md-10">
-            <label>
-                @Html.EditorFor(model => model.SignalAdd) Signal Add
-            </label>
-        </div>
-    </div>
-</div>
-
-<div class="form-group">
-    <div class="checkbox">
-        <div class="col-md-offset-2 col-md-10">
-            <label>
-                @Html.EditorFor(model => model.TrendAdd) Trend Add
-            </label>
-        </div>
-    </div>
-</div>
-
-<div class="form-group">
-    <div class="checkbox">
-        <div class="col-md-offset-2 col-md-10">
-            <label>
-                @Html.EditorFor(model => model.PatternAdd) Pattern Add
-            </label>
-        </div>
-    </div>
-</div>
-
-<div class="form-group">
-    <div class="checkbox">
-        <div class="col-md-offset-2 col-md-10">
-            <label>
-                @Html.EditorFor(model => model.Expires) Expires
-            </label>
-        </div>
+        @Html.EditorFor(model => model.Scanners, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Scanners, "", new { @class = "text-danger" })
     </div>
 </div>

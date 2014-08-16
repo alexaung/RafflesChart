@@ -5,17 +5,7 @@ using System.Linq;
 using System.Web;
 
 namespace RafflesChart.Models {
-    public class Scheme {
-        public int Id { get; set; }
-
-        public String Description { get; set; }
-
-        public String Name { get; set; }
-
-        public string Markets { get; set; }
-
-        public string Indicators { get; set; }
-
+    public class ActivateFunctionViewModel {
         [DisplayName("Bull Bear Tests")]
         public string BullBearTests { get; set; }
 
@@ -27,8 +17,13 @@ namespace RafflesChart.Models {
 
         public string Scanners { get; set; }
 
-        
+        public string Markets { get; set; }
 
+        public string Indicators { get; set; }
 
+        [DisplayName("Expired Date")]
+        public DateTime? ExpiredDate { get; set; }
+
+        public HttpPostedFileBase Users { get; set; }
     }
 }

@@ -11,6 +11,7 @@ using RafflesChart.Models;
 
 namespace RafflesChart.Controllers
 {
+    [Authorize(Roles="Admin")]
     public class EventsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

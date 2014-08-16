@@ -6,20 +6,20 @@ using System.Linq;
 using System.Web;
 
 namespace RafflesChart.Models {
-    public class UserMarket : IUserFunction {
+    public class UserPatternScanner : IUserFunction {
         [Key, Column(Order = 1)]
         public Guid UserId { get; set; }
 
         [Key, Column(Order = 2)]
-        public string Market { get; set; }
+        public string Scanner { get; set; }
 
         [NotMapped]
         string IUserFunction.FunctionName {
             get {
-                return this.Market;
+                return this.Scanner;
             }
             set {
-                this.Market = value;
+                this.Scanner = value;
             }
         }
     }

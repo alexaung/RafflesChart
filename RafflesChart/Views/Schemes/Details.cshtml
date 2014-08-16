@@ -24,33 +24,3 @@
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
-
-@section Scripts{
-    @Scripts.Render("~/bundles/chosen")
-
-    <script type="text/javascript">
-        (function ($, window) {
-            $(function () {
-                $("#UserMarketIds").chosen({
-                    placeholder_text_multiple: " ",
-                    allow_single_deselect: true
-                });
-                $("#UserIndicatorIds").chosen({
-                    placeholder_text_multiple: " "
-                });
-                $("#UserBullBearTestIds").chosen({
-                    placeholder_text_multiple: " "
-                });
-                $("#UserBackTestIds").chosen({
-                    placeholder_text_multiple: " "
-                });
-                $("#PatternScannerIds").chosen({
-                    placeholder_text_multiple: " "
-                });
-                $("#ScannerIds").chosen({
-                    placeholder_text_multiple: " "
-                });
-            });
-        })(jQuery, window);
-    </script>
-}

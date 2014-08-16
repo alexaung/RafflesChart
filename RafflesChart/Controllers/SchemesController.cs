@@ -8,9 +8,17 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RafflesChart.Models;
+using NPOI.HSSF.UserModel;
+using System.IO;
+using NPOI.XSSF.UserModel;
+using Microsoft.AspNet.Identity;
+using System.Web.Security;
+using EntityFramework.Extensions;
+using RafflesChart.Extensions;
 
 namespace RafflesChart.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class SchemesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -18,7 +26,7 @@ namespace RafflesChart.Controllers
         // GET: Schemes
         public async Task<ActionResult> Index()
         {
-            return View(await db.Scheme.ToListAsync());
+            return View(await db.Schemes.ToListAsync());
         }
 
         // GET: Schemes/Details/5
@@ -28,66 +36,22 @@ namespace RafflesChart.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Scheme scheme = await db.Scheme
-                                        .Include(s => s.UserMarkets)
-                                        .Include(s => s.UserIndicators)
-                                        .Include(s => s.UserBullBearTests)
-                                        .Include(s => s.UserBackTests)
-                                        .Include(s => s.PatternScanners)
-                                        .Include(s => s.Scanners)
+            Scheme scheme = await db.Schemes
                                         .Where(s => s.Id == id)
                                         .FirstOrDefaultAsync();
             if (scheme == null) {
                 return HttpNotFound();
             }
 
-            var vm = await GetSchemeViewModelAsync(scheme);
+            var vm = GetSchemeViewModel(scheme);
 
             return View(vm);
         }
 
         // GET: Schemes/Create
-        public async Task<ActionResult> Create()
+        public ActionResult Create()
         {
             var vm = new SchemeViewModel();
-
-            var userMarkets = await db.UserMarkets.ToArrayAsync();
-            var userIndicators = await db.UserIndicators.ToArrayAsync();
-            var userBullBearTests = await db.UserBullBearTests.ToArrayAsync();
-            var userBackTests = await db.UserBackTests.ToArrayAsync();
-            var patternScanners = await db.PatternScanners.ToArrayAsync();
-            var scanners = await db.Scanners.ToArrayAsync();
-
-            vm.AllUserMarkets = userMarkets.Select(m => new SelectListItem() { 
-                Text = m.Code, 
-                Value = m.Id.ToString() 
-            }).ToArray();
-
-            vm.AllUserIndicators = userIndicators.Select(m => new SelectListItem() {
-                Text = m.Code,
-                Value = m.Id.ToString()
-            }).ToArray();
-
-            vm.AllUserBullBearTests = userBullBearTests.Select(m => new SelectListItem() {
-                Text = m.Code,
-                Value = m.Id.ToString()
-            }).ToArray();
-
-            vm.AllUserBackTests = userBackTests.Select(m => new SelectListItem() {
-                Text = m.Code,
-                Value = m.Id.ToString()
-            }).ToArray();
-
-            vm.AllPatternScanners = patternScanners.Select(m => new SelectListItem() {
-                Text = m.Code,
-                Value = m.Id.ToString()
-            }).ToArray();
-
-            vm.AllScanners = scanners.Select(m => new SelectListItem() {
-                Text = m.Code,
-                Value = m.Id.ToString()
-            }).ToArray();
-
             return View(vm);
         }
 
@@ -103,42 +67,15 @@ namespace RafflesChart.Controllers
                 var scheme = new Scheme() { 
                     Name = viewModel.Name,
                     Description = viewModel.Description,
-                    Scanner = viewModel.Scanner,
-                    CustomIndicators = viewModel.CustomIndicators,
-                    Live = viewModel.Live,
-                    CiAdd = viewModel.CiAdd,
-                    ScannerAdd = viewModel.ScannerAdd,
-                    TrendAdd = viewModel.TrendAdd,
-                    PatternAdd = viewModel.PatternAdd,
-                    Expires = viewModel.Expires
+                    Markets = viewModel.Markets,
+                    Indicators = viewModel.Indicators,
+                    BullBearTests = viewModel.BullBearTests,
+                    BackTests = viewModel.BackTests,
+                    PatternScanners = viewModel.PatternScanners,
+                    Scanners = viewModel.Scanners,
                 };
 
-                viewModel.UserMarketIds = viewModel.UserMarketIds ?? new int[] { };
-                viewModel.UserIndicatorIds = viewModel.UserIndicatorIds?? new int[] { };
-                viewModel.UserBullBearTestIds= viewModel.UserBullBearTestIds ?? new int[] { };
-                viewModel.UserBackTestIds = viewModel.UserBackTestIds ?? new int[] { };
-                viewModel.PatternScannerIds = viewModel.PatternScannerIds ?? new int[] { };
-                viewModel.ScannerIds = viewModel.ScannerIds ?? new int[] { };
-
-                var selectedMarkets = await db.UserMarkets.Where(um => viewModel.UserMarketIds.Contains(um.Id)).ToArrayAsync();
-                scheme.UserMarkets = selectedMarkets;
-
-                var selectedIndicators = await db.UserIndicators.Where(um => viewModel.UserIndicatorIds.Contains(um.Id)).ToArrayAsync();
-                scheme.UserIndicators = selectedIndicators;
-
-                var selectedBullBearTests = await db.UserBullBearTests.Where(um => viewModel.UserBullBearTestIds.Contains(um.Id)).ToArrayAsync();
-                scheme.UserBullBearTests = selectedBullBearTests;
-
-                var selectedBackTests = await db.UserBackTests.Where(um => viewModel.UserBackTestIds.Contains(um.Id)).ToArrayAsync();
-                scheme.UserBackTests = selectedBackTests;
-
-                var selectedPatternScanners = await db.PatternScanners.Where(um => viewModel.PatternScannerIds.Contains(um.Id)).ToArrayAsync();
-                scheme.PatternScanners = selectedPatternScanners;
-
-                var selectedScanners = await db.Scanners.Where(um => viewModel.ScannerIds.Contains(um.Id)).ToArrayAsync();
-                scheme.Scanners = selectedScanners;  
-
-                db.Scheme.Add(scheme);
+                db.Schemes.Add(scheme);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -153,13 +90,7 @@ namespace RafflesChart.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Scheme scheme = await db.Scheme
-                                        .Include(s => s.UserMarkets)
-                                        .Include(s => s.UserIndicators)
-                                        .Include(s => s.UserBullBearTests)
-                                        .Include(s => s.UserBackTests)
-                                        .Include(s => s.PatternScanners)
-                                        .Include(s => s.Scanners)
+            Scheme scheme = await db.Schemes                                        
                                         .Where(s => s.Id == id)
                                         .FirstOrDefaultAsync();
             if (scheme == null)
@@ -171,59 +102,13 @@ namespace RafflesChart.Controllers
                 Id = scheme.Id,
                 Name = scheme.Name,
                 Description = scheme.Description,
-                Scanner = scheme.Scanner,
-                CustomIndicators = scheme.CustomIndicators,
-                Live = scheme.Live,
-                CiAdd = scheme.CiAdd,
-                ScannerAdd = scheme.ScannerAdd,
-                TrendAdd = scheme.TrendAdd,
-                PatternAdd = scheme.PatternAdd,
-                Expires = scheme.Expires,
-                UserMarketIds = scheme.UserMarkets.Select(m => m.Id).ToArray()
+                Markets = scheme.Markets,
+                Indicators = scheme.Indicators,
+                BullBearTests = scheme.BullBearTests,
+                BackTests = scheme.BackTests,
+                PatternScanners = scheme.PatternScanners,
+                Scanners = scheme.Scanners
             };
-
-            var userMarkets = await db.UserMarkets.ToArrayAsync();
-            var userIndicators = await db.UserIndicators.ToArrayAsync();
-            var userBullBearTests = await db.UserBullBearTests.ToArrayAsync();
-            var userBackTests = await db.UserBackTests.ToArrayAsync();
-            var patternScanners = await db.PatternScanners.ToArrayAsync();
-            var scanners = await db.Scanners.ToArrayAsync();
-
-            vm.AllUserMarkets = userMarkets.Select(m => new SelectListItem() {
-                Text = m.Code,
-                Value = m.Id.ToString(),
-                Selected = scheme.UserMarkets.Any(um => um.Id == um.Id)
-            }).ToArray();
-
-            vm.AllUserIndicators = userIndicators.Select(m => new SelectListItem() {
-                Text = m.Code,
-                Value = m.Id.ToString(),
-                Selected = scheme.UserIndicators.Any(um => um.Id == um.Id)
-            }).ToArray();
-
-            vm.AllUserBullBearTests = userBullBearTests.Select(m => new SelectListItem() {
-                Text = m.Code,
-                Value = m.Id.ToString(),
-                Selected = scheme.UserBullBearTests.Any(um => um.Id == um.Id)
-            }).ToArray();
-
-            vm.AllUserBackTests = userBackTests.Select(m => new SelectListItem() {
-                Text = m.Code,
-                Value = m.Id.ToString(),
-                Selected = scheme.UserBackTests.Any(um => um.Id == um.Id)
-            }).ToArray();
-
-            vm.AllPatternScanners = patternScanners.Select(m => new SelectListItem() {
-                Text = m.Code,
-                Value = m.Id.ToString(),
-                Selected = scheme.PatternScanners.Any(um => um.Id == um.Id)
-            }).ToArray();
-
-            vm.AllScanners = scanners.Select(m => new SelectListItem() {
-                Text = m.Code,
-                Value = m.Id.ToString(),
-                Selected = scheme.Scanners.Any(um => um.Id == um.Id)
-            }).ToArray();
 
             return View(vm);
         }
@@ -235,64 +120,18 @@ namespace RafflesChart.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(SchemeViewModel viewModel) {
             if (ModelState.IsValid) {
-                Scheme scheme = await db.Scheme
-                                        .Include(s => s.UserMarkets)
-                                        .Include(s => s.UserIndicators)
-                                        .Include(s => s.UserBullBearTests)
-                                        .Include(s => s.UserBackTests)
-                                        .Include(s => s.PatternScanners)
-                                        .Include(s => s.Scanners)
+                Scheme scheme = await db.Schemes
                                         .Where(s => s.Id == viewModel.Id)
                                         .FirstOrDefaultAsync();
-
+                
                 scheme.Name = viewModel.Name;
                 scheme.Description = viewModel.Description;
-                scheme.Scanner = viewModel.Scanner;
-                scheme.CustomIndicators = viewModel.CustomIndicators;
-                scheme.Live = viewModel.Live;
-                scheme.CiAdd = viewModel.CiAdd;
-                scheme.ScannerAdd = viewModel.ScannerAdd;
-                scheme.TrendAdd = viewModel.TrendAdd;
-                scheme.PatternAdd = viewModel.PatternAdd;
-                scheme.Expires = viewModel.Expires;
-                scheme.UserMarkets.Clear();
-
-                viewModel.UserMarketIds = viewModel.UserMarketIds ?? new int[] { };
-                viewModel.UserIndicatorIds = viewModel.UserIndicatorIds ?? new int[] { };
-                viewModel.UserBullBearTestIds = viewModel.UserBullBearTestIds ?? new int[] { };
-                viewModel.UserBackTestIds = viewModel.UserBackTestIds ?? new int[] { };
-                viewModel.PatternScannerIds = viewModel.PatternScannerIds ?? new int[] { };
-                viewModel.ScannerIds = viewModel.ScannerIds ?? new int[] { };
-                                
-                var selectedMarkets = await db.UserMarkets.Where(um => viewModel.UserMarketIds.Contains(um.Id)).ToArrayAsync();
-                foreach (var sm in selectedMarkets) {
-                    scheme.UserMarkets.Add(sm);
-                }
-
-                var selectedIndicators = await db.UserIndicators.Where(um => viewModel.UserIndicatorIds.Contains(um.Id)).ToArrayAsync();
-                foreach (var sm in selectedIndicators) {
-                    scheme.UserIndicators.Add(sm);
-                }
-
-                var selectedBullBearTests = await db.UserBullBearTests.Where(um => viewModel.UserBullBearTestIds.Contains(um.Id)).ToArrayAsync();
-                foreach (var sm in selectedBullBearTests) {
-                    scheme.UserBullBearTests.Add(sm);
-                }
-
-                var selectedBackTests = await db.UserBackTests.Where(um => viewModel.UserBackTestIds.Contains(um.Id)).ToArrayAsync();
-                foreach (var sm in selectedBackTests) {
-                    scheme.UserBackTests.Add(sm);
-                }
-
-                var selectedPatternScanners = await db.PatternScanners.Where(um => viewModel.PatternScannerIds.Contains(um.Id)).ToArrayAsync();
-                foreach (var sm in selectedPatternScanners) {
-                    scheme.PatternScanners.Add(sm);
-                }
-
-                var selectedScanners = await db.Scanners.Where(um => viewModel.ScannerIds.Contains(um.Id)).ToArrayAsync();
-                foreach (var sm in selectedScanners) {
-                    scheme.Scanners.Add(sm);
-                }
+                scheme.Markets = viewModel.Markets;
+                scheme.Indicators = viewModel.Indicators;
+                scheme.BullBearTests = viewModel.BullBearTests;
+                scheme.BackTests = viewModel.BackTests;
+                scheme.PatternScanners = viewModel.PatternScanners;
+                scheme.Scanners = viewModel.Scanners;
 
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -307,13 +146,7 @@ namespace RafflesChart.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Scheme scheme = await db.Scheme
-                                        .Include(s => s.UserMarkets)
-                                        .Include(s => s.UserIndicators)
-                                        .Include(s => s.UserBullBearTests)
-                                        .Include(s => s.UserBackTests)
-                                        .Include(s => s.PatternScanners)
-                                        .Include(s => s.Scanners)
+            Scheme scheme = await db.Schemes
                                         .Where(s => s.Id == id)
                                         .FirstOrDefaultAsync();
             if (scheme == null)
@@ -321,7 +154,7 @@ namespace RafflesChart.Controllers
                 return HttpNotFound();
             }
 
-            var vm = await GetSchemeViewModelAsync(scheme);
+            var vm = GetSchemeViewModel(scheme);
             return View(vm);
         }
 
@@ -330,10 +163,217 @@ namespace RafflesChart.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Scheme scheme = await db.Scheme.FindAsync(id);
-            db.Scheme.Remove(scheme);
+            Scheme scheme = await db.Schemes.FindAsync(id);
+            db.Schemes.Remove(scheme);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Activate() {
+            var vm = new ActivateSchemeViewModel();
+
+            var schemes = await db.Schemes.ToArrayAsync();
+
+            vm.Schemes = schemes.Select(s => new SelectListItem() {
+                Text = string.Format("({0}) {1}", s.Name, s.Description),
+                Value = s.Id.ToString()
+            }).ToArray();
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Activate(ActivateSchemeViewModel vm) {
+
+            var emails = GetEmails(vm.Users.InputStream).ToArray();
+
+            Scheme scheme = await db.Schemes
+                                        .Where(s => s.Id == vm.SelectedSchemeId)
+                                        .FirstOrDefaultAsync();
+
+            var backTests = (scheme.BackTests == null) ? new string[] { } : scheme.BackTests.ToString().Split(';');
+            var bullBearTests = (scheme.BullBearTests == null) ? new string[]{} : scheme.BullBearTests.ToString().Split(';');
+            var indicators = (scheme.Indicators == null) ? new string[]{} : scheme.Indicators.ToString().Split(';');
+            var markets = (scheme.Markets == null) ? new string[] { } : scheme.Markets.ToString().Split(';');
+            var patternScanners = (scheme.PatternScanners == null) ? new string[] { } : scheme.PatternScanners.ToString().Split(';');
+            var scanners = (scheme.Scanners == null) ? new string[] { } : scheme.Scanners.ToString().Split(';');
+
+            var errorEmails = new List<string>();            
+            foreach (string email in emails) {
+                var user = await db.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
+
+                if (user == null) {
+                    errorEmails.Add(email);
+                }
+                else {                    
+                    var userId = new Guid(user.Id);
+
+                    user.Expires = vm.ExpiredDate;
+                    await db.UserBackTests.Where(bt => bt.UserId == userId).DeleteAsync();
+                    await db.UserBullBearTests.Where(bt => bt.UserId == userId).DeleteAsync();
+                    await db.UserIndicators.Where(bt => bt.UserId == userId).DeleteAsync();
+                    await db.UserMarkets.Where(bt => bt.UserId == userId).DeleteAsync();
+                    await db.UserPatternScanners.Where(bt => bt.UserId == userId).DeleteAsync();
+                    await db.UserScanners.Where(bt => bt.UserId == userId).DeleteAsync();
+
+                    if (backTests.Any()) {
+                        AddUserFunction(backTests, user, db.UserBackTests);
+                    }
+                    if (bullBearTests.Any()) {
+                        AddUserFunction(bullBearTests, user, db.UserBullBearTests);
+                    }
+                    if (indicators.Any()) {
+                        AddUserFunction(indicators, user, db.UserIndicators);
+                        user.CustomIndicators = true;
+                    }
+                    if (markets.Any()) {
+                        AddUserFunction(markets, user, db.UserMarkets);
+                    }
+                    if (patternScanners.Any()) {
+                        AddUserFunction(patternScanners, user, db.UserPatternScanners);
+                        user.PatternAdd = true;
+                    }
+                    if (scanners.Any()) {
+                        AddUserFunction(scanners, user, db.UserScanners);
+                        user.Scanner = true;
+                        user.ScannerAdd = true;
+                    }
+                }
+
+                await db.SaveChangesAsync();
+            }
+
+            if (errorEmails.Any()) {
+                this.TempData.AddErrorEmails(errorEmails);
+                return RedirectToAction("ActivateErrorEmails");
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult ActivateErrorEmails() {
+            var emails = this.TempData.GetErrorEmails();
+            return View(emails);
+        }
+
+        [HttpGet]
+        public ActionResult ActivateFunction() {
+            var vm = new ActivateFunctionViewModel();
+            
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ActivateFunction(ActivateFunctionViewModel vm) {
+
+            var emails = GetEmails(vm.Users.InputStream).ToArray();
+
+            var backTests = (vm.BackTests == null) ? new string[] { } : vm.BackTests.ToString().Split(';');
+            var bullBearTests = (vm.BullBearTests == null) ? new string[] { } : vm.BullBearTests.ToString().Split(';');
+            var indicators = (vm.Indicators == null) ? new string[] { } : vm.Indicators.ToString().Split(';');
+            var markets = (vm.Markets == null) ? new string[] { } : vm.Markets.ToString().Split(';');
+            var patternScanners = (vm.PatternScanners == null) ? new string[] { } : vm.PatternScanners.ToString().Split(';');
+            var scanners = (vm.Scanners == null) ? new string[] { } : vm.Scanners.ToString().Split(';');
+
+            if (backTests.Any()) {
+                await db.UserBackTests.Where(ub => backTests.Contains(ub.FormulaName)).DeleteAsync();
+            }
+            if (bullBearTests.Any()) {
+                await db.UserBullBearTests.Where(ub => bullBearTests.Contains(ub.FormulaName)).DeleteAsync();
+            }
+            if (indicators.Any()) {
+                await db.UserIndicators.Where(ub => indicators.Contains(ub.Indicator)).DeleteAsync();
+            }
+            if (markets.Any()) {
+                await db.UserMarkets.Where(ub => markets.Contains(ub.Market)).DeleteAsync();
+            }
+            if (patternScanners.Any()) {
+                await db.UserPatternScanners.Where(ub => patternScanners.Contains(ub.Scanner)).DeleteAsync();
+            }
+            if (scanners.Any()) {
+                await db.UserScanners.Where(ub => scanners.Contains(ub.Scanner)).DeleteAsync();
+            }
+
+            var errorEmails = new List<string>();            
+            foreach (string email in emails) {
+                var user = await db.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
+
+                if (user == null) {
+                    errorEmails.Add(email);
+                }
+                else {
+                    user.Expires = vm.ExpiredDate;                    
+
+                    if (backTests.Any()) {
+                        AddUserFunction(backTests, user, db.UserBackTests);
+                    }
+                    if (bullBearTests.Any()) {
+                        AddUserFunction(bullBearTests, user, db.UserBullBearTests);
+                    }
+                    if (indicators.Any()) {
+                        AddUserFunction(indicators, user, db.UserIndicators);
+                        user.CustomIndicators = true;
+                    }
+                    if (markets.Any()) {
+                        AddUserFunction(markets, user, db.UserMarkets);
+                    }
+                    if (patternScanners.Any()) {
+                        AddUserFunction(patternScanners, user, db.UserPatternScanners);
+                        user.PatternAdd = true;
+                    }
+                    if (scanners.Any()) {
+                        AddUserFunction(scanners, user, db.UserScanners);
+                        user.Scanner = true;
+                        user.ScannerAdd = true;
+                    }
+                }
+                                
+                await db.SaveChangesAsync();
+            }
+
+            if (errorEmails.Any()) {
+                this.TempData.AddErrorEmails(errorEmails);
+                return RedirectToAction("ActivateErrorEmails");
+            }
+
+            return RedirectToAction("Index");
+
+        }
+
+        private void AddUserFunction<T>(string[] functions, ApplicationUser user, IDbSet<T> dbSet)             
+            where T : class, IUserFunction, new() {
+
+            foreach (string function in functions) {
+                var model = new T() {
+                    UserId = new Guid(user.Id),
+                    FunctionName = function
+                };
+
+                dbSet.Add(model);
+            }
+        }
+
+        private IEnumerable<string> GetEmails(Stream stream) {
+            var workbook = new XSSFWorkbook(stream);
+            var sheet = workbook.GetSheetAt(0);
+
+            var emails = new List<string>();
+            var iterator = sheet.GetRowEnumerator();
+            var count = 1;
+            while (iterator.MoveNext()) {
+                if (count > 1) {
+                    var row = (XSSFRow)iterator.Current;
+                    var cell = row.GetCell(0);
+                    if (cell != null) {
+                        var value = cell.StringCellValue;
+                        if (!string.IsNullOrWhiteSpace(value)) {
+                            yield return value;
+                        }
+                    }
+                }
+                count++;
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -345,70 +385,19 @@ namespace RafflesChart.Controllers
             base.Dispose(disposing);
         }
 
-        private async Task<SchemeViewModel> GetSchemeViewModelAsync(Scheme scheme) {
+        private SchemeViewModel GetSchemeViewModel(Scheme scheme) {
             var vm = new SchemeViewModel() {
                 Id = scheme.Id,
                 Name = scheme.Name,
                 Description = scheme.Description,
-                Scanner = scheme.Scanner,
-                CustomIndicators = scheme.CustomIndicators,
-                Live = scheme.Live,
-                CiAdd = scheme.CiAdd,
-                ScannerAdd = scheme.ScannerAdd,
-                TrendAdd = scheme.TrendAdd,
-                PatternAdd = scheme.PatternAdd,
-                Expires = scheme.Expires,
-                UserMarketIds = scheme.UserMarkets.Select(m => m.Id).ToArray(),
-                UserIndicatorIds = scheme.UserIndicators.Select(m => m.Id).ToArray(),
-                UserBullBearTestIds = scheme.UserBullBearTests.Select(m => m.Id).ToArray(),
-                UserBackTestIds = scheme.UserBackTests.Select(m => m.Id).ToArray(),
-                PatternScannerIds = scheme.PatternScanners.Select(m => m.Id).ToArray(),
-                ScannerIds = scheme.Scanners.Select(m => m.Id).ToArray(),
-
+                Markets = scheme.Markets,
+                Indicators = scheme.Indicators,
+                BullBearTests = scheme.BullBearTests,
+                BackTests = scheme.BackTests,
+                PatternScanners = scheme.PatternScanners,
+                Scanners = scheme.Scanners
             };
 
-            var userMarkets = await db.UserMarkets.ToArrayAsync();
-            var userIndicators = await db.UserIndicators.ToArrayAsync();
-            var userBullBearTests = await db.UserBullBearTests.ToArrayAsync();
-            var userBackTests = await db.UserBackTests.ToArrayAsync();
-            var patternScanners = await db.PatternScanners.ToArrayAsync();
-            var scanners = await db.Scanners.ToArrayAsync();
-
-            vm.AllUserMarkets = userMarkets.Select(m => new SelectListItem() {
-                Text = m.Code,
-                Value = m.Id.ToString(),
-                Selected = scheme.UserMarkets.Any(um => um.Id == um.Id)
-            }).ToArray();
-
-            vm.AllUserIndicators = userIndicators.Select(m => new SelectListItem() {
-                Text = m.Code,
-                Value = m.Id.ToString(),
-                Selected = scheme.UserIndicators.Any(um => um.Id == um.Id)
-            }).ToArray();
-
-            vm.AllUserBullBearTests = userBullBearTests.Select(m => new SelectListItem() {
-                Text = m.Code,
-                Value = m.Id.ToString(),
-                Selected = scheme.UserBullBearTests.Any(um => um.Id == um.Id)
-            }).ToArray();
-
-            vm.AllUserBackTests = userBackTests.Select(m => new SelectListItem() {
-                Text = m.Code,
-                Value = m.Id.ToString(),
-                Selected = scheme.UserBackTests.Any(um => um.Id == um.Id)
-            }).ToArray();
-
-            vm.AllPatternScanners = patternScanners.Select(m => new SelectListItem() {
-                Text = m.Code,
-                Value = m.Id.ToString(),
-                Selected = scheme.PatternScanners.Any(um => um.Id == um.Id)
-            }).ToArray();
-
-            vm.AllScanners = scanners.Select(m => new SelectListItem() {
-                Text = m.Code,
-                Value = m.Id.ToString(),
-                Selected = scheme.Scanners.Any(um => um.Id == um.Id)
-            }).ToArray();
             return vm;
         }
     }
