@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -529,6 +530,15 @@ namespace RafflesChart.Controllers
             var result = this.TempData.GetUploadUserResult();
             return View(result);
         }
+
+        //
+        // GET: /Account/GetUsers
+        public async Task<ActionResult> GetUsers() {
+            using (var db = new ApplicationDbContext()) {
+                var users = await db.Users.ToArrayAsync();
+                return View(users);
+            }
+        }        
 
         private IEnumerable<ApplicationUser> GetUsers(Stream stream) {
             var workbook = new XSSFWorkbook(stream);
