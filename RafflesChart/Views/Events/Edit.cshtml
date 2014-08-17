@@ -65,11 +65,13 @@
     @Scripts.Render("~/bundles/datetimepicker")
     <script type="text/javascript">
         (function ($, window) {
-            $(function () {                
-                //$('#Date').datetimepicker({
-                //    format: 'd/m/Y h:i:s a'
-                //});
+            $(function () {
+                $('#Date').datetimepicker({
+                    format: 'm/d/Y h:i:s A'
+                });
             });
         })(jQuery, window);
+
     </script>
+
 }

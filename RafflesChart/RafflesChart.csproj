@@ -88,6 +88,12 @@
     <Reference Include="NPOI.OpenXmlFormats">
       <HintPath>..\packages\NPOI.2.0.6\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
+    <Reference Include="Postal">
+      <HintPath>..\packages\Postal.Mvc5.1.0.0\lib\net45\Postal.dll</HintPath>
+    </Reference>
+    <Reference Include="RazorEngine">
+      <HintPath>..\packages\RazorEngine.3.4.1\lib\net45\RazorEngine.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -204,12 +210,14 @@
     <Compile Include="Models\IUserFunction.cs" />
     <Compile Include="Models\Scheme.cs" />
     <Compile Include="Models\SchemeViewModel.cs" />
+    <Compile Include="Models\UploadUserResult.cs" />
     <Compile Include="Models\UserBackTest.cs" />
     <Compile Include="Models\UserBullBearTest.cs" />
     <Compile Include="Models\UserIndicator.cs" />
     <Compile Include="Models\UserMarket.cs" />
     <Compile Include="Models\UserPatternScanner.cs" />
     <Compile Include="Models\UserScanner.cs" />
+    <Compile Include="Models\UploadUsersViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -630,6 +638,11 @@
     <Content Include="Views\SchemesA\Activate.cshtml" />
     <Content Include="Views\SchemesA\Index.cshtml" />
     <Content Include="Views\SchemesA\ActivateFunction.cshtml" />
+    <Content Include="Views\Account\UploadUsers.cshtml" />
+    <Content Include="Views\Account\UploadUserResult.cshtml" />
+    <Content Include="Views\Emails\Web.config" />
+    <Content Include="Views\Emails\_ViewStart.cshtml" />
+    <Content Include="Views\Emails\UserRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

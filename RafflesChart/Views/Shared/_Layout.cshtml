@@ -31,6 +31,17 @@
                     <li>@Html.ActionLink("Events", "Index", "Events")</li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Users <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Create", "UploadUsers", "Account")</li>
+                            <li>@Html.ActionLink("Upload", "UploadUsers", "Account")</li>
+                            <li>@Html.ActionLink("Listing", "UploadUsers", "Account")</li>
+                        </ul>
+
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                             Scheme <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
@@ -41,7 +52,7 @@
                     </li>
 
                     @*<li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

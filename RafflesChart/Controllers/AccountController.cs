@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Owin;
+using NPOI.XSSF.UserModel;
+using Postal;
+using RafflesChart.Extensions;
 using RafflesChart.Models;
 
 namespace RafflesChart.Controllers
@@ -97,7 +99,11 @@ namespace RafflesChart.Controllers
                     UserName = model.Email,
                     Email = model.Email 
                 };
-                IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+
+                var passwordValidator = (PasswordValidator)UserManager.PasswordValidator;
+                var password = Membership.GeneratePassword(passwordValidator.RequiredLength, 1);
+                IdentityResult result = await UserManager.CreateAsync(user, password);
+
                 if (result.Succeeded)
                 {
                     await SignInAsync(user, isPersistent: false);
@@ -106,7 +112,8 @@ namespace RafflesChart.Controllers
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");                    
+                    await SendUserRegistrationEmailAsync(model.Email, password);
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -118,6 +125,15 @@ namespace RafflesChart.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        private static async Task SendUserRegistrationEmailAsync(string email, string password) {
+
+            dynamic mail = new Email("UserRegister");
+            mail.To = email;
+            mail.Email = email;
+            mail.Password = password;
+            await mail.SendAsync();
         }
 
         //
@@ -472,6 +488,96 @@ namespace RafflesChart.Controllers
             base.Dispose(disposing);
         }
 
+        //
+        // POST: /Account/UploadUsers
+        [HttpPost]
+        public async Task<ActionResult> UploadUsers(ActivateFunctionViewModel vm) {
+            var users = GetUsers(vm.Users.InputStream).ToArray();
+            var errorEmails = new List<string>();
+            var succesUserCount = 0;
+            var passwordValidator = (PasswordValidator)UserManager.PasswordValidator;
+            foreach (var user in users) {
+                var password = Membership.GeneratePassword(passwordValidator.RequiredLength, 1);
+                var result = await UserManager.CreateAsync(user, password);
+
+                if (result.Succeeded) {
+                    succesUserCount++;
+                    await SendUserRegistrationEmailAsync(user.Email, password);
+                }
+                else {
+                    errorEmails.Add(user.Email);
+                }
+            }
+
+            var uploadUserResult = new UploadUserResult() {
+                SuccessUserCount = succesUserCount,
+                ErrorUserEmails = errorEmails
+
+            };
+
+            this.TempData.AddUploadUserResult(uploadUserResult);
+            return RedirectToAction("UploadUserResult");
+        }
+
+        //
+        // GET: /Account/UploadUsers
+        public ActionResult UploadUsers() {
+            return View();
+        }
+
+        public ActionResult UploadUserResult() {
+            var result = this.TempData.GetUploadUserResult();
+            return View(result);
+        }
+
+        private IEnumerable<ApplicationUser> GetUsers(Stream stream) {
+            var workbook = new XSSFWorkbook(stream);
+            var sheet = workbook.GetSheetAt(0);
+            
+            var iterator = sheet.GetRowEnumerator();
+            var count = 1;
+            var errorMessage = String.Empty;
+            while (iterator.MoveNext()) {
+                if (count > 1) {
+                    var row = (XSSFRow)iterator.Current;
+                    var name = row.GetCell(0);
+                    var handPhone = row.GetCell(1);
+                    var email = row.GetCell(2);
+                    if (name != null) {
+                        var value = name.StringCellValue;
+                        if (string.IsNullOrWhiteSpace(value)) {
+                            errorMessage = "Error at Row : " + count;
+                        }
+                    }
+                    if (handPhone != null) {
+                        var value = handPhone.StringCellValue;
+                        if (string.IsNullOrWhiteSpace(value)) {
+                            errorMessage = "Error at Row : " + count;
+                        }
+                    }
+                    if (email != null) {
+                        var value = email.StringCellValue;
+                        if (string.IsNullOrWhiteSpace(value)) {
+                            errorMessage = "Error at Row : " + count;
+                        }
+                    }     
+                    
+                    var user = new ApplicationUser() {
+                        Name = name.StringCellValue,
+                        PhoneNumber = handPhone.StringCellValue,
+                        PhoneNumberConfirmed = true,
+                        UserName = email.StringCellValue,
+                        Email = email.StringCellValue,
+                        EmailConfirmed = true
+                    };
+
+                    yield return user;
+                }
+                count++;
+            }
+
+        }
+
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
@@ -508,10 +614,6 @@ namespace RafflesChart.Controllers
             return false;
         }
 
-        private void SendEmail(string email, string callbackUrl, string subject, string message)
-        {
-            // For information on sending mail, please visit http://go.microsoft.com/fwlink/?LinkID=320771
-        }
 
         public enum ManageMessageId
         {

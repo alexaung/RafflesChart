@@ -19,7 +19,7 @@ namespace RafflesChart.Controllers
         // GET: Events
         public async Task<ActionResult> Index()
         {
-            return View(await db.Events.ToListAsync());
+            return View(await db.Events.Where(e => e.Date >= DateTime.Now).ToArrayAsync());
         }
 
         // GET: Events/Details/5

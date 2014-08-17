@@ -1,0 +1,28 @@
+﻿@model RafflesChart.Models.UploadUserResult
+
+@{
+    ViewBag.Title = "UploadUserResult";
+}
+
+<h2>Upload User Result</h2>
+
+<div>
+    <hr />
+    <div class="alert alert-success" role="alert">
+        <span class="badge">@Model.SuccessUserCount</span> users have been successfully uploaded.
+    </div>
+
+    <hr />
+    @if (Model.ErrorUserEmails.Any()) {
+        <div class="alert alert-danger" role="alert">
+            But, We can't upload the following emails
+        </div>
+
+        <ul>
+            @foreach (var email in Model.ErrorUserEmails) {
+                <li>@email</li>
+            }
+        </ul>
+    }
+
+</div>

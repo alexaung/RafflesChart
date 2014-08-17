@@ -398,9 +398,8 @@ namespace RafflesChart.Controllers
 
         private IEnumerable<string> GetEmails(Stream stream) {
             var workbook = new XSSFWorkbook(stream);
-            var sheet = workbook.GetSheetAt(0);
-
-            var emails = new List<string>();
+            var sheet = workbook.GetSheetAt(0);  
+            
             var iterator = sheet.GetRowEnumerator();
             var count = 1;
             while (iterator.MoveNext()) {
