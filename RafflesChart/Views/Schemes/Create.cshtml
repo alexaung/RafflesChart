@@ -8,20 +8,20 @@
 
 
 @using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
+    @*@Html.AntiForgeryToken()*@
 
-    <div class="form-horizontal">
+    <div ng-controller="SchemeController" class="form-horizontal">
         <h4>Scheme</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
         
-        @Html.Partial("_CreateOrEdit", Model)
+        @Html.Partial("_CreateOrEditA", Model)
 
-        <div class="form-group">
+        @*<div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
-        </div>
+        </div>*@
     </div>
 }
 

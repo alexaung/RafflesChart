@@ -25,7 +25,8 @@ namespace RafflesChart.Models {
         public DbSet<UserScanner> UserScanners { get; set; }
         
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false) {
+            : base("LocalConnection", throwIfV1Schema: false)
+        {        
         }
 
         public static ApplicationDbContext Create() {

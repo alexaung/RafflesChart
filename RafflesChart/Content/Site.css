@@ -27,3 +27,7 @@ select {
 dl dt, dl dd {
     padding-top: 10px;
 }
+
+.img-button {
+    cursor:pointer;
+}

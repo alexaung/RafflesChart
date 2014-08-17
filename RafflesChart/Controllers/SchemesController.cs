@@ -15,6 +15,7 @@ using Microsoft.AspNet.Identity;
 using System.Web.Security;
 using EntityFramework.Extensions;
 using RafflesChart.Extensions;
+using Newtonsoft.Json;
 
 namespace RafflesChart.Controllers
 {
@@ -22,6 +23,23 @@ namespace RafflesChart.Controllers
     public class SchemesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+
+        // GET: Schemes
+        public  ActionResult IndexA()
+        {
+            return View();
+        }
+
+        // GET: Schemes
+        [HttpGet]
+        public async Task<ActionResult> SchemeList()
+        {
+            var ls = await db.Schemes.ToListAsync();
+
+            var ret = JsonConvert.SerializeObject (ls);
+            return Content(ret);
+        }
 
         // GET: Schemes
         public async Task<ActionResult> Index()
@@ -55,13 +73,21 @@ namespace RafflesChart.Controllers
             return View(vm);
         }
 
+         [HttpGet]  //[ValidateAntiForgeryToken]        
+        public  ActionResult Sample()
+        {
+             SchemeViewModel viewModel = new SchemeViewModel();
+             viewModel.Name = "test";
+             return Content(JsonConvert.SerializeObject(viewModel));
+         }
+
         // POST: Schemes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost]  //[ValidateAntiForgeryToken]        
         public async Task<ActionResult> Create(SchemeViewModel viewModel)
         {
+          
             if (ModelState.IsValid)
             {
                 var scheme = new Scheme() { 
@@ -137,6 +163,22 @@ namespace RafflesChart.Controllers
                 return RedirectToAction("Index");
             }
             return View(viewModel);
+        }
+
+        // GET: Schemes/Delete/5
+        [HttpPost]
+        public async Task<ActionResult> DeleteA(int? id)
+        {
+            Scheme scheme = await db.Schemes.FindAsync(id);
+            var vm = new { deleteScheme = scheme };
+            
+            db.Schemes.Remove(scheme);
+            await db.SaveChangesAsync();
+
+            
+            var j = JsonConvert.SerializeObject(vm);
+
+            return Content(j);
         }
 
         // GET: Schemes/Delete/5

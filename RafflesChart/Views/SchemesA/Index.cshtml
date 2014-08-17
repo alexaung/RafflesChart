@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<table class="table" ng-controller="SchemeController">
+    <tr>
+        <th> &nbsp;</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Markets</th>
+        <th>Indicators</th>
+        <th>Bull Bear Test</th>
+        <th>Back Test</th>
+        <th>Patterns Scanners</th>
+        <th>Scanner</th>
+    </tr>
+    <tr ng-repeat="scheme in schemelist">
+        <td><img class="img-button" title="delete scheme" src="~/Content/close_16x16.png" ng-click="removeScheme(scheme.schemeid)" /> </td>
+        <td>{{scheme.name}}</td>
+        <td>{{scheme.description}}</td>
+        <td>{{scheme.usermarkets}}</td>
+        <td>{{scheme.userindicators}}</td>
+        <td>{{scheme.userbullbeartest}}</td>
+        <td>{{scheme.userbacktest}}</td>
+        <td>{{scheme.patternscanners}}</td>
+        <td>{{scheme.scanners}}</td>
+    </tr>
+</table>
+<script type="text/javascript" src="~/Scripts/app/scheme.js"></script>

@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Activate Scheme";
+}
+
+<h2>Activate Scheme</h2>
+
+<div ng-controller="SchemeController">
+   
+    <div class="form-horizontal" >
+        <hr />
+        <div class="form-group">
+
+            <label class="control-label col-md-2">Scheme</label>
+            <div class="col-md-10">
+                <select size="4" style="width:250px"
+                        ng-model="selectedScheme"
+                        ng-options="item as item.name + '(' + item.description +  ')' for item in schemelist"></select>
+            </div>
+</div>
+
+        <div class="form-group">
+
+            <label class="col-md-2 control-label" >Emails</label>
+            <div class="col-md-10">
+                <textarea rows="9" ng-model="selectedUsers" class="form-control">
+                  
+                </textarea>
+            </div>
+        </div>
+        <div class="form-group">
+
+            <label  class=" col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input type="submit" ng-click="activateDbScheme();" />
+            </div>
+            </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" >result will be here</label>
+            <div class="col-md-10"> <span ng-repeat="result in resultActivate">{{result.substr(3)}}<br /></span></div>
+
+        </div>
+    </div>
+   
+</div>
+
+<script type="text/javascript" src="~/Scripts/app/scheme.js"></script>

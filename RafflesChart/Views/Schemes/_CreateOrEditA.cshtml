@@ -1,0 +1,103 @@
+﻿
+
+    <div class="form-group">
+        <label class="control-label" col-md-2>Name</label>
+        <div class="col-md-10">
+
+            <input ng-model="name" class="form-control" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label" col-md-2>Desciption</label>
+        <div class="col-md-10">
+
+            <input ng-model="description" class="form-control" />
+
+        </div>
+    </div>
+
+
+
+
+
+    <div class="form-group">
+        <label class="control-label" col-md-2>Markets</label>
+        <div class="col-md-10">
+            <span ng-repeat="(market,flg) in sourcemarkets">
+                <input type="checkbox" ng-model="sourcemarkets[market]" /> {{market}}
+            </span>
+            <br />
+            <input type="text" class="input-medium" ng-model="usermarkets" />
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label" col-md-2>Indicators</label>
+        <div class="col-md-10">
+
+            <span ng-repeat="(idc,flg) in sourceindicators">
+                <input type="checkbox" ng-model="sourceindicators[idc]" /> {{idc}}
+            </span>
+            <br />
+            <input ng-model="userindicators" />
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label" col-md-2>Bull Bear Test</label>
+        <div class="col-md-10">
+
+            <input ng-model="userbullbeartest"></input>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label" col-md-2>Back Test</label>
+        <div class="col-md-10">
+
+            <input ng-model="userbacktest"></input>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label" col-md-2>Pattern Scanners</label>
+        <div class="col-md-10">
+            <span ng-repeat="(ptn,flg) in sourcepatternscanners">
+                <input type="checkbox" ng-model="sourcepatternscanners[ptn]" /> {{ptn}}
+            </span>
+            <br />
+            <input type="text" ng-model="patternscanners" />
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label" col-md-2>Scanners</label>
+        <div class="col-md-10">
+            <span ng-repeat="(scn,flg) in sourcescanners">
+                <input type="checkbox" ng-model="sourcescanners[scn]" /> {{scn}}
+            </span>
+            <br />
+            <input ng-model="scanners" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label" col-md-2></label>
+        <div class="col-md-10">
+            <input class="btn btn-default" type="button" ng-click="addScheme()" value="Create Scheme" />
+        </div>
+    </div>
+
+<div class="form-group" ng-show="added">
+    <label class="control-label" col-md-2></label>
+    <div class="col-md-10">
+        <label class="active-result">{{addedMsg}}</label>
+    </div>
+</div>
+<script type="text/javascript" src="~/Scripts/app/scheme.js"></script>

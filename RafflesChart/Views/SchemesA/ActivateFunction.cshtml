@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Activate Function";
+}
+
+<h2>Activate Scheme</h2>
+
+<div ng-controller="SchemeController">
+
+    <div class="form-horizontal">
+        <hr />
+        <div class="form-group">
+
+            <label class="control-label col-md-2">Function</label>
+            <div class="col-md-10">
+                <label ng-repeat ="func in functionSources">
+
+                    <input name="functoselect" type="radio" ng-model="$parent.selectedFunc" value="{{func}}" /> {{func}}
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <label class="control-label col-md-2">Value(s)</label>
+            <div class="col-md-10">
+                <input ng-model="selectedVal" class="form-control"  />
+            </div>
+        </div>
+
+
+        <div class="form-group">
+
+            <label class="col-md-2 control-label">Emails</label>
+            <div class="col-md-10">
+                <textarea rows="9" ng-model="selectedUsers" class="form-control">
+                   
+
+                </textarea>
+            </div>
+        </div>
+        <div class="form-group">
+
+            <label class=" col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input type="submit" ng-click="activateDbFunction();" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">result will be here</label>
+            <div class="col-md-10"> <span ng-repeat="result in resultActivate">{{result.substr(0)}}<br /></span></div>
+
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript" src="~/Scripts/app/scheme.js"></script>
