@@ -14,6 +14,7 @@ using NPOI.XSSF.UserModel;
 using Postal;
 using RafflesChart.Extensions;
 using RafflesChart.Models;
+using System.Drawing;
 
 namespace RafflesChart.Controllers
 {
@@ -588,7 +589,62 @@ namespace RafflesChart.Controllers
 
         }
 
+        private List<char> AsciiNumber()
+        {
+            var az = Enumerable.Range('A', 'Z' - 'A' + 1).
+                      Select(c => (char)c);
+
+            var ot = Enumerable.Range(0, 10).Select(i => Convert.ToChar(i.ToString()));
+
+            return az.Concat(ot).ToList();
+
+        }
+
+        [AllowAnonymous]
+        public ActionResult GetCaptcha()
+        {
+
+            Bitmap Bmp = new Bitmap(100, 20);
+            Graphics gx = Graphics.FromImage(Bmp);
+
+            var txt = shuffle<char>(AsciiNumber());
+            gx.Clear(Color.Orange);
+            gx.DrawString(String.Join("", txt.Take(6).ToArray()), new Font("Arial", 11),
+                            new SolidBrush(Color.Blue), new PointF(1, 2));
+            var cvtr = new ImageConverter();
+            byte[] bytes = cvtr.ConvertTo(Bmp, typeof(byte[])) as byte[];
+
+            //var mem = new System.IO.FileStream(@"d:\zarni\ctcha.jpeg", FileMode.Create);
+            //Bmp.Save(@"d:\zarni\ctcha4.png", System.Drawing.Imaging.ImageFormat.Png);
+            //var stream = new MemoryStream();
+            //Bmp.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+
+            return File(bytes, "image/png");
+            //Response.BinaryWrite(bytes);
+
+            // return View();
+        }
+       
+
         #region Helpers
+
+        private static List<T> shuffle<T>(List<T> lsin)
+        {
+            Random r = new Random();
+            int n = lsin.Count;
+            List<T> lsOut = new List<T>();
+            lsOut.AddRange(lsin);
+            while (n > 1)
+            {
+                var k = r.Next(n);
+                n--;
+                T temp = lsOut[n];
+                lsOut[n] = lsOut[k];
+                lsOut[k] = temp;
+            }
+            return lsOut;
+        }
+
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 

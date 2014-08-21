@@ -1,15 +1,15 @@
 ﻿
 
     <div class="form-group">
-        <label class="control-label" col-md-2>Name</label>
-        <div class="col-md-10">
+        <label class="control-label col-md-2">Name</label>
+        <div class="col-md-10 ">
 
             <input ng-model="name" class="form-control" />
 
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label" col-md-2>Desciption</label>
+        <label class="control-label col-md-2">Desciption</label>
         <div class="col-md-10">
 
             <input ng-model="description" class="form-control" />
@@ -22,7 +22,7 @@
 
 
     <div class="form-group">
-        <label class="control-label" col-md-2>Markets</label>
+        <label class="control-label col-md-2">Markets</label>
         <div class="col-md-10">
             <span ng-repeat="(market,flg) in sourcemarkets">
                 <input type="checkbox" ng-model="sourcemarkets[market]" /> {{market}}
@@ -34,7 +34,7 @@
 
 
     <div class="form-group">
-        <label class="control-label" col-md-2>Indicators</label>
+        <label class="control-label col-md-2">Indicators</label>
         <div class="col-md-10">
 
             <span ng-repeat="(idc,flg) in sourceindicators">
@@ -47,7 +47,7 @@
 
 
     <div class="form-group">
-        <label class="control-label" col-md-2>Bull Bear Test</label>
+        <label class="control-label col-md-2">Bull Bear Test</label>
         <div class="col-md-10">
 
             <input ng-model="userbullbeartest"></input>
@@ -56,7 +56,7 @@
 
 
     <div class="form-group">
-        <label class="control-label" col-md-2>Back Test</label>
+        <label class="control-label col-md-2">Back Test</label>
         <div class="col-md-10">
 
             <input ng-model="userbacktest"></input>
@@ -65,7 +65,7 @@
 
 
     <div class="form-group">
-        <label class="control-label" col-md-2>Pattern Scanners</label>
+        <label class="control-label col-md-2">Pattern Scanners</label>
         <div class="col-md-10">
             <span ng-repeat="(ptn,flg) in sourcepatternscanners">
                 <input type="checkbox" ng-model="sourcepatternscanners[ptn]" /> {{ptn}}
@@ -77,7 +77,7 @@
 
 
     <div class="form-group">
-        <label class="control-label" col-md-2>Scanners</label>
+        <label class="control-label col-md-2">Scanners</label>
         <div class="col-md-10">
             <span ng-repeat="(scn,flg) in sourcescanners">
                 <input type="checkbox" ng-model="sourcescanners[scn]" /> {{scn}}
@@ -88,14 +88,14 @@
     </div>
 
     <div class="form-group">
-        <label class="control-label" col-md-2></label>
+        <label class="control-label col-md-2"></label>
         <div class="col-md-10">
             <input class="btn btn-default" type="button" ng-click="addScheme()" value="Create Scheme" />
         </div>
     </div>
 
 <div class="form-group" ng-show="added">
-    <label class="control-label" col-md-2></label>
+    <label class="control-label col-md-2"></label>
     <div class="col-md-10">
         <label class="active-result">{{addedMsg}}</label>
     </div>
