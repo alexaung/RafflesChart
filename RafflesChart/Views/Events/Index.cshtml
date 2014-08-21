@@ -16,6 +16,9 @@
 <table class="table">
     <tr>
         <th>
+            &nbsp;
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
@@ -33,6 +36,11 @@
     @foreach (var item in Model)
     {
         <tr>
+            @if (!Html.ActionAuthorized("Create", "Events"))
+            {    <td>
+                    <img style="cursor:pointer" src="~/Content/person_checked_16x16.png"  title="Register"/>
+                </td>
+            }
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>

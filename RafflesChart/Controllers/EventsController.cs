@@ -11,7 +11,7 @@ using RafflesChart.Models;
 
 namespace RafflesChart.Controllers
 {
-    [Authorize(Roles="Admin")]
+    [Authorize]
     public class EventsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -39,7 +39,13 @@ namespace RafflesChart.Controllers
         }
 
         // GET: Events/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
+        {
+            return View();
+        }
+
+        public ActionResult Register()
         {
             return View();
         }

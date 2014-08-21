@@ -523,6 +523,7 @@ namespace RafflesChart.Controllers
 
         //
         // GET: /Account/UploadUsers
+        [Authorize(Roles = "Admin")]
         public ActionResult UploadUsers() {
             return View();
         }
