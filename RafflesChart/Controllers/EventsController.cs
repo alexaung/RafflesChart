@@ -16,6 +16,7 @@ namespace RafflesChart.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        [AllowAnonymous]
         // GET: Events
         public async Task<ActionResult> Index()
         {
