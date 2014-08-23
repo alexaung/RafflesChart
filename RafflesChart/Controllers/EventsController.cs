@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RafflesChart.Models;
+using System.Web.Security;
 
 namespace RafflesChart.Controllers
 {
@@ -45,9 +46,19 @@ namespace RafflesChart.Controllers
             return View();
         }
 
-        public ActionResult Register()
+        public async Task<ActionResult> Register()
         {
-            return View();
+            //EventUser evtusr
+            string useremail = "";
+            useremail = User.Identity.Name;
+            int evtid = 0;
+            var evtuser = new EventUser();
+            evtuser.UserEmail = useremail;
+            evtuser.EventId = evtid; 
+            db.EventUsers.Add(evtuser);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
+           
         }
 
         // POST: Events/Create
