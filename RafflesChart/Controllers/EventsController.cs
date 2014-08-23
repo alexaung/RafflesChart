@@ -21,7 +21,20 @@ namespace RafflesChart.Controllers
         // GET: Events
         public async Task<ActionResult> Index()
         {
-            return View(await db.Events.Where(e => e.Date >= DateTime.Now).ToArrayAsync());
+            var uEvent = await db.EventUsers.Where(u => u.UserEmail == User.Identity.Name).ToArrayAsync();
+            var arrEv = await (from e in db.Events
+                         where  e.Date >= DateTime.Now
+                         select e).ToArrayAsync();
+            var sql = from e in arrEv
+                         let rg = uEvent.Any(x=> x.EventId ==  e.Id)
+                        select new EventViewModel{ AvailableEventId = e.Id , 
+                                                    AvailableEventName = e.Name ,
+                                                    AvailableEventDate = e.Date ,
+                                                    AvailableEventLocation = e.Location,
+                                                    AvailableEventDescription = e.Description , Registered = rg }      
+                ;
+            var evts = sql.ToArray();         
+            return View(evts);
         }
 
         // GET: Events/Details/5
@@ -46,12 +59,13 @@ namespace RafflesChart.Controllers
             return View();
         }
 
-        public async Task<ActionResult> Register()
+        [HttpPost]
+        public async Task<ActionResult> Register(int eventId)
         {
             //EventUser evtusr
             string useremail = "";
             useremail = User.Identity.Name;
-            int evtid = 0;
+            int evtid = eventId;
             var evtuser = new EventUser();
             evtuser.UserEmail = useremail;
             evtuser.EventId = evtid; 

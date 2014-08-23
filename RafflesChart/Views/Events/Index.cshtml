@@ -1,58 +1,64 @@
 ﻿@using AuthorizedActionLink.Extensions;
-@model IEnumerable<RafflesChart.Models.Event>
+@model IEnumerable<RafflesChart.Models.EventViewModel>
 
-@{
-    ViewBag.Title = "Index";
-}
-                      <script type="text/javascript" src="~/Scripts/app/scheme.js"></script>
-<h2>Index</h2>
-
-<p>
-    @if (Html.ActionAuthorized("Create", "Events"))
-    {
-        @Html.ActionLink("Create New", "Create")
+    @{
+        ViewBag.Title = "Index";
     }
-</p>
-                      <div ng-controller="EventConroller">
-                          @foreach (var item in Model)
-                          {
-                              if (!Html.ActionAuthorized("Create", "Events"))
-                              {
-                                  <div>
+    <script type="text/javascript" src="~/Scripts/app/event.js"></script>
+    <h2>Index</h2>
 
-                                      <img ng-click="addDbEventUser(@item.Id)" style="cursor:pointer" src="~/Content/person_checked_16x16.png" title="Click to Register" />
+    <p>
+        @if (Html.ActionAuthorized("Create", "Events"))
+        {
+            @Html.ActionLink("Create New", "Create")
+        }
+    </p>
+    <div ng-controller="EventController">
+        @foreach (var item in Model)
+        {
 
-                                  </div>
-                              }
-                              <div>
+            if (!Html.ActionAuthorized("Create", "Events"))
+            {
+                <div>
+                    @if (!item.Registered)
+                    {
+                        <img ng-click="addDbEventUser(@item.AvailableEventId)" style="cursor:pointer" src="~/Content/person_checked_16x16.png" title="Click to Register" />
+                    }
+                    else
+                    {
+                        <img ng-click="addDbEventUser(@item.AvailableEventId)" style="cursor:pointer" src="~/Content/close_16x16.png" title="Click to Register" />
+                    }
+                </div>
+            }
+            <div>
 
-                                  <label class="control-label">  @Html.DisplayNameFor(model => model.Name): </label>
-                                  @Html.DisplayFor(modelItem => item.Name)
+                <label class="control-label">  Event Name: </label>
+                @Html.DisplayFor(modelItem => item.AvailableEventName)
 
-                              </div>
-                              <div>
-                                  <label class="control-label">  @Html.DisplayNameFor(model => model.Date): </label>
-                                  @Html.DisplayFor(modelItem => item.Date)
-                              </div>
-                              <div>
-                                  <label class="control-label">  @Html.DisplayNameFor(model => model.Location): </label>
-                                  @Html.DisplayFor(modelItem => item.Location)
-                              </div>
-                              <div>
-                                  <label class="control-label">  @Html.DisplayNameFor(model => model.Description): </label>
-                                  @Html.DisplayFor(modelItem => item.Description)
-                              </div>
-                              if (Html.ActionAuthorized("Create", "Events"))
-                              {
-                                  <div>
-                                      @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                      @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                      @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                                  </div>
-                              }
-                              <hr />
-                          }
+            </div>
+            <div>
+                    <label class="control-label"> Event Date: </label>
+                    @Html.DisplayFor(modelItem => item.AvailableEventDate)
+                </div>
+                <div>
+                    <label class="control-label">  Location: </label>
+                    @Html.DisplayFor(modelItem => item.AvailableEventLocation)
+                </div>
+                <div>
+                    <label class="control-label">  Detail: </label>
+                    @Html.DisplayFor(modelItem => item.AvailableEventDescription)
+                </div>
+            if (Html.ActionAuthorized("Create", "Events"))
+            {
+                <div>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.AvailableEventId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.AvailableEventId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.AvailableEventId })
+                </div>
+            }
+            <hr />
+        }
 
-                      </div>
+    </div>
 
 
