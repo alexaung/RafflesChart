@@ -31,7 +31,7 @@
     <div class="form-group">
         <label class="col-md-2 control-label">Captcha</label>
         <div class="col-md-10">
-            <input type="text" value="" class="form-control" />
+            @Html.TextBoxFor(m => m.Captcha, new { @class = "form-control" })
             <br />
             <img src="@Url.Content("~/Account/GetCaptcha")" />
         </div>
