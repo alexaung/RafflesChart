@@ -4,7 +4,7 @@ m.controller('EventController', ['$scope', '$http', function ($scope, $http) {
    
    
         $scope.addDbEventUser = function (ue) {
-           alert(ue);
+           
             var dbobj = {};
             dbobj.eventId = ue;
            
