@@ -13,9 +13,8 @@ m.controller('EventController', ['$scope', '$http', function ($scope, $http) {
                dbobj)
                 .success(function (data) {
                     console.log('add db user event:' + data);
-                    clearScheme();
-                    listSchemes();
-                })
+               	    location.reload();		 	
+		})
             .error(function (data) {
                 console.log('error add db scheme:' + data);
             });

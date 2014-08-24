@@ -69,7 +69,16 @@ namespace RafflesChart.Controllers
             var evtuser = new EventUser();
             evtuser.UserEmail = useremail;
             evtuser.EventId = evtid; 
-            db.EventUsers.Add(evtuser);
+			
+			var evtfound = db.EventUsers.FirstOrDefault(x => x.UserEmail == useremail && 
+									  x.EventId	== evtid);
+			if(evtfound!=null){
+                db.EventUsers.Remove(evtfound);
+			}	
+			else
+			{			
+				db.EventUsers.Add(evtuser);
+			}
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
            

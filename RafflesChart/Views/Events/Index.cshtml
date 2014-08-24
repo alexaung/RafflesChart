@@ -17,19 +17,7 @@
         @foreach (var item in Model)
         {
 
-            if (!Html.ActionAuthorized("Create", "Events"))
-            {
-                <div>
-                    @if (!item.Registered)
-                    {
-                        <img ng-click="addDbEventUser(@item.AvailableEventId)" style="cursor:pointer" src="~/Content/person_checked_16x16.png" title="Click to Register" />
-                    }
-                    else
-                    {
-                        <img ng-click="addDbEventUser(@item.AvailableEventId)" style="cursor:pointer" src="~/Content/close_16x16.png" title="Click to Register" />
-                    }
-                </div>
-            }
+           
             <div>
 
                 <label class="control-label">  Event Name: </label>
@@ -48,6 +36,22 @@
                     <label class="control-label">  Detail: </label>
                     @Html.DisplayFor(modelItem => item.AvailableEventDescription)
                 </div>
+				
+			if (!Html.ActionAuthorized("Create", "Events"))
+            {
+                <div>
+                    @if (!item.Registered)
+                    {
+						<label>Register Now </label>
+                        <img ng-click="addDbEventUser(@item.AvailableEventId)" style="cursor:pointer" src="~/Content/person_checked_16x16.png" title="Click to Register" />
+                    }
+                    else
+                    {
+						<label>Un-Register </label>
+                        <img ng-click="addDbEventUser(@item.AvailableEventId)" style="cursor:pointer" src="~/Content/close_16x16.png" title="Click to Register" />
+                    }
+                </div>
+            }
             if (Html.ActionAuthorized("Create", "Events"))
             {
                 <div>
@@ -56,6 +60,8 @@
                     @Html.ActionLink("Delete", "Delete", new { id = item.AvailableEventId })
                 </div>
             }
+			
+			
             <hr />
         }
 
