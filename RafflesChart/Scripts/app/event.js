@@ -12,8 +12,10 @@ m.controller('EventController', ['$scope', '$http', function ($scope, $http) {
             $http.post('/events/register',
                dbobj)
                 .success(function (data) {
+                   
                     console.log('add db user event:' + data);
-               	    location.reload();		 	
+                    alert('' + data);
+               	    //location.reload();		 	
 		})
             .error(function (data) {
                 console.log('error add db scheme:' + data);

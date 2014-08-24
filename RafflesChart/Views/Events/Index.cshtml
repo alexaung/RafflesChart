@@ -39,7 +39,14 @@
 				
 			if (!Html.ActionAuthorized("Create", "Events"))
             {
-                <div>
+                if (!Html.ActionAuthorized("Register", "Events"))
+                {
+                    <div> Welcome new user! Please create an account.
+                   <a href="/Account/Register"><img  style="cursor:pointer" src="~/Content/task_16x16.png" title="Click to create account" /></a></div>
+                }
+                else
+                {
+                   <div>
                     @if (!item.Registered)
                     {
 						<label>Register Now </label>
@@ -50,7 +57,9 @@
 						<label>Un-Register </label>
                         <img ng-click="addDbEventUser(@item.AvailableEventId)" style="cursor:pointer" src="~/Content/close_16x16.png" title="Click to Register" />
                     }
-                </div>
+                </div> 
+                }
+                
             }
             if (Html.ActionAuthorized("Create", "Events"))
             {
