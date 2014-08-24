@@ -210,6 +210,7 @@
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\IUserFunction.cs" />
     <Compile Include="Models\Scheme.cs" />
+    <Compile Include="Models\SchemeUserViewModel.cs" />
     <Compile Include="Models\SchemeViewModel.cs" />
     <Compile Include="Models\UploadUserResult.cs" />
     <Compile Include="Models\UserBackTest.cs" />
@@ -650,6 +651,7 @@
     <Content Include="Views\Emails\_ViewStart.cshtml" />
     <Content Include="Views\Emails\UserRegister.cshtml" />
     <Content Include="Views\Account\GetUsers.cshtml" />
+    <Content Include="Views\Schemes\SchemeUserData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

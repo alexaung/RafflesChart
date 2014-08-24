@@ -1,0 +1,45 @@
+﻿@model RafflesChart.Models.SchemeUserViewModel
+
+<h3>User Markets</h3>
+@foreach (var item in Model.UserMarkets)
+{
+
+    <div>@item</div>
+}
+
+
+
+<h3>User Indicators</h3>
+@foreach (var item in Model.UserIndicators)
+{
+
+    <div>@item</div>
+}
+
+<h3>User BullBear Tests</h3>
+@foreach (var item in Model.UserBullBearTests)
+{
+
+    <div>@item</div>
+}
+
+<h3>User Back Tests</h3>
+@foreach (var item in Model.UserBackTests)
+{
+
+    <div>@item</div>
+}
+
+<h3>User Patternscanners</h3>
+@foreach (var item in Model.UserPatternScanners)
+{
+
+    <div>@item</div>
+}
+
+<h3>User Scanners</h3>
+@foreach (var item in Model.UserScanners)
+{
+
+    <div>@item</div>
+}

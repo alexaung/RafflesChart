@@ -383,6 +383,54 @@ namespace RafflesChart.Controllers
 
         }
 
+        public ActionResult SchemeUserData()
+        {
+            var vm = new SchemeUserViewModel();
+            //var userGuid = Membership.GetUser();
+            //var ug = (Guid)userGuid.ProviderUserKey;
+            
+            var sql1 = from x in db.UserMarkets  
+                       from u in db.Users
+                       where x.UserId.ToString() == u.Id
+                       select u.Email + " - " + x.Market;
+
+            var sql2 = from x in db.UserIndicators
+                       from u in db.Users
+                       where x.UserId.ToString() == u.Id
+                       select u.Email + " - " + x.Indicator;
+
+            var sql3 = from x in db.UserBullBearTests
+                       from u in db.Users
+                       where x.UserId.ToString() == u.Id
+                       select u.Email + " - " + x.FormulaName;
+
+            var sql4 = from x in db.UserBackTests
+                       from u in db.Users
+                       where x.UserId.ToString() == u.Id
+                       select u.Email + " - " + x.FormulaName;
+
+            var sql5 = from x in db.UserPatternScanners
+                       from u in db.Users
+                       where x.UserId.ToString() == u.Id
+                       select u.Email + " - " + x.Scanner;
+
+            var sql6 = from x in db.UserScanners
+                       from u in db.Users
+                       where x.UserId.ToString() == u.Id
+                       select u.Email + " - " + x.Scanner;
+
+            var sql12 = from x in Enumerable.Range(0, 5)
+                       select "zarni@demo.com" + " - " + "HKEX";
+            vm.UserMarkets = sql1 ;
+            vm.UserIndicators = sql2;
+            vm.UserBullBearTests = sql3;
+            vm.UserBackTests = sql4;
+            vm.UserPatternScanners = sql5;
+            vm.UserScanners = sql6;
+
+            return View(vm);
+        }
+
         private void AddUserFunction<T>(string[] functions, ApplicationUser user, IDbSet<T> dbSet)             
             where T : class, IUserFunction, new() {
 
