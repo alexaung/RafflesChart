@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RafflesChart.Models;
+using System.Web.Security;
 
 namespace RafflesChart.Controllers
 {
@@ -20,7 +21,20 @@ namespace RafflesChart.Controllers
         // GET: Events
         public async Task<ActionResult> Index()
         {
-            return View(await db.Events.Where(e => e.Date >= DateTime.Now).ToArrayAsync());
+            var uEvent = await db.EventUsers.Where(u => u.UserEmail == User.Identity.Name).ToArrayAsync();
+            var arrEv = await (from e in db.Events
+                         where  e.Date >= DateTime.Now
+                         select e).ToArrayAsync();
+            var sql = from e in arrEv
+                         let rg = uEvent.Any(x=> x.EventId ==  e.Id)
+                        select new EventViewModel{ AvailableEventId = e.Id , 
+                                                    AvailableEventName = e.Name ,
+                                                    AvailableEventDate = e.Date ,
+                                                    AvailableEventLocation = e.Location,
+                                                    AvailableEventDescription = e.Description , Registered = rg }      
+                ;
+            var evts = sql.ToArray();         
+            return View(evts);
         }
 
         // GET: Events/Details/5
@@ -45,9 +59,29 @@ namespace RafflesChart.Controllers
             return View();
         }
 
-        public ActionResult Register()
+        [HttpPost]
+        public async Task<ActionResult> Register(int eventId)
         {
-            return View();
+            //EventUser evtusr
+            string useremail = "";
+            useremail = User.Identity.Name;
+            int evtid = eventId;
+            var evtuser = new EventUser();
+            evtuser.UserEmail = useremail;
+            evtuser.EventId = evtid; 
+			
+			var evtfound = db.EventUsers.FirstOrDefault(x => x.UserEmail == useremail && 
+									  x.EventId	== evtid);
+			if(evtfound!=null){
+                db.EventUsers.Remove(evtfound);
+			}	
+			else
+			{			
+				db.EventUsers.Add(evtuser);
+			}
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
+           
         }
 
         // POST: Events/Create

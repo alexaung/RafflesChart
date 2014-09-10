@@ -202,6 +202,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\EventViewModel.cs" />
     <Compile Include="Models\ActivateSchemeViewModel.cs" />
     <Compile Include="Models\ActivateFunctionViewModel.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -209,6 +210,7 @@
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\IUserFunction.cs" />
     <Compile Include="Models\Scheme.cs" />
+    <Compile Include="Models\SchemeUserViewModel.cs" />
     <Compile Include="Models\SchemeViewModel.cs" />
     <Compile Include="Models\UploadUserResult.cs" />
     <Compile Include="Models\UserBackTest.cs" />
@@ -279,6 +281,7 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\app\event.js" />
     <Content Include="Scripts\app\scheme.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular-touch.min.js.map" />
@@ -290,6 +293,8 @@
     <Content Include="Scripts\angular-animate.min.js.map" />
     <Content Include="Scripts\angular.min.js.map" />
     <None Include="Properties\PublishProfiles\demorchart.pubxml" />
+    <None Include="Properties\PublishProfiles\refflechart - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\refflechart - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -647,6 +652,7 @@
     <Content Include="Views\Emails\_ViewStart.cshtml" />
     <Content Include="Views\Emails\UserRegister.cshtml" />
     <Content Include="Views\Account\GetUsers.cshtml" />
+    <Content Include="Views\Schemes\SchemeUserData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

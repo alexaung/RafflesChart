@@ -94,6 +94,13 @@ namespace RafflesChart.Controllers
         {
             if (ModelState.IsValid)
             {
+                string cpt = Session["Captcha"] as string;
+
+                if (!model.Captcha.Equals(cpt))
+                {
+                    ModelState.AddModelError("", "Wrong Captcha!");
+                    return View(model);
+                } 
                 var user = new ApplicationUser() { 
                     Name = model.Name,
                     PhoneNumber = model.PhoneNumber,
@@ -610,7 +617,8 @@ namespace RafflesChart.Controllers
 
             var txt = shuffle<char>(AsciiNumber());
             gx.Clear(Color.Orange);
-            gx.DrawString(String.Join("", txt.Take(6).ToArray()), new Font("Arial", 11),
+            var cpt = String.Join("", txt.Take(6).ToArray());
+            gx.DrawString(cpt, new Font("Arial", 11),
                             new SolidBrush(Color.Blue), new PointF(1, 2));
             var cvtr = new ImageConverter();
             byte[] bytes = cvtr.ConvertTo(Bmp, typeof(byte[])) as byte[];
@@ -619,7 +627,7 @@ namespace RafflesChart.Controllers
             //Bmp.Save(@"d:\zarni\ctcha4.png", System.Drawing.Imaging.ImageFormat.Png);
             //var stream = new MemoryStream();
             //Bmp.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-
+            Session["Captcha"] = cpt;
             return File(bytes, "image/png");
             //Response.BinaryWrite(bytes);
 
