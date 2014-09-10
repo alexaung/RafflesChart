@@ -210,7 +210,6 @@
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\IUserFunction.cs" />
     <Compile Include="Models\Scheme.cs" />
-    <Compile Include="Models\SchemeUserViewModel.cs" />
     <Compile Include="Models\SchemeViewModel.cs" />
     <Compile Include="Models\UploadUserResult.cs" />
     <Compile Include="Models\UserBackTest.cs" />
