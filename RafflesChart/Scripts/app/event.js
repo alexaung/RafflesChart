@@ -14,7 +14,7 @@ m.controller('EventController', ['$scope', '$http', function ($scope, $http) {
                 .success(function (data) {
                    
                     console.log('add db user event:' + data);
-                    alert('' + data);
+                    
                	    //location.reload();		 	
 		})
             .error(function (data) {
