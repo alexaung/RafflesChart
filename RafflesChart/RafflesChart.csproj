@@ -195,7 +195,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SchemesController.cs" />
     <Compile Include="Controllers\SchemesAController.cs" />
-    <Compile Include="Controllers\SchemeUserViewModel.cs" />
     <Compile Include="EnforceTrueAttribute.cs" />
     <Compile Include="Extensions\TempDataExtensions.cs" />
     <Compile Include="Global.asax.cs">

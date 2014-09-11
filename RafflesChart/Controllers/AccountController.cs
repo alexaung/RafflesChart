@@ -562,43 +562,45 @@ namespace RafflesChart.Controllers
                     var name = row.GetCell(0);
                     var handPhone = row.GetCell(1);
                     var email = row.GetCell(2);
+                    var user = new ApplicationUser();
+                    string nameval = "";
                     if (name != null) {
-                        var value = name.StringCellValue;
-                        if (string.IsNullOrWhiteSpace(value)) {
+                        nameval = name.StringCellValue;
+                        if (string.IsNullOrWhiteSpace(nameval)) {
                             errorMessage = "Error at Row : " + count;
                         }
                     }
+                    string phoneval = "";
                     if (handPhone != null) {
-                        string value = "";
+                      
                         try
                         {
-                            value = handPhone.NumericCellValue.ToString();
+                            phoneval = handPhone.NumericCellValue.ToString();
                         }
                         catch (Exception)
                         {
-                            value = handPhone.StringCellValue;
+                            phoneval = handPhone.StringCellValue;
                         }
                         
-                        if (string.IsNullOrWhiteSpace(value)) {
+                        if (string.IsNullOrWhiteSpace(phoneval)) {
                             errorMessage = "Error at Row : " + count;
                         }
                     }
+                    string emailval ="";
                     if (email != null) {
-                        var value = email.StringCellValue;
-                        if (string.IsNullOrWhiteSpace(value)) {
+                        emailval = email.StringCellValue;
+                        if (string.IsNullOrWhiteSpace(emailval)) {
                             errorMessage = "Error at Row : " + count;
                         }
                     }     
                     
-                    var user = new ApplicationUser() {
-                        Name = name.StringCellValue,
-                        PhoneNumber = handPhone.StringCellValue,
-                        PhoneNumberConfirmed = true,
-                        UserName = email.StringCellValue,
-                        Email = email.StringCellValue,
-                        EmailConfirmed = true
-                    };
-
+                    user.Name = nameval;
+                       user.PhoneNumber =phoneval;
+                        user.PhoneNumberConfirmed = true;
+                        user.UserName = emailval;
+                        user.Email =emailval;
+                        user.EmailConfirmed = true;
+                    
                     yield return user;
                 }
                 count++;
