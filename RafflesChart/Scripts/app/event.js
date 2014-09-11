@@ -15,7 +15,7 @@ m.controller('EventController', ['$scope', '$http', function ($scope, $http) {
                    
                     console.log('add db user event:' + data);
                     
-               	    //location.reload();		 	
+               	    location.reload();		 	
 		})
             .error(function (data) {
                 console.log('error add db scheme:' + data);
