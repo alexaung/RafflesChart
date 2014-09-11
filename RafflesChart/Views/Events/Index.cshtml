@@ -3,6 +3,7 @@
 
     @{
         ViewBag.Title = "Index";
+        var reg = Html.ActionAuthorized("Edit", "Events");
     }
     <script type="text/javascript" src="~/Scripts/app/event.js"></script>
     <h2>Index</h2>
@@ -39,7 +40,7 @@
 				
 			if (!Html.ActionAuthorized("Create", "Events"))
             {
-                if (!Html.ActionAuthorized("Register", "Events"))
+               if (!reg)
                 {
                     <div> Welcome new user! Please create an account.
                    <a href="/Account/Register"><img  style="cursor:pointer" src="~/Content/task_16x16.png" title="Click to create account" /></a></div>
