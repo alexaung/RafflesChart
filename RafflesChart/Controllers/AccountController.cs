@@ -569,7 +569,16 @@ namespace RafflesChart.Controllers
                         }
                     }
                     if (handPhone != null) {
-                        var value = handPhone.StringCellValue;
+                        string value = "";
+                        try
+                        {
+                            value = handPhone.NumericCellValue.ToString();
+                        }
+                        catch (Exception)
+                        {
+                            value = handPhone.StringCellValue;
+                        }
+                        
                         if (string.IsNullOrWhiteSpace(value)) {
                             errorMessage = "Error at Row : " + count;
                         }
