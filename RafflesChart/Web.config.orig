@@ -30,7 +30,11 @@
         <network host="localhost" />
       </smtp>-->
       <smtp from="demoraffle@gmail.com" deliveryMethod="Network">
+<<<<<<< HEAD
+        <network
+=======
         <network enableSsl="true"
+>>>>>>> 9ed9c403da3ad98e288a67a65b4c5987edca4acb
                     defaultCredentials="false"
                     host="smtp.gmail.com"
                     port="587"
