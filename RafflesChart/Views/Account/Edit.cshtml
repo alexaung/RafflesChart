@@ -1,0 +1,107 @@
+﻿@model RafflesChart.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>ApplicationUser</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Scanner, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Scanner)
+                @Html.ValidationMessageFor(model => model.Scanner)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CustomIndicators, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CustomIndicators)
+                @Html.ValidationMessageFor(model => model.CustomIndicators)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Live, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Live)
+                @Html.ValidationMessageFor(model => model.Live)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CiAdd, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CiAdd)
+                @Html.ValidationMessageFor(model => model.CiAdd)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ScannerAdd, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ScannerAdd)
+                @Html.ValidationMessageFor(model => model.ScannerAdd)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SignalAdd, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SignalAdd)
+                @Html.ValidationMessageFor(model => model.SignalAdd)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TrendAdd, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TrendAdd)
+                @Html.ValidationMessageFor(model => model.TrendAdd)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PatternAdd, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PatternAdd)
+                @Html.ValidationMessageFor(model => model.PatternAdd)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Expires, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Expires, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Expires)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

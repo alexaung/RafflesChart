@@ -42,6 +42,37 @@ namespace RafflesChart.Controllers
                 _userManager = value;
             }
         }
+        [Authorize (Roles="Admin")]
+        public ActionResult Edit(string email)
+        {
+            var user = UserManager.FindByEmail(email);
+            return View(user);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> Edit(ApplicationUser user)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+            var us = await db.Users.Where(u => u.Email == user.Email).FirstOrDefaultAsync();
+            us.Name = user.Name;
+            us.Scanner = user.Scanner;
+            us.CustomIndicators = user.CustomIndicators;
+            us.Live = user.Live;
+            us.CiAdd = user.CiAdd;
+
+            us.ScannerAdd = user.ScannerAdd;
+            us.SignalAdd = user.SignalAdd;
+            us.TrendAdd = user.TrendAdd;
+            us.PatternAdd = user.PatternAdd;
+            us.Expires = user.Expires;
+           int result = await  db.SaveChangesAsync();
+           if (result>0)
+           { }
+                return RedirectToAction("GetUsers");
+          
+
+        }
 
         //
         // GET: /Account/Login
