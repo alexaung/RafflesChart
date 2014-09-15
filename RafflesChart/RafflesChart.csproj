@@ -656,6 +656,8 @@
     <Content Include="Views\Account\GetUsers.cshtml" />
     <Content Include="Views\Schemes\SchemeUserData.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\Account\Details.cshtml" />
+    <Content Include="Views\Account\DeleteConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

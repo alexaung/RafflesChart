@@ -49,6 +49,33 @@ namespace RafflesChart.Controllers
             return View(user);
         }
 
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> Details(string email)
+        {
+            var user = await UserManager.FindByEmailAsync(email);
+            return View(user);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> DeleteConfirm(string email)
+        {
+            var user = await UserManager.FindByEmailAsync(email);
+            return View(user);
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> Delete(string email)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+            var us = await db.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
+            db.Users.Remove(us);
+            int result = await db.SaveChangesAsync();
+            if (result > 0)
+            { }
+            return RedirectToAction("GetUsers");
+        }
+
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Edit(ApplicationUser user)
