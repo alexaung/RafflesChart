@@ -60,6 +60,7 @@ namespace RafflesChart.Controllers
                 var schemes = await db.Schemes.ToListAsync();
                 
                 List<UserViewModel> vm = new List<UserViewModel>();
+                var roles = await db.Roles.ToListAsync();
                 foreach (var ur in users)
                 {
                     var item = new UserViewModel();
@@ -77,7 +78,12 @@ namespace RafflesChart.Controllers
                     item.Scheme = "na";
                     item.SignalAdd = ur.SignalAdd;
                     item.TrendAdd = ur.TrendAdd;
-                    
+                    var sql = (from r in roles
+                              from r2 in ur.Roles
+                              where r.Id == r2.RoleId
+                              select r.Name).ToList();
+                    var rr = string.Join(",", sql);
+                    item.Role = rr ?? "User";
                     if (ur.SchemeId.HasValue)
                     {
                         item.Scheme = schemes.FirstOrDefault(x => x.Id == ur.SchemeId).Name;
