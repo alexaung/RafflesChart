@@ -63,10 +63,24 @@ namespace RafflesChart.Controllers
                 foreach (var ur in users)
                 {
                     var item = new UserViewModel();
-                    item =(UserViewModel) ur;
+                    item.CiAdd = ur.CiAdd;
+                    item.CustomIndicators = ur.CustomIndicators;
+                    item.Email = ur.Email;
+                    item.Expires = ur.Expires;
+                    item.PhoneNumber = ur.PhoneNumber;
+                    item.Live = ur.Live;
+                    item.Name = ur.Name;
+                    item.PatternAdd = ur.PatternAdd;
+                    item.PhoneNumber = ur.PhoneNumber;
+                    item.Scanner = ur.Scanner;
+                    item.ScannerAdd = ur.ScannerAdd;
                     item.Scheme = "na";
-                    if(item.SchemeId.HasValue){
-                        item.Scheme =  schemes.FirstOrDefault(x=>x.Id == item.SchemeId).Name;
+                    item.SignalAdd = ur.SignalAdd;
+                    item.TrendAdd = ur.TrendAdd;
+                    
+                    if (ur.SchemeId.HasValue)
+                    {
+                        item.Scheme = schemes.FirstOrDefault(x => x.Id == ur.SchemeId).Name;
                     }
                     vm.Add(item);
                 }
@@ -634,8 +648,8 @@ namespace RafflesChart.Controllers
         // GET: /Account/GetUsers
         public async Task<ActionResult> GetUsers() {
             using (var db = new ApplicationDbContext()) {
-                var users = await db.Users.Where(x=>false).ToArrayAsync();
-                return View(users);
+                List<UserViewModel> vm = new List<UserViewModel>();
+                return View(vm);
             }
         }        
 
