@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RafflesChart.Models.ApplicationUser>
+﻿@model IEnumerable<RafflesChart.Models.ListUserViewModel>
 
 @{
     ViewBag.Title = "User List";
@@ -6,9 +6,8 @@
 
 <h2>User List</h2>
 
-<p>
-    @Html.ActionLink("User List", "GetUsers")
-</p>
+
+                      @Html.Partial("_SearchUser",new RafflesChart.Models.SearchUser())
 <table class="table">
     <tr>
         <th>
@@ -19,7 +18,33 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Email)
-        </th>        
+        </th> 
+        <th>
+            @Html.DisplayNameFor(model => model.Scanner)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomIndicators)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Live)
+        </th>   
+        <th>
+            @Html.DisplayNameFor(model => model.CiAdd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ScannerAdd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SignalAdd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TrendAdd)
+        </th> <th>
+    @Html.DisplayNameFor(model => model.PatternAdd)
+</th>
+<th>
+    @Html.DisplayNameFor(model => model.Expires)
+</th>    
         <th></th>
     </tr>
 
@@ -33,7 +58,34 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
-            </td>           
+            </td>  
+            <td>
+                @Html.DisplayFor(modelItem => item.Scanner)
+            </td>  
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomIndicators)
+            </td>  
+            <td>
+                @Html.DisplayFor(modelItem => item.Live)
+            </td>  
+            <td>
+                @Html.DisplayFor(modelItem => item.CiAdd)
+            </td> 
+            <td>
+                @Html.DisplayFor(modelItem => item.ScannerAdd)
+            </td> 
+            <td>
+                @Html.DisplayFor(modelItem => item.SignalAdd)
+            </td>   
+            <td>
+    @Html.DisplayFor(modelItem => item.TrendAdd)
+</td>      
+            <td>
+                @Html.DisplayFor(modelItem => item.PatternAdd)
+            </td>  
+            <td>
+                @Html.DisplayFor(modelItem => item.Expires)
+            </td>        
             <td>
                 @Html.ActionLink("Edit", "Edit", new { email = item.Email }) |
                 @Html.ActionLink("Details", "Details", new { email = item.Email }) |

@@ -209,9 +209,11 @@
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\IUserFunction.cs" />
+    <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\Scheme.cs" />
     <Compile Include="Models\SchemeUserViewModel.cs" />
     <Compile Include="Models\SchemeViewModel.cs" />
+    <Compile Include="Models\SearchUser.cs" />
     <Compile Include="Models\UploadUserResult.cs" />
     <Compile Include="Models\UserBackTest.cs" />
     <Compile Include="Models\UserBullBearTest.cs" />
@@ -658,6 +660,7 @@
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Account\Details.cshtml" />
     <Content Include="Views\Account\DeleteConfirm.cshtml" />
+    <Content Include="Views\Account\_SearchUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

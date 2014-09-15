@@ -29,6 +29,8 @@ namespace RafflesChart.Models
 
         public DateTime? Expires { get; set; }
 
+        public int? SchemeId { get; set; } 
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

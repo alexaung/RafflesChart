@@ -42,6 +42,38 @@ namespace RafflesChart.Controllers
                 _userManager = value;
             }
         }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> GetUsers(SearchUser suser)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var usr = suser.Name?? "";
+                var email = suser.Email ?? "";
+                var ph = suser.PhoneNumber ?? "";
+                var users = await db.Users.Where(x=> x.Name.StartsWith(usr) && 
+                                        x.Email.StartsWith(email) && 
+                                        x.PhoneNumber.StartsWith(ph)
+                            ).ToArrayAsync();
+
+                var schemes = await db.Schemes.ToListAsync();
+                
+                List<UserViewModel> vm = new List<UserViewModel>();
+                foreach (var ur in users)
+                {
+                    var item = new UserViewModel();
+                    item =(UserViewModel) ur;
+                    item.Scheme = "na";
+                    if(item.SchemeId.HasValue){
+                        item.Scheme =  schemes.FirstOrDefault(x=>x.Id == item.SchemeId).Name;
+                    }
+                    vm.Add(item);
+                }
+                return View(vm);
+            }
+        }
+
         [Authorize (Roles="Admin")]
         public ActionResult Edit(string email)
         {
@@ -602,7 +634,7 @@ namespace RafflesChart.Controllers
         // GET: /Account/GetUsers
         public async Task<ActionResult> GetUsers() {
             using (var db = new ApplicationDbContext()) {
-                var users = await db.Users.ToArrayAsync();
+                var users = await db.Users.Where(x=>false).ToArrayAsync();
                 return View(users);
             }
         }        

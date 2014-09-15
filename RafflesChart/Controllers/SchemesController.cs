@@ -280,6 +280,7 @@ namespace RafflesChart.Controllers
                         user.Scanner = true;
                         user.ScannerAdd = true;
                     }
+                    user.SchemeId = scheme.Id;
                 }
 
                 await db.SaveChangesAsync();
