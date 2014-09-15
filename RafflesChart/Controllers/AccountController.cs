@@ -615,8 +615,17 @@ namespace RafflesChart.Controllers
             var errorEmails = new List<string>();
             var succesUserCount = 0;
             var passwordValidator = (PasswordValidator)UserManager.PasswordValidator;
+
+            
+
             foreach (var user in users) {
-                var password = Membership.GeneratePassword(passwordValidator.RequiredLength, 1);
+                var txt = shuffle<char>(SmallAscii());
+                var nums = shuffle<char>(NumOToT());
+                var raw = txt.Take(4).Concat(nums.Take(2));
+                var reshuf = shuffle<char>(raw.ToList());
+                var cpt = String.Join("", reshuf.ToArray());
+
+                var password = Membership.GeneratePassword(passwordValidator.RequiredLength, 0);
                 var result = await UserManager.CreateAsync(user, password);
 
                 if (result.Succeeded) {
@@ -718,6 +727,22 @@ namespace RafflesChart.Controllers
 
         }
 
+        private List<char> SmallAscii()
+        {
+            var az = Enumerable.Range('a', 'z' - 'a' + 1).
+                      Select(c => (char)c);
+
+            return az.ToList();
+
+        }
+
+        private List<char> NumOToT()
+        {
+            var ot = Enumerable.Range(0, 10).Select(i => Convert.ToChar(i.ToString()));
+            return ot.ToList();
+
+        }
+
         private List<char> AsciiNumber()
         {
             var az = Enumerable.Range('A', 'Z' - 'A' + 1).
@@ -737,8 +762,10 @@ namespace RafflesChart.Controllers
             Graphics gx = Graphics.FromImage(Bmp);
 
             var txt = shuffle<char>(AsciiNumber());
-            gx.Clear(Color.Orange);
             var cpt = String.Join("", txt.Take(6).ToArray());
+
+            gx.Clear(Color.Orange);
+            
             gx.DrawString(cpt, new Font("Arial", 11),
                             new SolidBrush(Color.Blue), new PointF(1, 2));
             var cvtr = new ImageConverter();
