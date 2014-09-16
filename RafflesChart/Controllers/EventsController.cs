@@ -49,7 +49,11 @@ namespace RafflesChart.Controllers
                        from u in db.Users
                        where em == u.Email && forAdmin
                        select new Registrant() { Email = u.Email, FullName = u.Name, PhoneNumber = u.PhoneNumber };
-            return regs.ToArray();
+
+            var guests = from gu in db.EventGuestUsers
+                         where gu.EventId == p
+                         select new Registrant() { Email = gu.Email, FullName = gu.Name, PhoneNumber = gu.PhoneNumber };
+            return regs.Concat(guests).ToArray();
         }
 
         // GET: Events/Details/5
