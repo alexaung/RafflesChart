@@ -755,21 +755,39 @@ namespace RafflesChart.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult GetCaptcha()
+        public ActionResult GetGuestCaptcha()
         {
+            string cpt;
+            byte[] bytes;
+            GenerateCaptcha(out cpt, out bytes);
+          
+            Session["GuestCaptcha"] = cpt;
+            return File(bytes, "image/png");
+         
+        }
 
+        private void GenerateCaptcha(out string cpt, out byte[] bytes)
+        {
             Bitmap Bmp = new Bitmap(100, 20);
             Graphics gx = Graphics.FromImage(Bmp);
 
             var txt = shuffle<char>(AsciiNumber());
-            var cpt = String.Join("", txt.Take(6).ToArray());
+            cpt = String.Join("", txt.Take(6).ToArray());
 
             gx.Clear(Color.Orange);
-            
+
             gx.DrawString(cpt, new Font("Arial", 11),
                             new SolidBrush(Color.Blue), new PointF(1, 2));
             var cvtr = new ImageConverter();
-            byte[] bytes = cvtr.ConvertTo(Bmp, typeof(byte[])) as byte[];
+            bytes = cvtr.ConvertTo(Bmp, typeof(byte[])) as byte[];
+        }
+
+        [AllowAnonymous]
+        public ActionResult GetCaptcha()
+        {
+            string cpt;
+            byte[] bytes;
+            GenerateCaptcha(out cpt, out bytes);
 
             //var mem = new System.IO.FileStream(@"d:\zarni\ctcha.jpeg", FileMode.Create);
             //Bmp.Save(@"d:\zarni\ctcha4.png", System.Drawing.Imaging.ImageFormat.Png);

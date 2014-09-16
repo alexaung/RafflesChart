@@ -58,6 +58,35 @@ namespace RafflesChart.Controllers
         {
             return View();
         }
+        [AllowAnonymous]       
+        public ActionResult GuestRegister(int eventId)
+        {
+            var vm = new SearchUser() { EventId = eventId };
+            return PartialView("_GuestRegister",vm);
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<ActionResult> GuestRegister(SearchUser suser)
+        {
+            if (ModelState.IsValid)
+            {
+                string cpt = Session["GuestCaptcha"] as string;
+
+                if (!suser.Captcha.Equals(cpt))
+                {
+                    ModelState.AddModelError("", "Wrong Captcha!");
+                    return RedirectToAction("Index");
+                }
+            }
+            var evtuser = new EventGuestUser();
+            evtuser.Email = suser.Email;
+            evtuser.EventId = suser.EventId;
+            evtuser.PhoneNumber = suser.PhoneNumber;
+            evtuser.Name = suser.Name;
+            db.EventGuestUsers.Add(evtuser);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index","Home");
+        }
 
         [HttpPost]
         public async Task<ActionResult> Register(int eventId)

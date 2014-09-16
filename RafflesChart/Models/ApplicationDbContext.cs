@@ -10,6 +10,8 @@ namespace RafflesChart.Models {
 
         public DbSet<Event> Events { get; set; }
 
+        public DbSet<EventGuestUser> EventGuestUsers { get; set; }
+
         public DbSet<EventUser> EventUsers { get; set; }
                 
         public DbSet<Scheme> Schemes { get; set; }

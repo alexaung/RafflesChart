@@ -42,8 +42,11 @@
             {
                if (!reg)
                 {
-                    <div> Welcome new user! Please create an account.
-                   <a href="/Account/Register"><img  style="cursor:pointer" src="~/Content/task_16x16.png" title="Click to create account" /></a></div>
+                    <div> Register Now
+                        <a id="guestRegister" data-eventid="@item.AvailableEventId" href="#"><img style="cursor:pointer" src="~/Content/task_16x16.png" title="Click to register" /></a></div>
+           <div id="partialGuest">
+              
+           </div>
                 }
                 else
                 {
@@ -77,4 +80,20 @@
 
     </div>
 
+                      <script src="~/Scripts/jquery-2.1.1.js"></script>  
+            <script>
+                          $(function () {
+                              $('#guestRegister').click(function () {
+                                  var evt = $(this).attr("data-eventid");
+                                  $.ajax({
+                                      url: "/Events/GuestRegister",
+                                      data:{eventId:evt},
+                                      success: function (data) {
+                                          $('#partialGuest').html(data);
+                                      }
+                                  });
+                              });
+                          });
+                        
+                      </script>
 
