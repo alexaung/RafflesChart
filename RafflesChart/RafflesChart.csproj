@@ -664,6 +664,7 @@
     <Content Include="Views\Account\DeleteConfirm.cshtml" />
     <Content Include="Views\Account\_SearchUser.cshtml" />
     <Content Include="Views\Events\_Registrant.cshtml" />
+    <Content Include="Views\Events\_GuestRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
