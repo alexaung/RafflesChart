@@ -200,10 +200,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201409161422298_Add Guest User.cs" />
-    <Compile Include="Migrations\201409161422298_Add Guest User.Designer.cs">
-      <DependentUpon>201409161422298_Add Guest User.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\EventViewModel.cs" />
@@ -213,6 +209,7 @@
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\IUserFunction.cs" />
+    <Compile Include="Models\Registrant.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\Scheme.cs" />
     <Compile Include="Models\SchemeUserViewModel.cs" />
@@ -301,6 +298,7 @@
     <None Include="Properties\PublishProfiles\demorchart.pubxml" />
     <None Include="Properties\PublishProfiles\demorfchart - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\demorfchart - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\demorfchart.pubxml" />
     <None Include="Properties\PublishProfiles\refflechart - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\refflechart - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
@@ -665,7 +663,7 @@
     <Content Include="Views\Account\Details.cshtml" />
     <Content Include="Views\Account\DeleteConfirm.cshtml" />
     <Content Include="Views\Account\_SearchUser.cshtml" />
-    <Content Include="Views\Events\_GuestRegister.cshtml" />
+    <Content Include="Views\Events\_Registrant.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -674,11 +672,6 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201409161422298_Add Guest User.resx">
-      <DependentUpon>201409161422298_Add Guest User.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

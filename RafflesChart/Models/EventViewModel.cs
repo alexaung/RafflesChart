@@ -12,5 +12,7 @@ namespace RafflesChart.Models {
         public string AvailableEventDescription { get; set; }
         public DateTime AvailableEventDate { get; set; }
         public bool Registered { get; set; }
+
+        public IEnumerable<Registrant> Users { get; set; }
     }
 }
