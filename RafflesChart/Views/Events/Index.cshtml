@@ -65,6 +65,9 @@
             if (Html.ActionAuthorized("Create", "Events"))
             {
                 <div>
+                    @Html.Partial("_Registrant", item.Users)
+                </div>
+                <div>
                     @Html.ActionLink("Edit", "Edit", new { id = item.AvailableEventId }) |
                     @Html.ActionLink("Details", "Details", new { id = item.AvailableEventId }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.AvailableEventId })

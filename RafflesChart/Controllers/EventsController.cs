@@ -25,16 +25,31 @@ namespace RafflesChart.Controllers
             var arrEv = await (from e in db.Events
                          where  e.Date >= DateTime.Now
                          select e).ToArrayAsync();
+            bool adminUser = false;
+            if (User.IsInRole("Admin"))
+            {
+                adminUser = true;
+            }
             var sql = from e in arrEv
                          let rg = uEvent.Any(x=> x.EventId ==  e.Id)
                         select new EventViewModel{ AvailableEventId = e.Id , 
                                                     AvailableEventName = e.Name ,
                                                     AvailableEventDate = e.Date ,
                                                     AvailableEventLocation = e.Location,
-                                                    AvailableEventDescription = e.Description , Registered = rg }      
+                                                    AvailableEventDescription = e.Description , Registered = rg , Users = GetUserForEvent(e.Id  , adminUser) }      
                 ;
             var evts = sql.ToArray();         
             return View(evts);
+        }
+
+        private IEnumerable<Registrant> GetUserForEvent(int p, bool forAdmin)
+        {
+            var emails = db.EventUsers.Where(x => x.EventId == p).Select(x => x.UserEmail);
+            var regs = from em in emails
+                       from u in db.Users
+                       where em == u.Email && forAdmin
+                       select new Registrant() { Email = u.Email, FullName = u.Name, PhoneNumber = u.PhoneNumber };
+            return regs.ToArray();
         }
 
         // GET: Events/Details/5

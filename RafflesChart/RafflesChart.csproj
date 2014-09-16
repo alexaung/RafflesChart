@@ -209,6 +209,7 @@
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\IUserFunction.cs" />
+    <Compile Include="Models\Registrant.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\Scheme.cs" />
     <Compile Include="Models\SchemeUserViewModel.cs" />
@@ -297,6 +298,7 @@
     <None Include="Properties\PublishProfiles\demorchart.pubxml" />
     <None Include="Properties\PublishProfiles\demorfchart - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\demorfchart - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\demorfchart.pubxml" />
     <None Include="Properties\PublishProfiles\refflechart - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\refflechart - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
@@ -661,6 +663,7 @@
     <Content Include="Views\Account\Details.cshtml" />
     <Content Include="Views\Account\DeleteConfirm.cshtml" />
     <Content Include="Views\Account\_SearchUser.cshtml" />
+    <Content Include="Views\Events\_Registrant.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
