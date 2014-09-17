@@ -1,7 +1,7 @@
 ﻿@model RafflesChart.Models.SearchUser
 
 <div>
-    <span id="captchaError" class="label-danger"></span>
+    <span id="captchaError" class="label label-danger"></span>
 </div>
   <div class="form-group">@Html.HiddenFor(model => model.EventId, new { @id = "eventid" })
     @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
