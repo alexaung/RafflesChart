@@ -661,7 +661,7 @@ namespace RafflesChart.Controllers
 
         //
         // GET: /Account/GetUsers
-        public async Task<ActionResult> GetUsers() {
+        public ActionResult GetUsers() {
             using (var db = new ApplicationDbContext()) {
                 List<UserViewModel> vm = new List<UserViewModel>();
                 return View(vm);

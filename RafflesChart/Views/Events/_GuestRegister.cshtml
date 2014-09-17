@@ -1,12 +1,12 @@
 ﻿@model RafflesChart.Models.SearchUser
 
-@using (Html.BeginForm("GuestRegister", "Events", FormMethod.Post, new { @class = "form-horizontal" }))
-{
-    <div class="form-group">
-        @Html.HiddenFor(model=> model.EventId)
-        @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+<div>
+    <span id="captchaError" class="label-danger"></span>
+</div>
+  <div class="form-group">@Html.HiddenFor(model => model.EventId, new { @id = "eventid" })
+    @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @id = "name" })
             @Html.ValidationMessageFor(model => model.Name)
         </div>
     </div>
@@ -14,7 +14,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @id = "email" })
             @Html.ValidationMessageFor(model => model.Email)
         </div>
     </div>
@@ -22,22 +22,50 @@
     <div class="form-group">
         @Html.LabelFor(model => model.PhoneNumber, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control" })
+            @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control", @id = "phonenumber" })
             @Html.ValidationMessageFor(model => model.PhoneNumber)
         </div>
     </div>
  <div class="form-group">
         @Html.LabelFor(model => model.Captcha, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Captcha, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.Captcha, new { @class = "form-control", @id = "captcha" })
             <br />
             <img src="@Url.Content("~/Account/GetGuestCaptcha")" />
         </div>
     </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Register" class="btn btn-default" />
+                <input id="guestSubmit" type="submit" value="Register" class="btn btn-default" />
             </div>
         </div>
-   
-}
+
+<script src="~/Scripts/jquery-2.1.1.js"></script>
+<script>
+    $(function () {
+        $('#guestSubmit').click(function () {
+            var vm = {};
+            vm.Email = $('#email').val();
+            vm.PhoneNumber = $('#phonenumber').val();
+            vm.Captcha = $('#captcha').val();
+            vm.Name = $('#name').val();
+            vm.EventId = $('#eventid').val();
+            console.log(vm);
+            $.ajax({
+                url: '/Events/GuestRegister',
+                method: 'POST',
+                data: vm,
+                dataType: 'JSON',
+                success: function (data) {
+                    if (data) {
+                        location.reload();
+                    } else {
+                        $('#captchaError').text('Wrong Captcha!');
+                    }
+                    
+                }                    
+            });
+            return false;
+        });
+    });
+</script>

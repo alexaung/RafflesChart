@@ -93,8 +93,8 @@ namespace RafflesChart.Controllers
 
                 if (!suser.Captcha.Equals(cpt))
                 {
-                    ModelState.AddModelError("", "Wrong Captcha!");
-                    return RedirectToAction("Index");
+                    //ModelState.AddModelError("", "Wrong Captcha!");
+                    return Json(false);
                 }
             }
             var evtuser = new EventGuestUser();
@@ -104,7 +104,8 @@ namespace RafflesChart.Controllers
             evtuser.Name = suser.Name;
             db.EventGuestUsers.Add(evtuser);
             await db.SaveChangesAsync();
-            return RedirectToAction("Index","Home");
+            //return RedirectToAction("Index","Home");
+            return Json(true);
         }
 
         [HttpPost]
