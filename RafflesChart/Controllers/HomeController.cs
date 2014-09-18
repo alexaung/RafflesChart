@@ -21,5 +21,12 @@ namespace RafflesChart.Controllers {
 
             return View();
         }
+
+        [Authorize(Roles = "Admin,SpecialMember")]
+        public ActionResult SpecialMember()
+        {
+            return View();
+        }
+
     }
 }

@@ -40,6 +40,13 @@ namespace RafflesChart.Migrations
                 roleManager.Create(role);
             }
 
+            if (!roleManager.RoleExists("SpecialMember"))
+            {
+                var role = new IdentityRole();
+                role.Name = "SpecialMember";
+                roleManager.Create(role);
+            }
+
             var superAdminEmail = ConfigurationManager.AppSettings["SuperAdminEmail"] ?? "superadmin@gmail.com";
 
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));

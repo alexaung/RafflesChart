@@ -29,10 +29,13 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                   
-                    <li>@Html.ActionLink("Events", "Index", "Events")</li>
-                    
 
+                    <li>@Html.ActionLink("Events", "Index", "Events")</li>
+
+                    @if (Html.ActionAuthorized("SpecialPage", "Home"))
+                    {
+                        <li>@Html.ActionLink("Events", "Index", "Events")</li>
+                    }
                     @if (Html.ActionAuthorized("UploadUsers", "Account"))
                     {
                         <li class="dropdown">
@@ -40,9 +43,10 @@
                                 Users <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                               
+
                                 <li>@Html.ActionLink("Upload", "UploadUsers", "Account")</li>
                                 <li>@Html.ActionLink("Listing", "GetUsers", "Account")</li>
+                                <li>@Html.ActionLink("Manage Special Page", "UploadSpecial", "Account")</li>
                             </ul>
 
                         </li>
@@ -62,7 +66,7 @@
                         </li>
                     }
                     @*<li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

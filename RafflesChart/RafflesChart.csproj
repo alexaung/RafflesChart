@@ -195,6 +195,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SchemesController.cs" />
     <Compile Include="Controllers\SchemesAController.cs" />
+    <Compile Include="Controllers\UploadSpecialViewModel.cs" />
     <Compile Include="EnforceTrueAttribute.cs" />
     <Compile Include="Extensions\TempDataExtensions.cs" />
     <Compile Include="Global.asax.cs">
@@ -665,6 +666,8 @@
     <Content Include="Views\Account\_SearchUser.cshtml" />
     <Content Include="Views\Events\_Registrant.cshtml" />
     <Content Include="Views\Events\_GuestRegister.cshtml" />
+    <Content Include="Views\Home\SpecialMember.cshtml" />
+    <Content Include="Views\Account\UploadSpecial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

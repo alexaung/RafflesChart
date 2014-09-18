@@ -15,6 +15,7 @@ using Postal;
 using RafflesChart.Extensions;
 using RafflesChart.Models;
 using System.Drawing;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace RafflesChart.Controllers
 {
@@ -122,6 +123,16 @@ namespace RafflesChart.Controllers
             ApplicationDbContext db = new ApplicationDbContext();
             var us = await db.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
             db.Users.Remove(us);
+            Guid ug = Guid.Parse(us.Id) ;
+            
+            db.UserBackTests.RemoveRange(db.UserBackTests.Where(x => x.UserId == ug));
+            db.UserBullBearTests.RemoveRange(db.UserBullBearTests.Where(x => x.UserId == ug));
+            db.UserIndicators.RemoveRange(db.UserIndicators.Where(x => x.UserId == ug));
+
+            db.UserMarkets.RemoveRange(db.UserMarkets.Where(x => x.UserId == ug));
+            db.UserPatternScanners.RemoveRange(db.UserPatternScanners.Where(x => x.UserId == ug));
+            db.UserScanners.RemoveRange(db.UserScanners.Where(x => x.UserId == ug));
+
             int result = await db.SaveChangesAsync();
             if (result > 0)
             { }
@@ -607,6 +618,75 @@ namespace RafflesChart.Controllers
             base.Dispose(disposing);
         }
 
+        private IEnumerable<string> GetEmails(Stream stream)
+        {
+            var workbook = new XSSFWorkbook(stream);
+            var sheet = workbook.GetSheetAt(0);
+
+            var iterator = sheet.GetRowEnumerator();
+            var count = 1;
+            while (iterator.MoveNext())
+            {
+                if (count > 1)
+                {
+                    var row = (XSSFRow)iterator.Current;
+                    var cell = row.GetCell(0);
+                    if (cell != null)
+                    {
+                        var value = cell.StringCellValue;
+                        if (!string.IsNullOrWhiteSpace(value))
+                        {
+                            yield return value;
+                        }
+                    }
+                }
+                count++;
+            }
+        }
+        
+        [HttpPost]
+        public async Task<ActionResult> UploadSpecial(UploadSpecialViewModel vm)
+        {
+            var users = GetEmails(vm.Users.InputStream).ToArray();
+           
+            var errorEmails = new List<string>();
+            var succesUserCount = 0;
+
+            
+            using (var db = new ApplicationDbContext())
+            {
+                var goodEmails = db.Users.Where(x => users.Contains(x.Email));
+                var memrole = db.Roles.FirstOrDefault(x => x.Name == "SpecialMember");
+                List<string> successEmails = new List<string>();
+                if (memrole == null)
+                {
+                    memrole = db.Roles.Add(new IdentityRole("SpecialMember"));
+                }
+                if (memrole != null)
+                {
+                    succesUserCount = goodEmails.Count();
+                    foreach (var item in goodEmails)
+                    {
+                        var urole = new IdentityUserRole();
+                        urole.RoleId = memrole.Id;
+                        urole.UserId = item.Id;
+                        item.Roles.Add(urole);
+                        successEmails.Add(item.Email);
+                    }
+                    await db.SaveChangesAsync();
+                }
+                errorEmails = users.Except(successEmails).ToList();
+            }
+
+            var uploadUserResult = new UploadUserResult()
+            {
+                SuccessUserCount = succesUserCount,
+                ErrorUserEmails = errorEmails
+            };
+
+            this.TempData.AddUploadUserResult(uploadUserResult);
+            return RedirectToAction("UploadUserResult");
+        }
         //
         // POST: /Account/UploadUsers
         [HttpPost]
@@ -653,6 +733,13 @@ namespace RafflesChart.Controllers
         public ActionResult UploadUsers() {
             return View();
         }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult UploadSpecial()
+        {
+            return View();
+        }
+
 
         public ActionResult UploadUserResult() {
             var result = this.TempData.GetUploadUserResult();
