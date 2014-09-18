@@ -1,102 +1,118 @@
 ﻿@using AuthorizedActionLink.Extensions;
 @model IEnumerable<RafflesChart.Models.EventViewModel>
 
-    @{
+@{
         ViewBag.Title = "Index";
         var reg = Html.ActionAuthorized("Edit", "Events");
-    }
-    <script type="text/javascript" src="~/Scripts/app/event.js"></script>
-    <h2>Index</h2>
-    <p class="label label-info">@TempData["EmailedPassword"] </p>
-    <p>
-        @if (Html.ActionAuthorized("Create", "Events"))
+        var ep = TempData["EmailedPassword"] as string;
+}
+<script type="text/javascript" src="~/Scripts/app/event.js"></script>
+<h2>Index</h2>
+@if (!string.IsNullOrEmpty(ep)) 
+{ 
+<p class="label label-info">@TempData["EmailedPassword"] </p>
+}
+<p>
+    @if (Html.ActionAuthorized("Create", "Events"))
         {
-            @Html.ActionLink("Create New", "Create")
+        @Html.ActionLink("Create New", "Create")
         }
-    </p>
-    <div ng-controller="EventController">
-        @foreach (var item in Model)
+</p>
+<div ng-controller="EventController">
+    @foreach (var item in Model)
         {
 
-           
-            <div>
 
-                <label class="control-label">  Event Name: </label>
-                @Html.DisplayFor(modelItem => item.AvailableEventName)
+        <div>
 
-            </div>
-            <div>
-                    <label class="control-label"> Event Date: </label>
-                    @Html.DisplayFor(modelItem => item.AvailableEventDate)
-                </div>
-                <div>
-                    <label class="control-label">  Location: </label>
-                    @Html.DisplayFor(modelItem => item.AvailableEventLocation)
-                </div>
-                <div>
-                    <label class="control-label">  Detail: </label>
-                    @Html.DisplayFor(modelItem => item.AvailableEventDescription)
-                </div>
-				
+            <label class="control-label">  Event Name: </label>
+            @Html.DisplayFor(modelItem => item.AvailableEventName)
+
+        </div>
+        <div>
+            <label class="control-label"> Event Date: </label>
+            @Html.DisplayFor(modelItem => item.AvailableEventDate)
+        </div>
+        <div>
+            <label class="control-label">  Location: </label>
+            @Html.DisplayFor(modelItem => item.AvailableEventLocation)
+        </div>
+        <div>
+            <label class="control-label">  Detail: </label>
+            @Html.DisplayFor(modelItem => item.AvailableEventDescription)
+        </div>
+
 			if (!Html.ActionAuthorized("Create", "Events"))
             {
                if (!reg)
                 {
-                    <div> Register Now
-                        <a id="guestRegister" data-eventid="@item.AvailableEventId" href="#"><img style="cursor:pointer" src="~/Content/task_16x16.png" title="Click to register" /></a></div>
-           <div id="partialGuest">
-              
-           </div>
-                }
-                else
-                {
-                   <div>
-                    @if (!item.Registered)
-                    {
-						<label>Register Now </label>
-                        <img ng-click="addDbEventUser(@item.AvailableEventId)" style="cursor:pointer" src="~/Content/person_checked_16x16.png" title="Click to Register" />
+                <div>
+                    <a id="guestRegister" data-eventid="@item.AvailableEventId" href="#">
+                        <button class="input-sm" value="REGISTER FOR EVENT">
+                            <img style="cursor:pointer" src="~/Content/task_16x16.png" title="Click to register" />
+                            REGISTER FOR EVENT
+
+                        </button>
+                    </a>
+                </div>
+                   
+                    <div id="partialGuest">
+
+                    </div>
                     }
                     else
                     {
-						<label>Un-Register </label>
-                        <img ng-click="addDbEventUser(@item.AvailableEventId)" style="cursor:pointer" src="~/Content/close_16x16.png" title="Click to Register" />
+                        <div>
+                            @if (!item.Registered)
+                    {
+                                <button class="input-sm" value="REGISTER FOR EVENT">
+                                    <img ng-click="addDbEventUser(@item.AvailableEventId)" style="cursor:pointer" src="~/Content/person_checked_16x16.png" title="Click to Register" />
+                                    REGISTER FOR EVENT
+                                </button>
                     }
-                </div> 
-                }
-                
-            }
-            if (Html.ActionAuthorized("Create", "Events"))
-            {
-                <div>
-                    @Html.Partial("_Registrant", item.Users)
-                </div>
-                <div>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.AvailableEventId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.AvailableEventId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.AvailableEventId })
-                </div>
-            }
-			
-			
-            <hr />
-        }
+                            else
+                            {
+                                <button class="input-sm" value="REGISTER FOR EVENT">
+                                    <img ng-click="addDbEventUser(@item.AvailableEventId)" style="cursor:pointer" src="~/Content/close_16x16.png" title="Click to Register" />
+                                    UN-REGISTER FOR EVENT
+                                </button>
+                            }
+</div>
+                    }
 
-    </div>
+                    }
+                    if (Html.ActionAuthorized("Create", "Events"))
+                    {
+                        <div>
+                            @Html.Partial("_Registrant", item.Users)
+                        </div>
+                        <div>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.AvailableEventId }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.AvailableEventId }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.AvailableEventId })
+                        </div>
+                    }
 
-                      <script src="~/Scripts/jquery-2.1.1.js"></script>  
-            <script>
-                          $(function () {
-                              $('#guestRegister').click(function () {
-                                  var evt = $(this).attr("data-eventid");
-                                  $.ajax({
-                                      url: "/Events/GuestRegister",
-                                      data:{eventId:evt},
-                                      success: function (data) {
-                                          $('#partialGuest').html(data);
-                                      }
-                                  });
-                              });
-                          });
-                        
-                      </script>
+
+                    <hr />
+                    }
+
+</div>
+
+                <script src="~/Scripts/jquery-2.1.1.js"></script>
+                <script>
+                    $(function () {
+                        $('#guestRegister').click(function () {
+                            var evt = $(this).attr("data-eventid");
+                            $.ajax({
+                                url: "/Events/GuestRegister",
+                                data: { eventId: evt },
+                                success: function (data) {
+                                    $('#partialGuest').html(data);
+                                }
+                            });
+                        });
+                    });
+
+                </script>
 
