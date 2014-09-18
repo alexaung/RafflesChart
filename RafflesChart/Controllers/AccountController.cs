@@ -244,7 +244,7 @@ namespace RafflesChart.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");                    
                     await SendUserRegistrationEmailAsync(model.Email, password);
-                    TempData["EmailedPassword"] = "Your password has been emailed. Please you this to login.";
+                    TempData["EmailedPassword"] = "Your password has been emailed. Please use this to login.";
                     return RedirectToAction("Index", "Events");
                 }
                 else
