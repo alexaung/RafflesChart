@@ -236,7 +236,7 @@ namespace RafflesChart.Controllers
 
                 if (result.Succeeded)
                 {
-                    await SignInAsync(user, isPersistent: false);
+                    // await SignInAsync(user, isPersistent: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -244,8 +244,8 @@ namespace RafflesChart.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");                    
                     await SendUserRegistrationEmailAsync(model.Email, password);
-
-                    return RedirectToAction("Index", "Home");
+                    TempData["EmailedPassword"] = "Your password has been emailed. Please you this to login.";
+                    return RedirectToAction("Index", "Events");
                 }
                 else
                 {
@@ -255,6 +255,16 @@ namespace RafflesChart.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        private static async Task SendPasswordResetEmailAsync(string email, string resetmessage)
+        {
+
+            dynamic mail = new Email("ResetPassword");
+            mail.To = email;
+            mail.Email = email;
+            mail.ResetMessage = resetmessage;            
+            await mail.SendAsync();
         }
 
         private static async Task SendUserRegistrationEmailAsync(string email, string password) {
@@ -314,10 +324,11 @@ namespace RafflesChart.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
+                 //await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                 await SendPasswordResetEmailAsync(model.Email,  "Please reset your password by clicking here: " + callbackUrl );
+                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -655,20 +666,26 @@ namespace RafflesChart.Controllers
             
             using (var db = new ApplicationDbContext())
             {
-                var goodEmails = db.Users.Where(x => users.Contains(x.Email));
+                var goodEmails = db.Users.Where(x => users.Contains(x.Email)).ToArray();
                 var memrole = db.Roles.FirstOrDefault(x => x.Name == "SpecialMember");
                 List<string> successEmails = new List<string>();
+                string rid = "";
                 if (memrole == null)
                 {
-                    memrole = db.Roles.Add(new IdentityRole("SpecialMember"));
+                    var created = db.Roles.Add(new IdentityRole("SpecialMember"));
+                    rid = created.Id;
                 }
-                if (memrole != null)
+                else
+                {
+                    rid = memrole.Id;
+                }
+                if (string.IsNullOrEmpty(rid) ==false)
                 {
                     succesUserCount = goodEmails.Count();
                     foreach (var item in goodEmails)
                     {
                         var urole = new IdentityUserRole();
-                        urole.RoleId = memrole.Id;
+                        urole.RoleId = rid;
                         urole.UserId = item.Id;
                         item.Roles.Add(urole);
                         successEmails.Add(item.Email);

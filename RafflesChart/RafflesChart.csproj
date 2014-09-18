@@ -668,6 +668,7 @@
     <Content Include="Views\Events\_GuestRegister.cshtml" />
     <Content Include="Views\Home\SpecialMember.cshtml" />
     <Content Include="Views\Account\UploadSpecial.cshtml" />
+    <Content Include="Views\Emails\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
