@@ -14,5 +14,7 @@ namespace RafflesChart.Models {
         public bool Registered { get; set; }
 
         public IEnumerable<Registrant> Users { get; set; }
+
+        public SearchUser GuestSignUp { get; set; }
     }
 }
