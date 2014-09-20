@@ -17,6 +17,11 @@ namespace RafflesChart.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        [HttpPost]
+        public ActionResult GetEventDate(int i){
+            var str = DateTime.Now.AddMonths(i).ToString("G");
+            return Json(str);
+        }
         [AllowAnonymous]
         // GET: Events
         public async Task<ActionResult> Index()

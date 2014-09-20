@@ -26,13 +26,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="radio" value="@DateTime.Now.AddMonths(1).ToString("G")" name="dtmonth" /> 
-                    <label>1 Month</label>
-                <input type="radio" value="@DateTime.Now.AddMonths(12).ToString("G")" name="dtmonth" />
-                <label>1 Year</label>
-                <input type="radio" value="@DateTime.Now.AddMonths(3).ToString("G")" name="dtmonth" />
-                <label>3 Months</label>
-
+               
+                <label class="label label-info img-button"  value="1" name="dtmonth">1 Month</label>
+                <label class="label label-info img-button" value="12" name="dtmonth">1 Year</label>
+                <label class="label label-info img-button" value="3" name="dtmonth">3 Months</label>
 
                 @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
@@ -77,10 +74,18 @@
                         format: 'm/d/Y h:i:s A'
                     });
 
-                    $('input[name = dtmonth]').click(function () {
-                        var chk = $("input[name = dtmonth]:checked").val();
+                    $('label[name = dtmonth]').click(function () {
+                        var chk = $(this).attr("value");
                         console.log(chk);
-                        $('#Date').val(chk);
+                        $.ajax({
+                            url: '/Events/GetEventDate',
+                            type:'POST',
+                            data: {'i':chk},
+                            success: function myfunction(data) {
+                                $('#Date').val(data);
+                            }
+                        });
+                        
                     });
                 });
             })(jQuery, window);
