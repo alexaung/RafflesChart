@@ -26,6 +26,14 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
+                <input type="radio" value="@DateTime.Now.AddMonths(1).ToString("G")" name="dtmonth" /> 
+                    <label>1 Month</label>
+                <input type="radio" value="@DateTime.Now.AddMonths(12).ToString("G")" name="dtmonth" />
+                <label>1 Year</label>
+                <input type="radio" value="@DateTime.Now.AddMonths(3).ToString("G")" name="dtmonth" />
+                <label>3 Months</label>
+
+
                 @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
             </div>
@@ -67,6 +75,12 @@
                 $(function () {
                     $('#Date').datetimepicker({
                         format: 'm/d/Y h:i:s A'
+                    });
+
+                    $('input[name = dtmonth]').click(function () {
+                        var chk = $("input[name = dtmonth]:checked").val();
+                        console.log(chk);
+                        $('#Date').val(chk);
                     });
                 });
             })(jQuery, window);
