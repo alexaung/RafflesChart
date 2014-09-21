@@ -824,7 +824,7 @@ namespace RafflesChart.Controllers
                         user.UserName = emailval;
                         user.Email =emailval;
                         user.EmailConfirmed = true;
-                    
+                        user.Expires = DateTime.ParseExact("2030-Dec-31", "yyyy-MMM-dd", null);
                     yield return user;
                 }
                 count++;
