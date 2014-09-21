@@ -227,7 +227,8 @@ namespace RafflesChart.Controllers
                     PhoneNumber = model.PhoneNumber,
                     PhoneNumberConfirmed = true,
                     UserName = model.Email,
-                    Email = model.Email 
+                    Email = model.Email ,
+                    Expires = DateTime.ParseExact("2030-Dec-31", "yyyy-MMM-dd",null)
                 };
 
                 var passwordValidator = (PasswordValidator)UserManager.PasswordValidator;
