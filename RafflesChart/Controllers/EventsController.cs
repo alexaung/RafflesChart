@@ -94,6 +94,7 @@ namespace RafflesChart.Controllers
         {
             return View();
         }
+        [HttpGet]
         [AllowAnonymous]       
         public async Task<ActionResult> GuestRegister(int eventId)
         {
@@ -102,7 +103,7 @@ namespace RafflesChart.Controllers
 
             evts.FirstOrDefault(x => x.AvailableEventId == eventId).GuestSignUp = vm;
 
-            return View("Index",vm);
+            return View("Index", evts);
         }
         [AllowAnonymous]
         [HttpPost]
@@ -124,6 +125,7 @@ namespace RafflesChart.Controllers
             evtuser.PhoneNumber = suser.PhoneNumber;
             evtuser.Name = suser.Name;
             db.EventGuestUsers.Add(evtuser);
+            TempData["GuestSuccess"] = "Thanks for signing up. See you at the event.";
             await db.SaveChangesAsync();
             //return RedirectToAction("Index","Home");
             return Json(true);

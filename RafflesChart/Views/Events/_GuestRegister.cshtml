@@ -58,7 +58,7 @@
                 dataType: 'JSON',
                 success: function (data) {
                     if (data) {
-                        location.reload();
+                        document.location.href = "/Events/";
                     } else {
                         $('#captchaError').text('Wrong Captcha!');
                     }

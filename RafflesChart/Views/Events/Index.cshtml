@@ -2,15 +2,21 @@
 @model IEnumerable<RafflesChart.Models.EventViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Event";
     var reg = Html.ActionAuthorized("Edit", "Events");
     var ep = TempData["EmailedPassword"] as string;
+    var gr = TempData["GuestSuccess"] as string;
 }
 <script type="text/javascript" src="~/Scripts/app/event.js"></script>
 <h2>Index</h2>
 @if (!string.IsNullOrEmpty(ep))
 {
     <p class="label label-info">@TempData["EmailedPassword"] </p>
+}
+
+@if (!string.IsNullOrEmpty(gr))
+{
+    <p class="label label-info">@TempData["GuestSuccess"] </p>
 }
 <p>
     @if (Html.ActionAuthorized("Create", "Events"))
@@ -32,13 +38,13 @@
             <p>@item.AvailableEventDescription</p>
         </div>
         <div>
-            <p>From: <label class="control-label">  @item.AvailableEventDate </label> To: <label class="control-label"> @item.AvailableEventEndDate </label></p>
+            <span class="glyphicon glyphicon-time"></span> From: <label class="control-label">  @item.AvailableEventDate </label> To: <label class="control-label"> @item.AvailableEventEndDate </label>
             
            
            
         </div>
         <div>
-            <p>  @item.AvailableEventLocation </p>     
+            <span class="glyphicon glyphicon-tree-conifer"></span>  @item.AvailableEventLocation 
            
         </div>
         
@@ -48,7 +54,7 @@
             if (!reg)
             {
                 <div>
-                    <a class="guestRegister" data-eventid="@item.AvailableEventId" href="/Events/GuestRegister/@item.AvailableEventId">
+                    <a class="guestRegister" data-eventid="@item.AvailableEventId" href="/Events/GuestRegister?eventId=@item.AvailableEventId">
                         <button class="input-sm" value="REGISTER FOR EVENT">
                             <img style="cursor:pointer" src="~/Content/task_16x16.png" title="Click to register" />
                             REGISTER FOR EVENT
@@ -95,8 +101,6 @@
             </div>
         }
 
-
-        <hr />
     }
 
 </div>

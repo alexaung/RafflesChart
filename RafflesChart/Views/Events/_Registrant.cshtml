@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<RafflesChart.Models.Registrant>
-           <p><strong>Registrants</strong></p>
+                      <span class="glyphicon glyphicon-user"></span> Registrants
 
     @foreach (var item in Model)
     {
-       <div> Name: @Html.DisplayFor(modelItem => item.FullName)</div>
-    <div> Email: @Html.DisplayFor(modelItem => item.Email)</div>
-    <div> Phone Number: @Html.DisplayFor(modelItem => item.PhoneNumber)</div>
-     <br />    
+       <div> @Html.DisplayFor(modelItem => item.FullName)
+ <abbr title="Email">E:</abbr> @Html.DisplayFor(modelItem => item.Email)
+           <abbr title="Phone">P:</abbr> @Html.DisplayFor(modelItem => item.PhoneNumber)</div>
+    
     }
+<br />
