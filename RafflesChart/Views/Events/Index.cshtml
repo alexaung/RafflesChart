@@ -25,22 +25,23 @@
 
         <div>
 
-            <label class="control-label">  Event Name: </label>
-            @Html.DisplayFor(modelItem => item.AvailableEventName)
+            <label class="control-label">  @item.AvailableEventName </label>          
 
         </div>
         <div>
-            <label class="control-label"> Event Date: </label>
-            @Html.DisplayFor(modelItem => item.AvailableEventDate)
+            <p>@item.AvailableEventDescription</p>
         </div>
         <div>
-            <label class="control-label">  Location: </label>
-            @Html.DisplayFor(modelItem => item.AvailableEventLocation)
+            <p>From: <label class="control-label">  @item.AvailableEventDate </label> To: <label class="control-label"> @item.AvailableEventEndDate </label></p>
+            
+           
+           
         </div>
         <div>
-            <label class="control-label">  Detail: </label>
-            @Html.DisplayFor(modelItem => item.AvailableEventDescription)
+            <p>  @item.AvailableEventLocation </p>     
+           
         </div>
+        
 
         if (!Html.ActionAuthorized("Create", "Events"))
         {

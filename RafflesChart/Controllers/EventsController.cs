@@ -48,6 +48,7 @@ namespace RafflesChart.Controllers
                           AvailableEventId = e.Id,
                           AvailableEventName = e.Name,
                           AvailableEventDate = e.Date,
+                          AvailableEventEndDate = e.EndDate,
                           AvailableEventLocation = e.Location,
                           AvailableEventDescription = e.Description,
                           Registered = rg,
@@ -158,7 +159,7 @@ namespace RafflesChart.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Date,Location,Description")] Event @event)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Date,EndDate,Location,Description")] Event @event)
         {
             if (ModelState.IsValid)
             {

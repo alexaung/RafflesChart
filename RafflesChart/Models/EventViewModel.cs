@@ -16,5 +16,7 @@ namespace RafflesChart.Models {
         public IEnumerable<Registrant> Users { get; set; }
 
         public SearchUser GuestSignUp { get; set; }
+
+        public DateTime AvailableEventEndDate { get; set; }
     }
 }

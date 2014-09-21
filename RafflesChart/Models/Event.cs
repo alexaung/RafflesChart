@@ -13,6 +13,8 @@ namespace RafflesChart.Models {
 
         public DateTime Date { get; set; }
 
+        public DateTime EndDate { get; set; }
+
         public String Location { get; set; }
 
         public String Description { get; set; }

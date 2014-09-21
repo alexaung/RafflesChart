@@ -26,13 +26,16 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-               
-                <label class="label label-info img-button"  value="1" name="dtmonth">1 Month</label>
-                <label class="label label-info img-button" value="12" name="dtmonth">1 Year</label>
-                <label class="label label-info img-button" value="3" name="dtmonth">3 Months</label>
-
                 @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -74,19 +77,10 @@
                         format: 'm/d/Y h:i:s A'
                     });
 
-                    $('label[name = dtmonth]').click(function () {
-                        var chk = $(this).attr("value");
-                        console.log(chk);
-                        $.ajax({
-                            url: '/Events/GetEventDate',
-                            type:'POST',
-                            data: {'i':chk},
-                            success: function myfunction(data) {
-                                $('#Date').val(data);
-                            }
-                        });
-                        
+                    $('#EndDate').datetimepicker({
+                        format: 'm/d/Y h:i:s A'
                     });
+                    
                 });
             })(jQuery, window);
 
