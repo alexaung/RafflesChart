@@ -62,10 +62,15 @@ namespace RafflesChart.Controllers
                 
                 List<UserViewModel> vm = new List<UserViewModel>();
                 var roles = await db.Roles.ToListAsync();
-                var users = from cu in db.ChartUsers
-                            from u in uids
-                            where cu.Id.ToString() == u.Id
-                            select new{ CU=cu,UID=u};
+                var ids = uids.Select(x => Guid.Parse(x.Id));
+                var usersql = await (from cu in db.ChartUsers
+                            where ids.Contains(cu.Id)
+                                  select cu).ToArrayAsync();
+                var users = from u in uids
+                            from cu in usersql
+                            where u.Id == cu.Id.ToString()
+                            select new { CU = cu, UID = u };
+
                 foreach (var ur in users)
                 {
                     var item = new UserViewModel();
@@ -102,7 +107,15 @@ namespace RafflesChart.Controllers
         [Authorize (Roles="Admin")]
         public ActionResult Edit(string email)
         {
-            var user = UserManager.FindByEmail(email);
+            var appuser = UserManager.FindByEmail(email);
+            ChartUser chuser;
+            using (var db = new ApplicationDbContext())
+            {
+                chuser = db.ChartUsers.FirstOrDefault(x => x.Id.ToString() == appuser.Id);
+                
+            }
+            var user = new ChartUserViewModel() { ApplicationUserModel = appuser ,
+                                    ChartUserModel = chuser};
             return View(user);
         }
 

@@ -25,5 +25,7 @@ namespace RafflesChart.Models {
         public DateTime? ExpiredDate { get; set; }
 
         public HttpPostedFileBase Users { get; set; }
+
+        
     }
 }

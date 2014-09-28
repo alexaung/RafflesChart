@@ -63,3 +63,70 @@
         @Html.ValidationMessageFor(model => model.Scanners, "", new { @class = "text-danger" })
     </div>
 </div>
+
+
+
+
+<div class="form-group">
+    @Html.LabelFor(model => model.ScannerFlag, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.ScannerFlag, new { htmlAttributes = new { @class = "form-control" } })
+       
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.CustomIndicatorsFlag, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.CustomIndicatorsFlag, new { htmlAttributes = new { @class = "form-control" } })
+       
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.LiveFlag, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.LiveFlag, new { htmlAttributes = new { @class = "form-control" } })
+       
+    </div>
+</div>
+
+
+<div class="form-group">
+    @Html.LabelFor(model => model.CIAddFlag, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.CIAddFlag, new { htmlAttributes = new { @class = "form-control" } })
+
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.ScannerAddFlag, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.ScannerAddFlag, new { htmlAttributes = new { @class = "form-control" } })
+
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.SignalAddFlag, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.SignalAddFlag, new { htmlAttributes = new { @class = "form-control" } })
+
+    </div>
+</div>
+
+
+<div class="form-group">
+    @Html.LabelFor(model => model.TrendAddFlag, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.TrendAddFlag, new { htmlAttributes = new { @class = "form-control" } })
+
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.PatternAddFlag, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.PatternAddFlag, new { htmlAttributes = new { @class = "form-control" } })
+
+    </div>
+</div>
+
+
+

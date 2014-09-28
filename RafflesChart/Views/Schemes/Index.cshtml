@@ -35,6 +35,33 @@
         <th>
             @Html.DisplayNameFor(model => model.Scanners)
         </th>
+
+
+        <th>
+            @Html.DisplayNameFor(model => model.ScannerFlag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomIndicatorsFlag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LiveFlag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CIAddFlag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ScannerAddFlag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SignalAddFlag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TrendAddFlag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PatternAddFlag)
+        </th>
+
         <th></th>
     </tr>
 
@@ -64,6 +91,32 @@
         <td>
             @Html.DisplayFor(modelItem => item.Scanners)
         </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.ScannerFlag)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomIndicatorsFlag)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LiveFlag)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CIAddFlag)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ScannerAddFlag)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SignalAddFlag)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TrendAddFlag)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PatternAddFlag)
+        </td>
+
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |

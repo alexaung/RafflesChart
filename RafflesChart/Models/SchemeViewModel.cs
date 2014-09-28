@@ -28,5 +28,28 @@ namespace RafflesChart.Models {
         public string PatternScanners { get; set; }
 
         public string Scanners { get; set; }
+
+        [DisplayName("Scanner")]
+        public bool ScannerFlag { get; set; }
+        [DisplayName("Custom Indicators")]
+        public bool CustomIndicatorsFlag { get; set; }
+
+        [DisplayName("Live")]
+        public bool LiveFlag { get; set; }
+
+        [DisplayName("CI Add")]
+        public bool CIAddFlag { get; set; }
+
+        [DisplayName("Scanner Add")]
+        public bool ScannerAddFlag { get; set; }
+
+        [DisplayName("Signal Add")]
+        public bool SignalAddFlag { get; set; }
+
+        [DisplayName("Trend Add")]
+        public bool TrendAddFlag { get; set; }
+
+        [DisplayName("Pattern Add")]
+        public bool PatternAddFlag { get; set; }
     }
 }

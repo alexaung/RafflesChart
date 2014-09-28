@@ -99,6 +99,14 @@ namespace RafflesChart.Controllers
                     BackTests = viewModel.BackTests,
                     PatternScanners = viewModel.PatternScanners,
                     Scanners = viewModel.Scanners,
+                    ScannerFlag = viewModel.ScannerFlag,
+                    CustomIndicatorsFlag = viewModel.CustomIndicatorsFlag,
+                    LiveFlag = viewModel.LiveFlag,
+                    CIAddFlag = viewModel.CIAddFlag,
+                    ScannerAddFlag = viewModel.ScannerAddFlag,
+                    SignalAddFlag = viewModel.SignalAddFlag,
+                    TrendAddFlag = viewModel.TrendAddFlag,
+                    PatternAddFlag = viewModel.PatternAddFlag                       
                 };
 
                 db.Schemes.Add(scheme);
@@ -133,7 +141,15 @@ namespace RafflesChart.Controllers
                 BullBearTests = scheme.BullBearTests,
                 BackTests = scheme.BackTests,
                 PatternScanners = scheme.PatternScanners,
-                Scanners = scheme.Scanners
+                Scanners = scheme.Scanners,
+                ScannerFlag = scheme.ScannerFlag,
+                CustomIndicatorsFlag = scheme.CustomIndicatorsFlag,
+                LiveFlag = scheme.LiveFlag,
+                CIAddFlag = scheme.CIAddFlag,
+                ScannerAddFlag = scheme.ScannerAddFlag,
+                SignalAddFlag = scheme.SignalAddFlag,
+                TrendAddFlag = scheme.TrendAddFlag,
+                PatternAddFlag = scheme.PatternAddFlag
             };
 
             return View(vm);
@@ -158,6 +174,14 @@ namespace RafflesChart.Controllers
                 scheme.BackTests = viewModel.BackTests;
                 scheme.PatternScanners = viewModel.PatternScanners;
                 scheme.Scanners = viewModel.Scanners;
+
+                scheme.ScannerFlag = viewModel.ScannerFlag;
+                scheme.CustomIndicatorsFlag = viewModel.LiveFlag;
+                scheme.CIAddFlag = viewModel.CIAddFlag;
+                scheme.ScannerAddFlag = viewModel.ScannerAddFlag;
+                scheme.SignalAddFlag = viewModel.SignalAddFlag;
+                scheme.TrendAddFlag = viewModel.TrendAddFlag;
+                scheme.PatternAddFlag = viewModel.PatternAddFlag;
 
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -253,6 +277,16 @@ namespace RafflesChart.Controllers
                     var userId = user.Id;
 
                     user.Expires = vm.ExpiredDate.Value;
+                     
+                   user.Scanner      = scheme.ScannerFlag; 
+                   user.CustomIndicators     = scheme.CustomIndicatorsFlag  ;
+                   user.CI_Add       = scheme.CIAddFlag  ;
+                   user.Scanner_Add     = scheme.ScannerAddFlag  ;
+                   user.Signal_Add     = scheme.SignalAddFlag  ;
+                   user.Trend_Add    = scheme.TrendAddFlag  ;
+                   user.Pattern_Add    = scheme.PatternAddFlag  ;
+
+
                     await db.UserBackTests.Where(bt => bt.UserId == userId).DeleteAsync();
                     await db.UserBullBearTests.Where(bt => bt.UserId == userId).DeleteAsync();
                     await db.UserIndicators.Where(bt => bt.UserId == userId).DeleteAsync();
@@ -350,7 +384,7 @@ namespace RafflesChart.Controllers
                     errorEmails.Add(email);
                 }
                 else {
-                    user.Expires = vm.ExpiredDate.Value;                    
+                    user.Expires = vm.ExpiredDate.Value;                 
 
                     if (backTests.Any()) {
                         AddUserFunction(backTests, user, db.UserBackTests);

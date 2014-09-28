@@ -27,7 +27,14 @@ namespace RafflesChart.Models {
 
         public string Scanners { get; set; }
 
-        
+        public bool ScannerFlag   {get;set;}
+        public bool CustomIndicatorsFlag  {get;set;}
+        public bool LiveFlag   {get;set;}
+        public bool CIAddFlag   {get;set;}
+        public bool ScannerAddFlag   {get;set;}
+        public bool SignalAddFlag   {get;set;}
+        public bool TrendAddFlag   {get;set;}
+        public bool PatternAddFlag   {get;set;}
 
 
     }
