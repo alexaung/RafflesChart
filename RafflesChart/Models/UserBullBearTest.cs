@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 
 namespace RafflesChart.Models {
+    [System.ComponentModel.DataAnnotations.Schema.Table("UserBullBearTest")]
     public class UserBullBearTest : IUserFunction {
 
         [Key, Column(Order = 1)]

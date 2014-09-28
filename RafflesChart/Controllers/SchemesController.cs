@@ -242,15 +242,17 @@ namespace RafflesChart.Controllers
 
             var errorEmails = new List<string>();            
             foreach (string email in emails) {
-                var user = await db.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
-
+             
+                var appuser = await db.Users.FirstOrDefaultAsync(x => x.Email == email);
+                var uid = Guid.Parse(appuser.Id);
+                var user = await db.ChartUsers.FirstOrDefaultAsync(x => x.Id == uid);
                 if (user == null) {
                     errorEmails.Add(email);
                 }
                 else {                    
-                    var userId = new Guid(user.Id);
+                    var userId = user.Id;
 
-                    user.Expires = vm.ExpiredDate;
+                    user.Expires = vm.ExpiredDate.Value;
                     await db.UserBackTests.Where(bt => bt.UserId == userId).DeleteAsync();
                     await db.UserBullBearTests.Where(bt => bt.UserId == userId).DeleteAsync();
                     await db.UserIndicators.Where(bt => bt.UserId == userId).DeleteAsync();
@@ -266,21 +268,21 @@ namespace RafflesChart.Controllers
                     }
                     if (indicators.Any()) {
                         AddUserFunction(indicators, user, db.UserIndicators);
-                        user.CustomIndicators = true;
+                        //user.CustomIndicators = true;
                     }
                     if (markets.Any()) {
                         AddUserFunction(markets, user, db.UserMarkets);
                     }
                     if (patternScanners.Any()) {
                         AddUserFunction(patternScanners, user, db.UserPatternScanners);
-                        user.PatternAdd = true;
+                        //user.Pattern_Add = true;
                     }
                     if (scanners.Any()) {
                         AddUserFunction(scanners, user, db.UserScanners);
-                        user.Scanner = true;
-                        user.ScannerAdd = true;
+                        //user.Scanner = true;
+                        //user.Scanner_Add = true;
                     }
-                    user.SchemeId = scheme.Id;
+                    appuser.SchemeId = scheme.Id;
                 }
 
                 await db.SaveChangesAsync();
@@ -340,13 +342,15 @@ namespace RafflesChart.Controllers
 
             var errorEmails = new List<string>();            
             foreach (string email in emails) {
-                var user = await db.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
-
-                if (user == null) {
+                var appuser = await db.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
+                var uid = Guid.Parse(appuser.Id);
+                var user = await db.ChartUsers.Where(u => u.Id == uid).FirstOrDefaultAsync();
+                if (appuser == null)
+                {
                     errorEmails.Add(email);
                 }
                 else {
-                    user.Expires = vm.ExpiredDate;                    
+                    user.Expires = vm.ExpiredDate.Value;                    
 
                     if (backTests.Any()) {
                         AddUserFunction(backTests, user, db.UserBackTests);
@@ -356,19 +360,18 @@ namespace RafflesChart.Controllers
                     }
                     if (indicators.Any()) {
                         AddUserFunction(indicators, user, db.UserIndicators);
-                        user.CustomIndicators = true;
+                        
                     }
                     if (markets.Any()) {
                         AddUserFunction(markets, user, db.UserMarkets);
                     }
                     if (patternScanners.Any()) {
                         AddUserFunction(patternScanners, user, db.UserPatternScanners);
-                        user.PatternAdd = true;
+                       
                     }
                     if (scanners.Any()) {
                         AddUserFunction(scanners, user, db.UserScanners);
-                        user.Scanner = true;
-                        user.ScannerAdd = true;
+                       
                     }
                 }
                                 
@@ -432,12 +435,12 @@ namespace RafflesChart.Controllers
             return View(vm);
         }
 
-        private void AddUserFunction<T>(string[] functions, ApplicationUser user, IDbSet<T> dbSet)             
+        private void AddUserFunction<T>(string[] functions, ChartUser user, IDbSet<T> dbSet)             
             where T : class, IUserFunction, new() {
 
             foreach (string function in functions) {
                 var model = new T() {
-                    UserId = new Guid(user.Id),
+                    UserId = user.Id,
                     FunctionName = function
                 };
 

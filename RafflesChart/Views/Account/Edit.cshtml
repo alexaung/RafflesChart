@@ -1,4 +1,4 @@
-﻿@model RafflesChart.Models.ApplicationUser
+﻿@model RafflesChart.Models.ChartUserViewModel
 
 
 @{
@@ -16,82 +16,81 @@
         <hr />
         @Html.ValidationSummary(true)
         <div class="form-group">
-            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ApplicationUserModel.Name, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Name)
-                @Html.ValidationMessageFor(model => model.Name)
+                @Html.EditorFor(model => model.ApplicationUserModel.Name)
+                @Html.ValidationMessageFor(model => model.ApplicationUserModel.Name)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Scanner, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ChartUserModel.Scanner, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Scanner)
-                @Html.ValidationMessageFor(model => model.Scanner)
+                @Html.EditorFor(model => model.ChartUserModel.Scanner)
+                @Html.ValidationMessageFor(model => model.ChartUserModel.Scanner)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CustomIndicators, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ChartUserModel.CustomIndicators, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CustomIndicators)
-                @Html.ValidationMessageFor(model => model.CustomIndicators)
+                @Html.EditorFor(model => model.ChartUserModel.CustomIndicators)
+                @Html.ValidationMessageFor(model => model.ChartUserModel.CustomIndicators)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Live, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ChartUserModel.Live, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Live)
-                @Html.ValidationMessageFor(model => model.Live)
+                @Html.EditorFor(model => model.ChartUserModel.Live)
+                @Html.ValidationMessageFor(model => model.ChartUserModel.Live)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CiAdd, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ChartUserModel.CI_Add, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CiAdd)
-                @Html.ValidationMessageFor(model => model.CiAdd)
+                @Html.EditorFor(model => model.ChartUserModel.CI_Add)
+                @Html.ValidationMessageFor(model => model.ChartUserModel.CI_Add)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ChartUserModel.Scanner_Add, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ChartUserModel.Scanner_Add)
+                @Html.ValidationMessageFor(model => model.ChartUserModel.Scanner_Add)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ScannerAdd, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ChartUserModel.Signal_Add, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ScannerAdd)
-                @Html.ValidationMessageFor(model => model.ScannerAdd)
+                @Html.EditorFor(model => model.ChartUserModel.Signal_Add)
+                @Html.ValidationMessageFor(model => model.ChartUserModel.Signal_Add)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SignalAdd, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ChartUserModel.Trend_Add, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.SignalAdd)
-                @Html.ValidationMessageFor(model => model.SignalAdd)
+                @Html.EditorFor(model => model.ChartUserModel.Trend_Add)
+                @Html.ValidationMessageFor(model => model.ChartUserModel.Trend_Add)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TrendAdd, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ChartUserModel.Pattern_Add, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.TrendAdd)
-                @Html.ValidationMessageFor(model => model.TrendAdd)
+                @Html.EditorFor(model => model.ChartUserModel.Pattern_Add)
+                @Html.ValidationMessageFor(model => model.ChartUserModel.Pattern_Add)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PatternAdd, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ChartUserModel.Expires, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PatternAdd)
-                @Html.ValidationMessageFor(model => model.PatternAdd)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Expires, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Expires, new { htmlAttributes = new { @class = "form-control", @id = "ExpiredDate" } })
-                @Html.ValidationMessageFor(model => model.Expires)
+                @Html.EditorFor(model => model.ChartUserModel.Expires, new { htmlAttributes = new { @class = "form-control", @id = "ExpiredDate" } })
+                @Html.ValidationMessageFor(model => model.ChartUserModel.Expires)
             </div>
         </div>
 

@@ -53,41 +53,45 @@ namespace RafflesChart.Controllers
                 var usr = suser.Name?? "";
                 var email = suser.Email ?? "";
                 var ph = suser.PhoneNumber ?? "";
-                var users = await db.Users.Where(x=> x.Name.StartsWith(usr) && 
-                                        x.Email.StartsWith(email) && 
+                var uids = await db.Users.Where(x => x.Name.StartsWith(usr) &&
+                                        x.Email.StartsWith(email) &&
                                         x.PhoneNumber.StartsWith(ph)
-                            ).ToArrayAsync();
+                            ).Select(x => new { x.Name, x.Email, x.PhoneNumber,Id = x.Id,x.Roles,x.SchemeId}).ToArrayAsync();
 
                 var schemes = await db.Schemes.ToListAsync();
                 
                 List<UserViewModel> vm = new List<UserViewModel>();
                 var roles = await db.Roles.ToListAsync();
+                var users = from cu in db.ChartUsers
+                            from u in uids
+                            where cu.Id.ToString() == u.Id
+                            select new{ CU=cu,UID=u};
                 foreach (var ur in users)
                 {
                     var item = new UserViewModel();
-                    item.CiAdd = ur.CiAdd;
-                    item.CustomIndicators = ur.CustomIndicators;
-                    item.Email = ur.Email;
-                    item.Expires = ur.Expires;
-                    item.PhoneNumber = ur.PhoneNumber;
-                    item.Live = ur.Live;
-                    item.Name = ur.Name;
-                    item.PatternAdd = ur.PatternAdd;
-                    item.PhoneNumber = ur.PhoneNumber;
-                    item.Scanner = ur.Scanner;
-                    item.ScannerAdd = ur.ScannerAdd;
+                    item.CiAdd = ur.CU.CI_Add;
+                    item.CustomIndicators = ur.CU.CustomIndicators;
+                    item.Email = ur.UID.Email;
+                    item.Expires = ur.CU.Expires;
+                    item.PhoneNumber = ur.UID.PhoneNumber;
+                    item.Live = ur.CU.Live;
+                    item.Name = ur.UID.Name;
+                    item.PatternAdd = ur.CU.Pattern_Add;
+                    
+                    item.Scanner = ur.CU.Scanner;
+                    item.ScannerAdd = ur.CU.Scanner_Add;
                     item.Scheme = "na";
-                    item.SignalAdd = ur.SignalAdd;
-                    item.TrendAdd = ur.TrendAdd;
+                    item.SignalAdd = ur.CU.Signal_Add;
+                    item.TrendAdd = ur.CU.Trend_Add;
                     var sql = (from r in roles
-                              from r2 in ur.Roles
+                              from r2 in ur.UID.Roles
                               where r.Id == r2.RoleId
                               select r.Name).ToList();
                     var rr = string.Join(",", sql);
                     item.Role = rr ?? "User";
-                    if (ur.SchemeId.HasValue)
+                    if (ur.UID.SchemeId.HasValue)
                     {
-                        item.Scheme = schemes.FirstOrDefault(x => x.Id == ur.SchemeId).Name;
+                        item.Scheme = schemes.FirstOrDefault(x => x.Id == ur.UID.SchemeId).Name;
                     }
                     vm.Add(item);
                 }
@@ -141,21 +145,26 @@ namespace RafflesChart.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> Edit(ApplicationUser user)
+        public async Task<ActionResult> Edit(ChartUserViewModel vm)
         {
+            ApplicationUser user = vm.ApplicationUserModel;
+            ChartUser chrtuser = vm.ChartUserModel;
             ApplicationDbContext db = new ApplicationDbContext();
             var us = await db.Users.Where(u => u.Email == user.Email).FirstOrDefaultAsync();
             us.Name = user.Name;
-            us.Scanner = user.Scanner;
-            us.CustomIndicators = user.CustomIndicators;
-            us.Live = user.Live;
-            us.CiAdd = user.CiAdd;
+            us.PhoneNumber = user.PhoneNumber;
 
-            us.ScannerAdd = user.ScannerAdd;
-            us.SignalAdd = user.SignalAdd;
-            us.TrendAdd = user.TrendAdd;
-            us.PatternAdd = user.PatternAdd;
-            us.Expires = user.Expires;
+            var cus = await db.ChartUsers.Where(u => u.Id == chrtuser.Id).FirstOrDefaultAsync();
+            cus.Scanner = chrtuser.Scanner;
+            cus.CustomIndicators = chrtuser.CustomIndicators;
+            cus.Live = chrtuser.Live;
+            cus.CI_Add = chrtuser.CI_Add;
+
+            cus.Scanner_Add = chrtuser.Scanner_Add;
+            cus.Signal_Add = chrtuser.Signal_Add;
+            cus.Trend_Add = chrtuser.Trend_Add;
+            cus.Pattern_Add = chrtuser.Pattern_Add;
+            cus.Expires = chrtuser.Expires;
            int result = await  db.SaveChangesAsync();
            if (result>0)
            { }
@@ -228,12 +237,13 @@ namespace RafflesChart.Controllers
                     PhoneNumberConfirmed = true,
                     UserName = model.Email,
                     Email = model.Email ,
-                    Expires = DateTime.ParseExact("2030-Dec-31", "yyyy-MMM-dd",null)
+                    //Expires = DateTime.ParseExact("2030-Dec-31", "yyyy-MMM-dd",null)
                 };
-
+                
                 var passwordValidator = (PasswordValidator)UserManager.PasswordValidator;
                 var password = Membership.GeneratePassword(passwordValidator.RequiredLength, 1);
                 IdentityResult result = await UserManager.CreateAsync(user, password);
+
 
                 if (result.Succeeded)
                 {
@@ -244,6 +254,14 @@ namespace RafflesChart.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");                    
+                    
+                    var chartuser = new ChartUser() {
+                    Login = user.Email,
+                    Id  = Guid.Parse(user.Id),
+                    Password = user.PasswordHash,
+                    Expires = DateTime.ParseExact("2030-Dec-31", "yyyy-MMM-dd", null)
+                     };
+
                     await SendUserRegistrationEmailAsync(model.Email, password);
                     TempData["EmailedPassword"] = "Your password has been emailed. Please use this to login.";
                     return RedirectToAction("Index", "Events");
@@ -728,6 +746,19 @@ namespace RafflesChart.Controllers
 
                 if (result.Succeeded) {
                     succesUserCount++;
+                    var chartuser = new ChartUser()
+                    {
+                        Id = Guid.Parse(user.Id),
+                        Login = user.Email,
+                        Password = user.PasswordHash,
+                        Expires = DateTime.ParseExact("2030-Dec-31", "yyyy-MMM-dd", null)
+                    };
+                    using (var context = new ApplicationDbContext())
+                    {
+                        context.ChartUsers.Add(chartuser);
+                        await context.SaveChangesAsync();
+                    }
+
                     await SendUserRegistrationEmailAsync(user.Email, password);
                 }
                 else {
@@ -824,7 +855,7 @@ namespace RafflesChart.Controllers
                         user.UserName = emailval;
                         user.Email =emailval;
                         user.EmailConfirmed = true;
-                        user.Expires = DateTime.ParseExact("2030-Dec-31", "yyyy-MMM-dd", null);
+                        //user.Expires = DateTime.ParseExact("2030-Dec-31", "yyyy-MMM-dd", null);
                     yield return user;
                 }
                 count++;

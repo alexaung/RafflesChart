@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RafflesChart.Models {
+    [System.ComponentModel.DataAnnotations.Schema.Table("UserBackTest")]
     public class UserBackTest : IUserFunction {
 
         [Key, Column(Order = 1)]
