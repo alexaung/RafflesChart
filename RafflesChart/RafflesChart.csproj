@@ -207,6 +207,10 @@
     <Compile Include="Migrations\201409210339377_newcolumn.Designer.cs">
       <DependentUpon>201409210339377_newcolumn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201409281254048_schemechanges.cs" />
+    <Compile Include="Migrations\201409281254048_schemechanges.Designer.cs">
+      <DependentUpon>201409281254048_schemechanges.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ChartUser.cs" />
@@ -689,6 +693,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409210339377_newcolumn.resx">
       <DependentUpon>201409210339377_newcolumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409281254048_schemechanges.resx">
+      <DependentUpon>201409281254048_schemechanges.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

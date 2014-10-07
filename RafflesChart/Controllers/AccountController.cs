@@ -254,7 +254,7 @@ namespace RafflesChart.Controllers
                 };
                 
                 var passwordValidator = (PasswordValidator)UserManager.PasswordValidator;
-                var password = Membership.GeneratePassword(passwordValidator.RequiredLength, 1);
+                var password = Membership.GeneratePassword(passwordValidator.RequiredLength, 0);
                 IdentityResult result = await UserManager.CreateAsync(user, password);
 
 
