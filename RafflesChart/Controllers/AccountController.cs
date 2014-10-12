@@ -62,13 +62,13 @@ namespace RafflesChart.Controllers
                 
                 List<UserViewModel> vm = new List<UserViewModel>();
                 var roles = await db.Roles.ToListAsync();
-                var ids = uids.Select(x => Guid.Parse(x.Id));
+                var ids = uids.Select(x => x.Email);
                 var usersql = await (from cu in db.ChartUsers
-                            where ids.Contains(cu.Id)
+                            where ids.Contains(cu.Login)
                                   select cu).ToArrayAsync();
                 var users = from u in uids
                             from cu in usersql
-                            where u.Id == cu.Id.ToString()
+                            where u.Email == cu.Login
                             select new { CU = cu, UID = u };
 
                 foreach (var ur in users)
@@ -167,7 +167,7 @@ namespace RafflesChart.Controllers
             us.Name = user.Name;
             us.PhoneNumber = user.PhoneNumber;
 
-            var cus = await db.ChartUsers.Where(u => u.Id == chrtuser.Id).FirstOrDefaultAsync();
+            var cus = await db.ChartUsers.Where(u => u.Login == user.Email).FirstOrDefaultAsync();
             cus.Scanner = chrtuser.Scanner;
             cus.CustomIndicators = chrtuser.CustomIndicators;
             cus.Live = chrtuser.Live;
@@ -254,8 +254,12 @@ namespace RafflesChart.Controllers
                 };
                 
                 var passwordValidator = (PasswordValidator)UserManager.PasswordValidator;
+                
                 var password = Membership.GeneratePassword(passwordValidator.RequiredLength, 0);
-                IdentityResult result = await UserManager.CreateAsync(user, password);
+
+                var txt = shuffle<char>(AsciiNumber());
+                cpt = String.Join("", txt.Take(6).ToArray());
+                IdentityResult result = await UserManager.CreateAsync(user, cpt);
 
 
                 if (result.Succeeded)
@@ -275,6 +279,11 @@ namespace RafflesChart.Controllers
                     Expires = DateTime.ParseExact("2030-Dec-31", "yyyy-MMM-dd", null)
                      };
 
+                    using(var db = new ApplicationDbContext())
+	                {
+                        db.ChartUsers.Add(chartuser);
+                        db.SaveChanges();
+	                } 
                     await SendUserRegistrationEmailAsync(model.Email, password);
                     TempData["EmailedPassword"] = "Your password has been emailed. Please use this to login.";
                     return RedirectToAction("Index", "Events");

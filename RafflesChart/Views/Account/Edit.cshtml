@@ -19,10 +19,18 @@
             @Html.LabelFor(model => model.ApplicationUserModel.Name, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ApplicationUserModel.Name)
+                @Html.HiddenFor(model => model.ApplicationUserModel.Email)
                 @Html.ValidationMessageFor(model => model.ApplicationUserModel.Name)
             </div>
         </div>
-
+        <div class="form-group">
+            @Html.LabelFor(model => model.ApplicationUserModel.PhoneNumber, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ApplicationUserModel.PhoneNumber)
+                
+                @Html.ValidationMessageFor(model => model.ApplicationUserModel.PhoneNumber)
+            </div>
+        </div>
         <div class="form-group">
             @Html.LabelFor(model => model.ChartUserModel.Scanner, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
