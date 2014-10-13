@@ -764,7 +764,9 @@ namespace RafflesChart.Controllers
                 var cpt = String.Join("", reshuf.ToArray());
 
                 var password = Membership.GeneratePassword(passwordValidator.RequiredLength, 0);
-                var result = await UserManager.CreateAsync(user, password);
+                var txt = shuffle<char>(AsciiNumber());
+                cpt = String.Join("", txt.Take(6).ToArray());
+                var result = await UserManager.CreateAsync(user, cpt);
 
                 if (result.Succeeded) {
                     succesUserCount++;
