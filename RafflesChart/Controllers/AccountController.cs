@@ -757,15 +757,15 @@ namespace RafflesChart.Controllers
             
 
             foreach (var user in users) {
-                var txt = shuffle<char>(SmallAscii());
+               
                 var nums = shuffle<char>(NumOToT());
-                var raw = txt.Take(4).Concat(nums.Take(2));
-                var reshuf = shuffle<char>(raw.ToList());
-                var cpt = String.Join("", reshuf.ToArray());
+               // var raw = txt.Take(4).Concat(nums.Take(2));
+               // var reshuf = shuffle<char>(raw.ToList());
+                //var cpt = String.Join("", reshuf.ToArray());
 
                 var password = Membership.GeneratePassword(passwordValidator.RequiredLength, 0);
                 var txt = shuffle<char>(AsciiNumber());
-                cpt = String.Join("", txt.Take(6).ToArray());
+               var  cpt = String.Join("", txt.Take(6).ToArray());
                 var result = await UserManager.CreateAsync(user, cpt);
 
                 if (result.Succeeded) {
