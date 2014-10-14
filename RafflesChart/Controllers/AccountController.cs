@@ -16,6 +16,7 @@ using RafflesChart.Extensions;
 using RafflesChart.Models;
 using System.Drawing;
 using Microsoft.AspNet.Identity.EntityFramework;
+using RafflesChart.App_Start;
 
 namespace RafflesChart.Controllers
 {
@@ -208,6 +209,7 @@ namespace RafflesChart.Controllers
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
+                    Session["activeuser"] = model.Email;
                     return RedirectToLocal(returnUrl);
                 }
                 else
@@ -275,7 +277,7 @@ namespace RafflesChart.Controllers
                     var chartuser = new ChartUser() {
                     Login = user.Email,
                     Id  = Guid.Parse(user.Id),
-                    Password = user.PasswordHash,
+                    Password = cpt,
                     Expires = DateTime.ParseExact("2030-Dec-31", "yyyy-MMM-dd", null)
                      };
 
@@ -636,8 +638,8 @@ namespace RafflesChart.Controllers
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        
+        //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
@@ -774,7 +776,7 @@ namespace RafflesChart.Controllers
                     {
                         Id = Guid.Parse(user.Id),
                         Login = user.Email,
-                        Password = user.PasswordHash,
+                        Password = cpt,
                         Expires = DateTime.ParseExact("2030-Dec-31", "yyyy-MMM-dd", null)
                     };
                     using (var context = new ApplicationDbContext())
@@ -820,7 +822,7 @@ namespace RafflesChart.Controllers
         }
 
         //
-        // GET: /Account/GetUsers
+        [SessionExpireFilter]
         public ActionResult GetUsers() {
             using (var db = new ApplicationDbContext()) {
                 List<UserViewModel> vm = new List<UserViewModel>();
