@@ -1,0 +1,36 @@
+AsyncTaskMethodBuilder`1.Start => AsyncMethodBuilderCore.Start => <Delete>d__33.MoveNext Getting AspnetUser
+ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Deleting AspnetUser
+ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Geting User
+ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Removing User
+ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Removing User Back Test
+ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Removing Use Bull Bear Test
+ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Removing User Indicator 
+ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Removing User Marker
+ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Removing User Pattern Scanner 
+ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Removing User Scanner
+ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Saving Final DB
+ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext  Result Greater than zero
+09:40:43 | AsyncTaskMethodBuilder`1.Start => AsyncMethodBuilderCore.Start => <Delete>d__33.MoveNext Getting AspnetUser
+09:40:43 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Deleting AspnetUser
+09:40:43 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Geting User
+09:40:43 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Removing User
+09:40:43 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Removing User Back Test
+09:40:43 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Removing Use Bull Bear Test
+09:40:43 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Removing User Indicator 
+09:40:43 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Removing User Marker
+09:40:43 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Removing User Pattern Scanner 
+09:40:43 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Removing User Scanner
+09:40:43 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Saving Final DB
+09:40:43 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext  Result Greater than zero
+2014 10 16 09:41:54 | AsyncTaskMethodBuilder`1.Start => AsyncMethodBuilderCore.Start => <Delete>d__33.MoveNext Getting AspnetUser
+2014 10 16 09:41:55 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Deleting AspnetUser
+2014 10 16 09:41:55 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Geting User
+2014 10 16 09:41:55 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Removing User
+2014 10 16 09:41:55 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Removing User Back Test
+2014 10 16 09:41:55 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Removing Use Bull Bear Test
+2014 10 16 09:41:55 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Removing User Indicator 
+2014 10 16 09:41:55 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Removing User Marker
+2014 10 16 09:41:55 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Removing User Pattern Scanner 
+2014 10 16 09:41:55 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Removing User Scanner
+2014 10 16 09:41:55 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext Saving Final DB
+2014 10 16 09:41:55 | ExecutionContext.RunInternal => MoveNextRunner.InvokeMoveNext => <Delete>d__33.MoveNext  Result Greater than zero

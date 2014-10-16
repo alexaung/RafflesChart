@@ -1,4 +1,4 @@
-﻿@model RafflesChart.Models.ApplicationUser
+﻿@model RafflesChart.Models.ChartUserViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -11,88 +11,88 @@
 	<hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.ApplicationUserModel.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.ApplicationUserModel.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Scanner)
+            @Html.DisplayNameFor(model => model.ChartUserModel.Scanner)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Scanner)
+            @Html.DisplayFor(model => model.ChartUserModel.Scanner)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CustomIndicators)
+            @Html.DisplayNameFor(model => model.ChartUserModel.CustomIndicators)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CustomIndicators)
+            @Html.DisplayFor(model => model.ChartUserModel.CustomIndicators)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Live)
+            @Html.DisplayNameFor(model => model.ChartUserModel.Live)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Live)
+            @Html.DisplayFor(model => model.ChartUserModel.Live)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CiAdd)
+            @Html.DisplayNameFor(model => model.ChartUserModel.CI_Add)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CiAdd)
+            @Html.DisplayFor(model => model.ChartUserModel.CI_Add)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ScannerAdd)
+            @Html.DisplayNameFor(model => model.ChartUserModel.Scanner_Add)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ScannerAdd)
+            @Html.DisplayFor(model => model.ChartUserModel.Scanner_Add)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.SignalAdd)
+            @Html.DisplayNameFor(model => model.ChartUserModel.Signal_Add)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SignalAdd)
+            @Html.DisplayFor(model => model.ChartUserModel.Signal_Add)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TrendAdd)
+            @Html.DisplayNameFor(model => model.ChartUserModel.Trend_Add)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TrendAdd)
+            @Html.DisplayFor(model => model.ChartUserModel.Trend_Add)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PatternAdd)
+            @Html.DisplayNameFor(model => model.ChartUserModel.Pattern_Add)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PatternAdd)
+            @Html.DisplayFor(model => model.ChartUserModel.Pattern_Add)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Expires)
+            @Html.DisplayNameFor(model => model.ChartUserModel.Expires)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Expires)
+            @Html.DisplayFor(model => model.ChartUserModel.Expires)
         </dd>
 
     </dl>
 </div>
 <p>
    
-    @Html.ActionLink("Confirm Delete", "Delete" ,  new {email = Model.Email})
+    @Html.ActionLink("Confirm Delete", "Delete" ,  new {email = Model.ApplicationUserModel.Email})
 </p>

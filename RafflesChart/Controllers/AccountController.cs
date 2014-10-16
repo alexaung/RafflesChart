@@ -17,6 +17,7 @@ using RafflesChart.Models;
 using System.Drawing;
 using Microsoft.AspNet.Identity.EntityFramework;
 using RafflesChart.App_Start;
+using NLog;
 
 namespace RafflesChart.Controllers
 {
@@ -130,30 +131,65 @@ namespace RafflesChart.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteConfirm(string email)
         {
-            var user = await UserManager.FindByEmailAsync(email);
-            return View(user);
+            var appuser = UserManager.FindByEmail(email);
+            ChartUser chuser;
+            using (var db = new ApplicationDbContext())
+            {
+                chuser = db.ChartUsers.FirstOrDefault(x => x.Id.ToString() == appuser.Id);
+
+            }
+            var user = new ChartUserViewModel()
+            {
+                ApplicationUserModel = appuser,
+                ChartUserModel = chuser
+            };
+            return View(user);            
         }
 
 
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(string email)
         {
-            ApplicationDbContext db = new ApplicationDbContext();
-            var us = await db.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
-            db.Users.Remove(us);
-            Guid ug = Guid.Parse(us.Id) ;
+            Logger logger = LogManager.GetCurrentClassLogger();
             
-            db.UserBackTests.RemoveRange(db.UserBackTests.Where(x => x.UserId == ug));
-            db.UserBullBearTests.RemoveRange(db.UserBullBearTests.Where(x => x.UserId == ug));
-            db.UserIndicators.RemoveRange(db.UserIndicators.Where(x => x.UserId == ug));
 
+            ApplicationDbContext db = new ApplicationDbContext();
+            logger.Trace("Getting AspnetUser");
+            var us = await db.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
+            logger.Trace("Deleting AspnetUser");
+
+            Guid ug = Guid.Parse(us.Id);
+            db.Users.Remove(us);
+
+            logger.Trace("Geting User");
+            var chartus = await db.ChartUsers.Where(u => u.Login == email).FirstOrDefaultAsync();
+            logger.Trace("Removing User");
+            db.ChartUsers.Remove(chartus);
+
+            
+            logger.Trace("Removing User Back Test");
+            db.UserBackTests.RemoveRange(db.UserBackTests.Where(x => x.UserId == ug));
+            logger.Trace("Removing Use Bull Bear Test");
+            db.UserBullBearTests.RemoveRange(db.UserBullBearTests.Where(x => x.UserId == ug));
+            logger.Trace("Removing User Indicator ");
+            db.UserIndicators.RemoveRange(db.UserIndicators.Where(x => x.UserId == ug));
+            logger.Trace("Removing User Marker");
             db.UserMarkets.RemoveRange(db.UserMarkets.Where(x => x.UserId == ug));
+            logger.Trace("Removing User Pattern Scanner ");
             db.UserPatternScanners.RemoveRange(db.UserPatternScanners.Where(x => x.UserId == ug));
+            logger.Trace("Removing User Scanner");
             db.UserScanners.RemoveRange(db.UserScanners.Where(x => x.UserId == ug));
 
+            logger.Trace("Saving Final DB");
             int result = await db.SaveChangesAsync();
             if (result > 0)
-            { }
+            {
+                logger.Trace(" Result Greater than zero");
+            }
+            else
+            {
+                logger.Trace("Result not greater zero");
+            }
             return RedirectToAction("GetUsers");
         }
 
@@ -257,7 +293,7 @@ namespace RafflesChart.Controllers
                 
                 var passwordValidator = (PasswordValidator)UserManager.PasswordValidator;
                 
-                var password = Membership.GeneratePassword(passwordValidator.RequiredLength, 0);
+                //var password = Membership.GeneratePassword(passwordValidator.RequiredLength, 0);
 
                 var txt = shuffle<char>(AsciiNumber());
                 cpt = String.Join("", txt.Take(6).ToArray());
@@ -286,7 +322,7 @@ namespace RafflesChart.Controllers
                         db.ChartUsers.Add(chartuser);
                         db.SaveChanges();
 	                } 
-                    await SendUserRegistrationEmailAsync(model.Email, password);
+                    await SendUserRegistrationEmailAsync(model.Email, cpt);
                     TempData["EmailedPassword"] = "Your password has been emailed. Please use this to login.";
                     return RedirectToAction("Index", "Events");
                 }
@@ -724,6 +760,7 @@ namespace RafflesChart.Controllers
                 }
                 if (string.IsNullOrEmpty(rid) ==false)
                 {
+                    memrole.Users.ToList().ForEach(x=> memrole.Users.Remove(x));
                     succesUserCount = goodEmails.Count();
                     foreach (var item in goodEmails)
                     {
@@ -765,7 +802,7 @@ namespace RafflesChart.Controllers
                // var reshuf = shuffle<char>(raw.ToList());
                 //var cpt = String.Join("", reshuf.ToArray());
 
-                var password = Membership.GeneratePassword(passwordValidator.RequiredLength, 0);
+                //var password = Membership.GeneratePassword(passwordValidator.RequiredLength, 0);
                 var txt = shuffle<char>(AsciiNumber());
                var  cpt = String.Join("", txt.Take(6).ToArray());
                 var result = await UserManager.CreateAsync(user, cpt);
@@ -785,7 +822,7 @@ namespace RafflesChart.Controllers
                         await context.SaveChangesAsync();
                     }
 
-                    await SendUserRegistrationEmailAsync(user.Email, password);
+                    await SendUserRegistrationEmailAsync(user.Email, cpt);
                 }
                 else {
                     errorEmails.Add(user.Email);
