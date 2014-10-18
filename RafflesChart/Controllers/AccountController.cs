@@ -70,8 +70,8 @@ namespace RafflesChart.Controllers
                 foreach (var item in cuser.AsParallel())
 	            {
                     //item.Password = "blahblah";
-                    var userid = User.Identity.Name;
-                    var user = db.Users.FirstOrDefault(x => x.UserName == userid);
+
+                    var user = db.Users.FirstOrDefault(x => x.UserName == item.Login);
                     if (user != null)
                     {
                         var tk = UserManager.GeneratePasswordResetToken(user.Id);
