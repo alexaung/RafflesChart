@@ -37,6 +37,29 @@
                     {
                         <li>@Html.ActionLink("Special Member", "SpecialMember", "Home")</li>
                     }
+                    
+                    @if (Html.ActionAuthorized("Welcome", "Account"))
+                    {
+                        <li>@Html.ActionLink("Welcome", "Welcome", "Account")</li>
+                    }
+                    
+                    @if (Html.ActionAuthorized("Welcome", "Account"))
+                    {
+                        <li>@Html.ActionLink("FAQ", "FAQ", "Account")</li>
+                    }
+                    @if (Html.ActionAuthorized("UserGuide", "Account"))
+                    {
+                        <li>@Html.ActionLink("User Guide", "UserGuide", "Account")</li>
+                    }
+                    @if (Html.ActionAuthorized("Welcome", "Account"))
+                    {
+                        <li>@Html.ActionLink("Tutorial", "Tutorial", "Account")</li>
+                    }
+                    @if (Html.ActionAuthorized("Welcome", "Account"))
+                    {
+                        <li>@Html.ActionLink("Script Writing", "ScriptWriting", "Account")</li>
+                    }
+
                     @if (Html.ActionAuthorized("UploadUsers", "Account"))
                     {
                         <li class="dropdown">

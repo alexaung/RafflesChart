@@ -35,6 +35,73 @@ namespace RafflesChart.Controllers
             UserManager = userManager;
         }
 
+        public ActionResult Welcome()
+        {
+            return View();
+        }
+        public ActionResult FAQ()
+        {
+            return View();
+        }
+
+
+        public ActionResult SyncSingle()
+        {
+            using (var db = new ApplicationDbContext())
+            {
+               var cuser =  db.ChartUsers.FirstOrDefault(x => x.Login == "zarniaung006@gmail.com");
+               cuser.Password = "blahblah";
+               var userid = User.Identity.Name ;
+               var user = db.Users.FirstOrDefault(x => x.UserName == userid);
+               var tk = UserManager.GeneratePasswordResetToken(user.Id);
+
+               UserManager.ResetPassword(user.Id.ToString(), tk, cuser.Password);
+
+               db.SaveChanges();
+            }
+            return RedirectToAction("Welcome");
+        }
+
+        public ActionResult Sync()
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var cuser = db.ChartUsers.ToList();
+                foreach (var item in cuser.AsParallel())
+	            {
+                    //item.Password = "blahblah";
+                    var userid = User.Identity.Name;
+                    var user = db.Users.FirstOrDefault(x => x.UserName == userid);
+                    if (user != null)
+                    {
+                        var tk = UserManager.GeneratePasswordResetToken(user.Id);
+
+                        UserManager.ResetPassword(user.Id.ToString(), tk, item.Password);
+                    }
+	            }
+                
+                //db.SaveChanges();
+            }
+            return RedirectToAction("Welcome");
+        }
+
+
+        public ActionResult UserGuide()
+        {
+            return View();
+        }
+
+        public ActionResult ScriptWriting()
+        {
+            return View();
+        }
+        
+        public ActionResult Tutorial()
+        {
+            return View();
+        }
+
+
         public ApplicationUserManager UserManager {
             get
             {
@@ -246,7 +313,23 @@ namespace RafflesChart.Controllers
                 {
                     await SignInAsync(user, model.RememberMe);
                     Session["activeuser"] = model.Email;
-                    return RedirectToLocal(returnUrl);
+                    if (string.IsNullOrEmpty (returnUrl) || "/".Equals(returnUrl))
+                    {
+                        var adminrole = UserManager.GetRoles(user.Id);
+                        if (adminrole.Contains("Admin"))
+                        {
+                            return RedirectToLocal(returnUrl);
+                        }
+                        else 
+                        { 
+                            return RedirectToAction("Welcome");
+                        }
+                    }
+                    else
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
+                  
                 }
                 else
                 {
@@ -320,6 +403,8 @@ namespace RafflesChart.Controllers
                     using(var db = new ApplicationDbContext())
 	                {
                         db.ChartUsers.Add(chartuser);
+                        var usertoconfirm = db.Users.FirstOrDefault(x=>x.Email == user.Email);
+                        usertoconfirm.EmailConfirmed = true;
                         db.SaveChanges();
 	                } 
                     await SendUserRegistrationEmailAsync(model.Email, cpt);
@@ -452,6 +537,12 @@ namespace RafflesChart.Controllers
                 IdentityResult result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
                 if (result.Succeeded)
                 {
+                    using (var db = new ApplicationDbContext())
+                    {
+                        var cuser = db.ChartUsers.FirstOrDefault(x => x.Login == user.Email);
+                        cuser.Password = model.Password;
+                        db.SaveChanges();
+                    }
                     return RedirectToAction("ResetPasswordConfirmation", "Account");
                 }
                 else

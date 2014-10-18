@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using RafflesChart.Models;
 using System.Web.Security;
+using Postal;
 
 namespace RafflesChart.Controllers
 {
@@ -144,16 +145,30 @@ namespace RafflesChart.Controllers
 			
 			var evtfound = db.EventUsers.FirstOrDefault(x => x.UserEmail == useremail && 
 									  x.EventId	== evtid);
+            var register = true;
+            var evtdetail = db.Events.FirstOrDefault(x=> x.Id == evtid);
 			if(evtfound!=null){
                 db.EventUsers.Remove(evtfound);
+                register = false;
 			}	
 			else
 			{			
 				db.EventUsers.Add(evtuser);
 			}
             await db.SaveChangesAsync();
+            SendEventReminderAsync(register, evtdetail, useremail);
+            
             return RedirectToAction("Index");
            
+        }
+
+        private  void SendEventReminderAsync(bool register, Event evtfound, string email)
+        {
+            dynamic mail = new Email("Event");
+            mail.To = email;
+            mail.Event = evtfound;
+            mail.Register = register;
+            mail.SendAsync();
         }
 
         // POST: Events/Create

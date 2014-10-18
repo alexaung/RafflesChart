@@ -73,15 +73,15 @@
                 <div>
                     @if (!item.Registered)
                     {
-                        <button class="input-sm" value="REGISTER FOR EVENT">
-                            <img ng-click="addDbEventUser(@item.AvailableEventId)" style="cursor:pointer" src="~/Content/person_checked_16x16.png" title="Click to Register" />
+                        <button ng-click="addDbEventUser(@item.AvailableEventId)" class="input-sm" value="REGISTER FOR EVENT">
+                            <img style="cursor:pointer" src="~/Content/person_checked_16x16.png" title="Click to Register" />
                             REGISTER FOR EVENT
                         </button>
                     }
-                    else
+                                        else
                     {
-                        <button class="input-sm" value="REGISTER FOR EVENT">
-                            <img ng-click="addDbEventUser(@item.AvailableEventId)" style="cursor:pointer" src="~/Content/close_16x16.png" title="Click to Register" />
+                        <button ng-click="addDbEventUser(@item.AvailableEventId)" class="input-sm" value="REGISTER FOR EVENT">
+                            <img style="cursor:pointer" src="~/Content/close_16x16.png" title="Click to Register" />
                             UN-REGISTER FOR EVENT
                         </button>
                     }

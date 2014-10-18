@@ -1,0 +1,29 @@
+﻿To: @ViewBag.To
+Subject: @if (ViewBag.Register)
+{
+<text>Event Registration
+
+Dear User,
+
+See you at the event 
+</text>
+}else
+{
+
+<text>Event Un-Registration
+
+    Dear User,
+
+    You have unregistered
+</text>
+}
+    
+@Html.Raw(ViewBag.Event.Name) 
+
+@Html.Raw(ViewBag.Event.Date) 
+
+@Html.Raw(ViewBag.Event.EndDate) 
+
+@Html.Raw(ViewBag.Event.Location) 
+
+@Html.Raw(ViewBag.Event.Description) 
