@@ -128,7 +128,9 @@ namespace RafflesChart.Controllers
             db.EventGuestUsers.Add(evtuser);
             TempData["GuestSuccess"] = "Thanks for signing up. See you at the event.";
             await db.SaveChangesAsync();
-            //return RedirectToAction("Index","Home");
+            var evtdetail = db.Events.FirstOrDefault(x => x.Id == suser.EventId);
+            SendEventReminderAsync(true, evtdetail, suser.Email);
+
             return Json(true);
         }
 
