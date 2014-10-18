@@ -16,6 +16,7 @@ using RafflesChart.Extensions;
 using RafflesChart.Models;
 using System.Drawing;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Web.Routing;
 namespace RafflesChart.App_Start
 {
     public class SessionExpireFilterAttribute : ActionFilterAttribute
@@ -30,15 +31,30 @@ namespace RafflesChart.App_Start
                 return;
             }
            if( ctx.Request.Url.AbsolutePath.Contains("/Login")){
-               return;
-                
+               return;                
             }
+           if (ctx.Request.Url.AbsolutePath.Contains("/LogOff"))
+           {
+               return;
+           }
+           if (ctx.Request.Url.AbsolutePath.Contains("/Events"))
+           {
+               return;
+           }
+           if (ctx.Request.Url.AbsolutePath.Contains("Register"))
+           {
+               return;
+           }
             var active = filterContext.HttpContext.Session["activeuser"];
             if (active == null)
             {
-                filterContext.HttpContext.GetOwinContext().Authentication.SignOut();
-                filterContext.HttpContext.Response.Redirect("/Account/LogOff");
-                return;
+                //filterContext.HttpContext.GetOwinContext().Authentication.SignOut();
+                filterContext.Result = new RedirectToRouteResult(
+            new RouteValueDictionary {{ "Controller", "Account" },
+                                      { "Action", "LogOff" } });
+                //filterContext.HttpContext.Response.Redirect("/Home");
+               
+                //return;
             }
 
             base.OnActionExecuting(filterContext);
