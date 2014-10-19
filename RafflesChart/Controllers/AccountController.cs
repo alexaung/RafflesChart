@@ -72,7 +72,7 @@ namespace RafflesChart.Controllers
                     //item.Password = "blahblah";
                     if ( string.IsNullOrEmpty( item.Password) ==false &&  item.Password.Length < 30)
                     { 
-                        var user = db.Users.FirstOrDefault(x => x.UserName == item.Login);
+                        var user = db.Users.FirstOrDefault(x => x.Email == item.Login);
                         if (user != null)
                         {
                             var tk = UserManager.GeneratePasswordResetToken(user.Id);
@@ -1035,7 +1035,7 @@ namespace RafflesChart.Controllers
 
         }
 
-        private List<char> AsciiNumber()
+        private static List<char> AsciiNumber()
         {
             var az = Enumerable.Range('A', 'Z' - 'A' + 1).
                       Select(c => (char)c);
@@ -1046,19 +1046,8 @@ namespace RafflesChart.Controllers
 
         }
 
-        [AllowAnonymous]
-        public ActionResult GetGuestCaptcha()
-        {
-            string cpt;
-            byte[] bytes;
-            GenerateCaptcha(out cpt, out bytes);
-          
-            Session["GuestCaptcha"] = cpt;
-            return File(bytes, "image/png");
-         
-        }
 
-        private void GenerateCaptcha(out string cpt, out byte[] bytes)
+        public static void GenerateCaptcha(out string cpt, out byte[] bytes)
         {
             Bitmap Bmp = new Bitmap(100, 20);
             Graphics gx = Graphics.FromImage(Bmp);

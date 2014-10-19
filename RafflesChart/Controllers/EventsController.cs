@@ -134,6 +134,19 @@ namespace RafflesChart.Controllers
             return Json(true);
         }
 
+
+        [AllowAnonymous]
+        public ActionResult GetGuestCaptcha()
+        {
+            string cpt;
+            byte[] bytes;
+          AccountController.GenerateCaptcha(out cpt, out bytes);
+
+            Session["GuestCaptcha"] = cpt;
+            return File(bytes, "image/png");
+
+        }
+
         [HttpPost]
         public async Task<ActionResult> Register(int eventId)
         {
