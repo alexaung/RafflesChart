@@ -50,8 +50,8 @@ namespace RafflesChart.Controllers {
         {
             ViewBag.Message = "Disclaimer";
             SendContactEmail(vm.From, vm.Subject, vm.Message);
-            ViewBag.Sent = "1";
-            return View();
+            TempData["Sent"] = "1";
+            return RedirectToAction("Contact");
         }
 
         public void SendContactEmail(string from, string subject, string message)
