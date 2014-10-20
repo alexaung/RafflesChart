@@ -30,6 +30,10 @@ namespace RafflesChart.App_Start
             {
                 return;
             }
+            if (ctx.Request.Url.AbsolutePath.Contains("/Home"))
+            {
+                return;
+            }
            if( ctx.Request.Url.AbsolutePath.Contains("/Login")){
                return;                
             }

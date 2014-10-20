@@ -210,6 +210,7 @@
     <Compile Include="App_Start\SessionExpireFilter.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ContactViewModel.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SchemesController.cs" />
@@ -643,6 +644,10 @@
     <Content Include="Views\Account\UserGuide.cshtml" />
     <Content Include="Views\Account\ScriptWriting.cshtml" />
     <Content Include="Views\Account\Tutorial.cshtml" />
+    <Content Include="Views\Home\Privacy.cshtml" />
+    <Content Include="Views\Home\Disclaimer.cshtml" />
+    <Content Include="Views\Emails\ContactEmail.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
     <None Include="Views\Schemes\_CreateOrEditA.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -658,7 +663,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
