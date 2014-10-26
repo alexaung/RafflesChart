@@ -356,17 +356,16 @@ namespace RafflesChart.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [CaptchaMvc.Attributes.CaptchaVerify("Captcha is not valid")]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                string cpt = Session["Captcha"] as string;
-
-                if (!model.Captcha.Equals(cpt))
+                if (!CaptchaMvc.HtmlHelpers.CaptchaHelper.IsCaptchaValid(this, "error"))
                 {
-                    ModelState.AddModelError("", "Wrong Captcha!");
-                    return View(model);
-                } 
+                    ModelState.AddModelError("captcha", "Invalid captcha");
+                    return View();
+                }
                 var user = new ApplicationUser() { 
                     Name = model.Name,
                     PhoneNumber = model.PhoneNumber,
@@ -381,7 +380,7 @@ namespace RafflesChart.Controllers
                 //var password = Membership.GeneratePassword(passwordValidator.RequiredLength, 0);
 
                 var txt = shuffle<char>(AsciiNumber());
-                cpt = String.Join("", txt.Take(6).ToArray());
+                var cpt = String.Join("", txt.Take(6).ToArray());
                 IdentityResult result = await UserManager.CreateAsync(user, cpt);
 
 
@@ -1062,6 +1061,7 @@ namespace RafflesChart.Controllers
             var cvtr = new ImageConverter();
             bytes = cvtr.ConvertTo(Bmp, typeof(byte[])) as byte[];
         }
+
 
         [AllowAnonymous]
         public ActionResult GetCaptcha()

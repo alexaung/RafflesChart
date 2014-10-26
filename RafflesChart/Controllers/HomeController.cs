@@ -22,6 +22,24 @@ namespace RafflesChart.Controllers {
         }
 
         [AllowAnonymous]
+        public ActionResult GetCaptcha()
+        {
+            string cpt;
+            byte[] bytes;
+            AccountController.GenerateCaptcha(out cpt, out bytes);
+
+            //var mem = new System.IO.FileStream(@"d:\zarni\ctcha.jpeg", FileMode.Create);
+            //Bmp.Save(@"d:\zarni\ctcha4.png", System.Drawing.Imaging.ImageFormat.Png);
+            //var stream = new MemoryStream();
+            //Bmp.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+            Session["Captcha"] = cpt;
+            return File(bytes, "image/png");
+            //Response.BinaryWrite(bytes);
+
+            // return View();
+        }
+
+        [AllowAnonymous]
         public ActionResult Contact() {
             ViewBag.Message = "Contact Us";
 
@@ -48,7 +66,15 @@ namespace RafflesChart.Controllers {
         [AllowAnonymous]
         public ActionResult Contact(ContactViewModel vm)
         {
+            
             ViewBag.Message = "Disclaimer";
+
+            if (!CaptchaMvc.HtmlHelpers.CaptchaHelper.IsCaptchaValid(this, "error"))
+             {
+                 ModelState.AddModelError("captcha", "Invalid captcha");
+                return View();
+            }
+
             SendContactEmail(vm.From, vm.Subject, vm.Message);
             TempData["Sent"] = "1";
             return RedirectToAction("Contact");

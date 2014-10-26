@@ -5,7 +5,7 @@
     ViewBag.Title = "Event";
     var reg = Html.ActionAuthorized("Edit", "Events");
     var ep = TempData["EmailedPassword"] as string;
-    var gr = TempData["GuestSuccess"] as string;
+    
 }
 <script type="text/javascript" src="~/Scripts/app/event.js"></script>
 <h2>Index</h2>
@@ -14,10 +14,7 @@
     <p class="label label-info">@TempData["EmailedPassword"] </p>
 }
 
-@if (!string.IsNullOrEmpty(gr))
-{
-    <p class="label label-info">@TempData["GuestSuccess"] </p>
-}
+
 <p>
     @if (Html.ActionAuthorized("Create", "Events"))
     {

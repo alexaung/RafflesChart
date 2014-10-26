@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CaptchaMvc.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +13,8 @@ namespace RafflesChart
     {
         protected void Application_Start()
         {
+            CaptchaUtils.CaptchaManager.StorageProvider = new SessionStorageProvider();
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

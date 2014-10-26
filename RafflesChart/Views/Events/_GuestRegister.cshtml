@@ -1,8 +1,15 @@
 ﻿@model RafflesChart.Models.SearchUser
+@using CaptchaMvc.HtmlHelpers;
+
+@{
+    var captcha = Html.Captcha("Get Another", "Input", 4);
+}
 
 <div>
     <span id="captchaError" class="label label-danger"></span>
 </div>
+@using (Html.BeginForm("AjaxForm2", "Home", FormMethod.Post, new {@id = "ajax"}))
+{
   <div class="form-group">@Html.HiddenFor(model => model.EventId, new { @id = "eventid" })
     @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -26,46 +33,50 @@
             @Html.ValidationMessageFor(model => model.PhoneNumber)
         </div>
     </div>
- <div class="form-group">
-        @Html.LabelFor(model => model.Captcha, new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Captcha, new { @class = "form-control", @id = "captcha" })
-            <br />
-            <img src="@Url.Content("~/Events/GetGuestCaptcha")" />
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+       @captcha
+       
+    </div>
+    
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input id="guestSubmit" type="submit" value="Register" class="btn btn-default" />
         </div>
     </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input id="guestSubmit" type="submit" value="Register" class="btn btn-default" />
-            </div>
-        </div>
+}
+    <script src="~/Scripts/jquery-2.1.1.js"></script>
+    <script>
+        $(function () {
+            $('#CaptchaDeText').siblings("a").show()
+            $('#guestSubmit').click(function () {
+                var vm = {};
+                vm.Email = $('#email').val();
+                vm.PhoneNumber = $('#phonenumber').val();
+                vm.Captcha = $('#CaptchaInputText').val();
+                vm.CaptchaChallenge = $('#CaptchaDeText').val();
+                vm.Name = $('#name').val();
+                vm.EventId = $('#eventid').val();
+                console.log(vm);
+                $.ajax({
+                    url: '/Events/GuestRegister',
+                    method: 'POST',
+                    data: $('#ajax').serialize(),
+                    dataType: 'JSON',
+                    success: function (data) {
+                        if (data.Message == 'OK') {
+                            document.location.href = "/Events/EventRegisterMessage";
+                        } else {
+                            $('#captchaError').text('Wrong Captcha!');
+                            $('#@captcha.BuildInfo.ImageElementId').attr('src', data.Captcha.@captcha.BuildInfo.ImageElementId);
+                            $('#@captcha.BuildInfo.TokenElementId').attr('value', data.Captcha.@captcha.BuildInfo.TokenElementId);
+                            $('#@captcha.BuildInfo.InputElementId').attr('value', '');
+                        }
 
-<script src="~/Scripts/jquery-2.1.1.js"></script>
-<script>
-    $(function () {
-        $('#guestSubmit').click(function () {
-            var vm = {};
-            vm.Email = $('#email').val();
-            vm.PhoneNumber = $('#phonenumber').val();
-            vm.Captcha = $('#captcha').val();
-            vm.Name = $('#name').val();
-            vm.EventId = $('#eventid').val();
-            console.log(vm);
-            $.ajax({
-                url: '/Events/GuestRegister',
-                method: 'POST',
-                data: vm,
-                dataType: 'JSON',
-                success: function (data) {
-                    if (data) {
-                        document.location.href = "/Events/";
-                    } else {
-                        $('#captchaError').text('Wrong Captcha!');
                     }
-                    
-                }                    
+                });
+                return false;
             });
-            return false;
         });
-    });
-</script>
+    </script>

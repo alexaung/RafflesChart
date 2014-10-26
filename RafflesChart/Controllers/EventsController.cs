@@ -10,6 +10,10 @@ using System.Web.Mvc;
 using RafflesChart.Models;
 using System.Web.Security;
 using Postal;
+using CaptchaMvc.Controllers;
+using CaptchaMvc.Infrastructure;
+using CaptchaMvc.Attributes;
+using CaptchaMvc.Interface;
 
 namespace RafflesChart.Controllers
 {
@@ -17,6 +21,11 @@ namespace RafflesChart.Controllers
     public class EventsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        [AllowAnonymous]
+        public ActionResult EventRegisterMessage(){
+            return View();
+        }
 
         [HttpPost]
         public ActionResult GetEventDate(int i){
@@ -110,15 +119,28 @@ namespace RafflesChart.Controllers
         [HttpPost]
         public async Task<ActionResult> GuestRegister(SearchUser suser)
         {
+            if (!CaptchaMvc.HtmlHelpers.CaptchaHelper.IsCaptchaValid(this, "error"))
+            {
+
+                    IUpdateInfoModel captchaValue = CaptchaMvc.HtmlHelpers.CaptchaHelper.GenerateCaptchaValue(this,4);
+                
+                //ModelState.AddModelError("", "Wrong Captcha!");
+                return Json(new
+                {
+                    Message = "Captcha is not valid",
+                    Captcha =
+                new Dictionary<string, string>
+                                    {
+                                        {captchaValue.ImageElementId, captchaValue.ImageUrl},
+                                        {captchaValue.TokenElementId, captchaValue.TokenValue}
+                                    }
+                });
+            }
+
             if (ModelState.IsValid)
             {
-                string cpt = Session["GuestCaptcha"] as string;
-
-                if (!suser.Captcha.Equals(cpt))
-                {
-                    //ModelState.AddModelError("", "Wrong Captcha!");
-                    return Json(false);
-                }
+                //string cpt = Session["GuestCaptcha"] as string;
+                               
             }
             var evtuser = new EventGuestUser();
             evtuser.Email = suser.Email;
@@ -129,9 +151,12 @@ namespace RafflesChart.Controllers
             TempData["GuestSuccess"] = "Thanks for signing up. See you at the event.";
             await db.SaveChangesAsync();
             var evtdetail = db.Events.FirstOrDefault(x => x.Id == suser.EventId);
-            SendEventReminderAsync(true, evtdetail, suser.Email);
+            await SendEventReminderAsync(true, evtdetail, suser.Email);
 
-            return Json(true);
+            return Json(new
+                 {
+                     Message = "OK"
+                 });
         }
 
 
@@ -171,19 +196,19 @@ namespace RafflesChart.Controllers
 				db.EventUsers.Add(evtuser);
 			}
             await db.SaveChangesAsync();
-            SendEventReminderAsync(register, evtdetail, useremail);
+            await SendEventReminderAsync(register, evtdetail, useremail);
             
             return RedirectToAction("Index");
            
         }
 
-        private  void SendEventReminderAsync(bool register, Event evtfound, string email)
+        private  async Task SendEventReminderAsync(bool register, Event evtfound, string email)
         {
             dynamic mail = new Email("Event");
             mail.To = email;
             mail.Event = evtfound;
             mail.Register = register;
-            mail.SendAsync();
+            await mail.SendAsync();
         }
 
         // POST: Events/Create

@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "EventRegisterMessage";
+    var gr = TempData["GuestSuccess"] as string;
+}
+<h2>Registration Acknowledgement</h2>
+<div>
+   
+    @if (!string.IsNullOrEmpty(gr))
+    {
+        <p class="alert-success">@TempData["GuestSuccess"] </p>
+    }
+</div>
+

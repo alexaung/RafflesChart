@@ -37,11 +37,27 @@ namespace RafflesChart.App_Start
            if( ctx.Request.Url.AbsolutePath.Contains("/Login")){
                return;                
             }
+           if (ctx.Request.Url.AbsolutePath.Contains("Captcha"))
+           {
+               return;
+           }
+           if (ctx.Request.Url.AbsolutePath.Contains("Forgot"))
+           {
+               return;
+           }
+           if (ctx.Request.Url.AbsolutePath.Contains("Reset"))
+           {
+               return;
+           }
            if (ctx.Request.Url.AbsolutePath.Contains("/LogOff"))
            {
                return;
            }
            if (ctx.Request.Url.AbsolutePath.Contains("/Events"))
+           {
+               return;
+           }
+           if (ctx.Request.Url.AbsolutePath.Contains("EventRegisterMessage"))
            {
                return;
            }

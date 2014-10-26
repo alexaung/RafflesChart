@@ -1,6 +1,9 @@
 ﻿@model RafflesChart.Models.RegisterViewModel
+@using CaptchaMvc.HtmlHelpers;
+
 @{
     ViewBag.Title = "Register";
+    var captcha = Html.Captcha("Get Another Image", "Please enter the text", 4);
 }
 
 <h2>@ViewBag.Title.</h2>
@@ -31,9 +34,10 @@
     <div class="form-group">
         <label class="col-md-2 control-label">Captcha</label>
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Captcha, new { @class = "form-control" })
+            @captcha
             <br />
-            <img src="@Url.Content("~/Account/GetCaptcha")" />
+            @Html.ValidationMessage("captcha", new { @class = "text-danger" })
+
         </div>
     </div>
     <div class="form-group">
@@ -53,4 +57,14 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/jquery-2.1.1.js"></script>
+<script>
+    $(function () {
+        $('#CaptchaDeText').siblings("a").show()
+
+    });
+</script>
+
+
 }
+

@@ -15,6 +15,8 @@ namespace RafflesChart.Models
 
         public string Captcha { get; set; }
 
+        public string CaptchaChallenge { get; set; }
+
         public int EventId { get; set; }
     }
 }

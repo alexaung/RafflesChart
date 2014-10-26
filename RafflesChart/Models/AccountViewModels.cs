@@ -70,8 +70,7 @@ namespace RafflesChart.Models
         [Display(Name = "Agree to terms and conditions")]
         public bool IsAgreed { get; set; }
 
-        [Required]
-        public string Captcha { get; set; }
+        //public string Captcha { get; set; }
     }
 
     public class ResetPasswordViewModel

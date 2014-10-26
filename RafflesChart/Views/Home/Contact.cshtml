@@ -1,4 +1,5 @@
 ﻿@model RafflesChart.Controllers.ContactViewModel
+@using CaptchaMvc.HtmlHelpers;
 
 @{
     ViewBag.Title = "Contact";
@@ -7,6 +8,7 @@
 <h2>Contact</h2>
 
 @{
+    var captcha = Html.Captcha("Get Another Image", "Please enter the text", 4);
     var sentMessage = "";
     if ((TempData["Sent"]) != null)
     {
@@ -14,7 +16,8 @@
     }
 }
 
-<p class="alert-success" >@sentMessage</p>
+<div class="alert-success col-md-4" >@sentMessage</div>
+<br />
 
 @using (Html.BeginForm()) 
 {
@@ -22,7 +25,7 @@
     
     <div class="form-horizontal">
        
-        <hr />
+       
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.From, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -43,19 +46,36 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Message, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Message, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.Message, new { @class = "form-control" , @style = "width:300px;" } )
                 @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="row">
+                <div class="col-md-offset-2 col-md-4">
+                    @captcha
+                   <br />
+                    @Html.ValidationMessage("captcha", new { @class = "text-danger" })
+                </div>
+               
+                
+            </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Send" class="btn btn-default" />
+                </div>
             </div>
         </div>
-    </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
+
+<script src="~/Scripts/jquery-2.1.1.js"></script>
+<script>
+        $(function () {
+            $('#CaptchaDeText').siblings("a").show()
+            
+        });
+</script>
+
