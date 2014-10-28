@@ -147,7 +147,7 @@ namespace RafflesChart.Controllers
                             where u.Email == cu.Login
                             select new { CU = cu, UID = u };
 
-                foreach (var ur in users)
+                foreach (var ur in users.OrderBy(x=> x.UID.))
                 {
                     var item = new UserViewModel();
                     item.CiAdd = ur.CU.CI_Add;
@@ -198,8 +198,19 @@ namespace RafflesChart.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Details(string email)
         {
-            var user = await UserManager.FindByEmailAsync(email);
-            return View(user);
+            var appuser = UserManager.FindByEmail(email);
+            ChartUser chuser;
+            using (var db = new ApplicationDbContext())
+            {
+                chuser = db.ChartUsers.FirstOrDefault(x => x.Id.ToString() == appuser.Id);
+
+            }
+            var user = new ChartUserViewModel()
+            {
+                ApplicationUserModel = appuser,
+                ChartUserModel = chuser
+            };
+            return View(user);       
         }
 
         [Authorize(Roles = "Admin")]
