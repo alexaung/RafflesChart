@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Account Register";
+    var gr = TempData["EmailedPassword"] as string;
+}
+<h2>Registration Acknowledgement</h2>
+<div>
+
+    @if (!string.IsNullOrEmpty(gr))
+    {
+        <p class="alert-success">@TempData["EmailedPassword"] </p>
+    }
+</div>
+

@@ -7,7 +7,8 @@ namespace RafflesChart.Controllers
 {
     public class ContactViewModel
     {
-        public string From { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
 
         public string Subject { get; set; }
 

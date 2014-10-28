@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -64,7 +65,7 @@ namespace RafflesChart.Controllers {
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Contact(ContactViewModel vm)
+        public async Task<ActionResult> Contact(ContactViewModel vm)
         {
             
             ViewBag.Message = "Disclaimer";
@@ -75,18 +76,19 @@ namespace RafflesChart.Controllers {
                 return View();
             }
 
-            SendContactEmail(vm.From, vm.Subject, vm.Message);
+            await SendContactEmail(vm.Email, vm.Subject, vm.Message,vm.Name);
             TempData["Sent"] = "1";
             return RedirectToAction("Contact");
         }
 
-        public void SendContactEmail(string from, string subject, string message)
+        public async Task SendContactEmail(string email, string subject, string message,string name)
         {
             dynamic mail = new Email("ContactEmail");
-            mail.From = from;
+            mail.Email = email;
             mail.Subject = subject;
             mail.Message = message;
-            mail.SendAsync();
+            mail.Name = name;
+            await mail.SendAsync();
         }
 
         [Authorize(Roles = "Admin,SpecialMember")]

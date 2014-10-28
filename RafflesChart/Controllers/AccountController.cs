@@ -103,6 +103,11 @@ namespace RafflesChart.Controllers
             return View();
         }
 
+        [AllowAnonymous]
+        public ActionResult AccountRegisterMessage()
+        {
+            return View();
+        }
 
         public ApplicationUserManager UserManager {
             get
@@ -355,8 +360,7 @@ namespace RafflesChart.Controllers
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        [CaptchaMvc.Attributes.CaptchaVerify("Captcha is not valid")]
+        [ValidateAntiForgeryToken]        
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -410,7 +414,7 @@ namespace RafflesChart.Controllers
 	                } 
                     await SendUserRegistrationEmailAsync(model.Email, cpt);
                     TempData["EmailedPassword"] = "Your password has been emailed. Please use this to login.";
-                    return RedirectToAction("Index", "Events");
+                    return RedirectToAction("AccountRegisterMessage", "Account");
                 }
                 else
                 {
@@ -619,6 +623,14 @@ namespace RafflesChart.Controllers
                     {
                         var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                         await SignInAsync(user, isPersistent: false);
+                        
+                        using (var db = new ApplicationDbContext())
+                        {
+                            var cuser = db.ChartUsers.FirstOrDefault(x => x.Login == user.Email);
+                            cuser.Password = model.NewPassword;
+                            db.SaveChanges();
+                        }
+                        // return RedirectToAction("ResetPasswordConfirmation", "Account");
                         return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
                     }
                     else

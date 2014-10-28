@@ -659,6 +659,7 @@
     <Content Include="Views\Emails\ContactEmail.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Events\EventRegisterMessage.cshtml" />
+    <Content Include="Views\Account\AccountRegisterMessage.cshtml" />
     <None Include="Views\Schemes\_CreateOrEditA.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
