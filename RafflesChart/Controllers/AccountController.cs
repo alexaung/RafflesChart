@@ -147,7 +147,7 @@ namespace RafflesChart.Controllers
                             where u.Email == cu.Login
                             select new { CU = cu, UID = u };
 
-                foreach (var ur in users.OrderBy(x=> x.UID.))
+                foreach (var ur in users)
                 {
                     var item = new UserViewModel();
                     item.CiAdd = ur.CU.CI_Add;
