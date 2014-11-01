@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace RafflesChart.Models
 {
@@ -9,6 +10,10 @@ namespace RafflesChart.Models
     {
         public ChartUser ChartUserModel { get; set; }
         public ApplicationUser ApplicationUserModel { get; set; }
+
+        public SelectListItem[] Schemes { get; set; }
+
+        public string SelectedScheme {get; set;}
     }
 
     [System.ComponentModel.DataAnnotations.Schema.Table("User")]

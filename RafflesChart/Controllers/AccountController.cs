@@ -120,34 +120,48 @@ namespace RafflesChart.Controllers
             }
         }
 
+        [HttpGet]        
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> GetUsersJson(SearchUser suser)
+        {
+            var vm = await GetUserViewModel(suser);
+            return Json(vm, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> GetUsers(SearchUser suser)
         {
+            var vm = await GetUserViewModel(suser);
+            return View(vm);
+        }
+
+        private async Task<List<UserViewModel>> GetUserViewModel(SearchUser suser)
+        {
             using (var db = new ApplicationDbContext())
             {
-                var usr = suser.Name?? "";
+                var usr = suser.Name ?? "";
                 var email = suser.Email ?? "";
                 var ph = suser.PhoneNumber ?? "";
                 var uids = await db.Users.Where(x => x.Name.StartsWith(usr) &&
                                         x.Email.StartsWith(email) &&
                                         x.PhoneNumber.StartsWith(ph)
-                            ).Select(x => new { x.Name, x.Email, x.PhoneNumber,Id = x.Id,x.Roles,x.SchemeId}).ToArrayAsync();
+                            ).Select(x => new { x.Name, x.Email, x.PhoneNumber, Id = x.Id, x.Roles, x.SchemeId }).ToArrayAsync();
 
                 var schemes = await db.Schemes.ToListAsync();
-                
+
                 List<UserViewModel> vm = new List<UserViewModel>();
                 var roles = await db.Roles.ToListAsync();
                 var ids = uids.Select(x => x.Email);
                 var usersql = await (from cu in db.ChartUsers
-                            where ids.Contains(cu.Login)
-                                  select cu).ToArrayAsync();
+                                     where ids.Contains(cu.Login)
+                                     select cu).ToArrayAsync();
                 var users = from u in uids
                             from cu in usersql
                             where u.Email == cu.Login
                             select new { CU = cu, UID = u };
 
-                foreach (var ur in users.OrderBy(x=> x.UID.))
+                foreach (var ur in users)
                 {
                     var item = new UserViewModel();
                     item.CiAdd = ur.CU.CI_Add;
@@ -158,16 +172,16 @@ namespace RafflesChart.Controllers
                     item.Live = ur.CU.Live;
                     item.Name = ur.UID.Name;
                     item.PatternAdd = ur.CU.Pattern_Add;
-                    
+
                     item.Scanner = ur.CU.Scanner;
                     item.ScannerAdd = ur.CU.Scanner_Add;
                     item.Scheme = "na";
                     item.SignalAdd = ur.CU.Signal_Add;
                     item.TrendAdd = ur.CU.Trend_Add;
                     var sql = (from r in roles
-                              from r2 in ur.UID.Roles
-                              where r.Id == r2.RoleId
-                              select r.Name).ToList();
+                               from r2 in ur.UID.Roles
+                               where r.Id == r2.RoleId
+                               select r.Name).ToList();
                     var rr = string.Join(",", sql);
                     item.Role = rr ?? "User";
                     if (ur.UID.SchemeId.HasValue)
@@ -176,22 +190,37 @@ namespace RafflesChart.Controllers
                     }
                     vm.Add(item);
                 }
-                return View(vm);
+                return vm;
             }
         }
 
         [Authorize (Roles="Admin")]
-        public ActionResult Edit(string email)
+        public async Task<ActionResult> Edit(string email)
         {
+            var user = new ChartUserViewModel();
             var appuser = UserManager.FindByEmail(email);
             ChartUser chuser;
             using (var db = new ApplicationDbContext())
             {
                 chuser = db.ChartUsers.FirstOrDefault(x => x.Id.ToString() == appuser.Id);
-                
+
+                var schemes = await db.Schemes.ToArrayAsync();
+
+                user.Schemes = schemes.Select(s => new SelectListItem()
+                {
+                    Text = string.Format("({0}) {1}", s.Name, s.Description),
+                    Value = s.Id.ToString()
+                }).ToArray();
+                user.ApplicationUserModel = appuser;
+                user.ChartUserModel = chuser;
+                user.SelectedScheme = appuser.SchemeId.ToString();
             }
-            var user = new ChartUserViewModel() { ApplicationUserModel = appuser ,
-                                    ChartUserModel = chuser};
+           
+           
+            using (var db = new ApplicationDbContext())
+            {
+            }
+           
             return View(user);
         }
 
@@ -288,6 +317,11 @@ namespace RafflesChart.Controllers
             var us = await db.Users.Where(u => u.Email == user.Email).FirstOrDefaultAsync();
             us.Name = user.Name;
             us.PhoneNumber = user.PhoneNumber;
+
+            if (string.IsNullOrEmpty(vm.SelectedScheme) == false)
+            {
+                us.SchemeId = int.Parse( vm.SelectedScheme);
+            }
 
             var cus = await db.ChartUsers.Where(u => u.Login == user.Email).FirstOrDefaultAsync();
             cus.Scanner = chrtuser.Scanner;

@@ -41,6 +41,14 @@ namespace RafflesChart.Controllers {
         }
 
         [AllowAnonymous]
+        public ActionResult Sort()
+        {
+            ViewBag.Message = "Contact Us";
+
+            return View();
+        }
+
+        [AllowAnonymous]
         public ActionResult Contact() {
             ViewBag.Message = "Contact Us";
 

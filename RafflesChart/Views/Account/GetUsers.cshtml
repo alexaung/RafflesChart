@@ -4,14 +4,18 @@
     ViewBag.Title = "User List";
 }
 
-<h2>User List</h2>
-
-
+<h2>User List3</h2>
+                      <div ng-controller="usercontroller">
+                          <a href="#" ng-click="sortusers()">sort by name</a>
+                          <div ng-repeat="user in users|orderBy:sortOrder">
+                              {{user.Name}}
+                          </div>
+                      </div>
                       @Html.Partial("_SearchUser",new RafflesChart.Models.SearchUser())
-<table class="table">
+<table class="table" >
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+           <a href="#" ng-model="nameheader">Name</a>
         </th>
         <th>
             @Html.DisplayNameFor(model => model.PhoneNumber)
@@ -108,4 +112,4 @@
 
 </table>
 
-
+                      <script src="~/Scripts/app/user.js"></script>

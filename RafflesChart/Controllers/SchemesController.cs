@@ -47,17 +47,40 @@ namespace RafflesChart.Controllers
             return View(await db.Schemes.ToListAsync());
         }
 
-        // GET: Schemes/Details/5
-        public async Task<ActionResult> Details(int? id)
+        [HttpGet]
+        public async Task<ActionResult> DetailJson(int? id)
         {
-            if (id == null) {
+            if (id == null)
+            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
             Scheme scheme = await db.Schemes
                                         .Where(s => s.Id == id)
                                         .FirstOrDefaultAsync();
-            if (scheme == null) {
+            if (scheme == null)
+            {
+                return HttpNotFound();
+            }
+
+            var vm = GetSchemeViewModel(scheme);
+
+            return Json(vm , JsonRequestBehavior.AllowGet);
+        }
+
+        // GET: Schemes/Details/5
+        public async Task<ActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Scheme scheme = await db.Schemes
+                                        .Where(s => s.Id == id)
+                                        .FirstOrDefaultAsync();
+            if (scheme == null)
+            {
                 return HttpNotFound();
             }
 
@@ -65,6 +88,8 @@ namespace RafflesChart.Controllers
 
             return View(vm);
         }
+
+       
 
         // GET: Schemes/Create
         public ActionResult Create()
@@ -162,6 +187,23 @@ namespace RafflesChart.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(SchemeViewModel viewModel) {
             if (ModelState.IsValid) {
+
+
+                var users = await (from user in db.Users 
+                            from chartuser in db.ChartUsers 
+                            where user.Email == chartuser.Login && 
+                                    user.SchemeId == viewModel.Id
+                            select chartuser ).ToArrayAsync() ;
+                foreach (var user in users)
+                {
+                    user.CI_Add = viewModel.CIAddFlag;
+                    user.CustomIndicators = viewModel.CustomIndicatorsFlag;
+                    user.Pattern_Add = viewModel.PatternAddFlag;
+                    user.Scanner = viewModel.ScannerFlag;
+                    user.Scanner_Add = viewModel.ScannerAddFlag;
+                    user.Signal_Add = viewModel.SignalAddFlag;
+                    user.Trend_Add = viewModel.TrendAddFlag;                    
+                }
                 Scheme scheme = await db.Schemes
                                         .Where(s => s.Id == viewModel.Id)
                                         .FirstOrDefaultAsync();
@@ -176,7 +218,7 @@ namespace RafflesChart.Controllers
                 scheme.Scanners = viewModel.Scanners;
 
                 scheme.ScannerFlag = viewModel.ScannerFlag;
-                scheme.CustomIndicatorsFlag = viewModel.LiveFlag;
+                scheme.CustomIndicatorsFlag = viewModel.CustomIndicatorsFlag;
                 scheme.CIAddFlag = viewModel.CIAddFlag;
                 scheme.ScannerAddFlag = viewModel.ScannerAddFlag;
                 scheme.SignalAddFlag = viewModel.SignalAddFlag;
@@ -270,10 +312,12 @@ namespace RafflesChart.Controllers
                 var appuser = await db.Users.FirstOrDefaultAsync(x => x.Email == email);
                 var uid = Guid.Parse(appuser.Id);
                 var user = await db.ChartUsers.FirstOrDefaultAsync(x => x.Id == uid);
-                if (user == null) {
+                if (user == null)
+                {
                     errorEmails.Add(email);
                 }
-                else {                    
+                else {
+                   
                     var userId = user.Id;
 
                     user.Expires = vm.ExpiredDate.Value;
@@ -522,7 +566,14 @@ namespace RafflesChart.Controllers
                 BullBearTests = scheme.BullBearTests,
                 BackTests = scheme.BackTests,
                 PatternScanners = scheme.PatternScanners,
-                Scanners = scheme.Scanners
+                Scanners = scheme.Scanners,
+                ScannerAddFlag = scheme.ScannerAddFlag,
+                ScannerFlag = scheme.ScannerFlag,
+                CIAddFlag = scheme.CIAddFlag,
+                TrendAddFlag = scheme.TrendAddFlag,
+                SignalAddFlag = scheme.SignalAddFlag,
+                PatternAddFlag = scheme.PatternAddFlag,
+                CustomIndicatorsFlag = scheme.CustomIndicatorsFlag
             };
 
             return vm;
