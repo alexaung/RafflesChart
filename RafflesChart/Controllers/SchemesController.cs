@@ -319,6 +319,11 @@ namespace RafflesChart.Controllers
                 else {
                     var uid = Guid.Parse(appuser.Id);
                     var user = await db.ChartUsers.FirstOrDefaultAsync(x => x.Id == uid);
+                    if(user==null)
+                    {
+                        errorEmails.Add(email);
+                        continue;
+                    }
                     var userId = user.Id;
 
                     user.Expires = vm.ExpiredDate.Value;
@@ -430,6 +435,11 @@ namespace RafflesChart.Controllers
                 else {
                     var uid = Guid.Parse(appuser.Id);
                     var user = await db.ChartUsers.Where(u => u.Id == uid).FirstOrDefaultAsync();
+                    if (user == null)
+                    {
+                        errorEmails.Add(email);
+                        continue;
+                    }
                     appuser.ModifiedDate = DateTime.Now;
                     user.Expires = vm.ExpiredDate.Value;                 
 
