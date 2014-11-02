@@ -245,11 +245,11 @@ namespace RafflesChart.Controllers
                
                 var uids = await db.Users.Where(x => x.Name.StartsWith(usr) &&
                                         x.Email.StartsWith(email) &&
-                                        x.PhoneNumber.StartsWith(ph) 
+                                        x.PhoneNumber.StartsWith(ph)
                             ).Select(x => new { x.Name, x.Email, x.PhoneNumber, Id = x.Id, x.Roles, x.SchemeId,x.ModifiedDate }).ToArrayAsync();
-                
-                var schemes = await db.Schemes.ToListAsync();
 
+                var schemes = await db.Schemes.ToListAsync();
+                
                 List<UserViewModel> vm = new List<UserViewModel>();
                 var roles = await db.Roles.ToListAsync();
                 var ids = uids.Select(x => x.Email);
@@ -259,14 +259,14 @@ namespace RafflesChart.Controllers
                     ids =  uids.Where(x => x.SchemeId == selectedscheme).Select(x=> x.Email);
                 }
                 var usersql = await (from cu in db.ChartUsers
-                                     where ids.Contains(cu.Login)
-                                     select cu).ToArrayAsync();
+                            where ids.Contains(cu.Login)
+                                  select cu).ToArrayAsync();
                 var users = from u in uids
                             from cu in usersql
                             where u.Email == cu.Login
                             select new { CU = cu, UID = u };
 
-                foreach (var ur in users.OrderBy(x=>x.UID.ModifiedDate))
+                foreach (var ur in users.OrderBy(x=> x.UID.ModifiedDate))
                 {
                     var item = new UserViewModel();
                     var sql = (from r in roles
@@ -276,7 +276,7 @@ namespace RafflesChart.Controllers
                     var rr = string.Join(",", sql);
 
                     item.Name = ur.UID.Name;
-                    item.Email = ur.UID.Email;                   
+                    item.Email = ur.UID.Email;
                     item.PhoneNumber = ur.UID.PhoneNumber;
                     item.Role = rr ?? "User";
                     item.Scheme = "na";
@@ -291,7 +291,7 @@ namespace RafflesChart.Controllers
                     }
                     
                     item.Live = ur.CU.Live;
-                   
+                    
                     item.CustomIndicators = ur.CU.CustomIndicators; 
                     item.Scanner = ur.CU.Scanner;
 
@@ -339,7 +339,7 @@ namespace RafflesChart.Controllers
             using (var db = new ApplicationDbContext())
             {
                 chuser = db.ChartUsers.FirstOrDefault(x => x.Id.ToString() == appuser.Id);
-
+                
                 var schemes = await db.Schemes.ToArrayAsync();
 
                 user.Schemes = schemes.Select(s => new SelectListItem()
