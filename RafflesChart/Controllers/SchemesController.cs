@@ -311,14 +311,14 @@ namespace RafflesChart.Controllers
             foreach (string email in emails) {
              
                 var appuser = await db.Users.FirstOrDefaultAsync(x => x.Email == email);
-                var uid = Guid.Parse(appuser.Id);
-                var user = await db.ChartUsers.FirstOrDefaultAsync(x => x.Id == uid);
-                if (user == null)
+
+                if (appuser == null)
                 {
                     errorEmails.Add(email);
                 }
                 else {
-                   
+                    var uid = Guid.Parse(appuser.Id);
+                    var user = await db.ChartUsers.FirstOrDefaultAsync(x => x.Id == uid);
                     var userId = user.Id;
 
                     user.Expires = vm.ExpiredDate.Value;
@@ -422,13 +422,14 @@ namespace RafflesChart.Controllers
             var errorEmails = new List<string>();            
             foreach (string email in emails) {
                 var appuser = await db.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
-                var uid = Guid.Parse(appuser.Id);
-                var user = await db.ChartUsers.Where(u => u.Id == uid).FirstOrDefaultAsync();
+               
                 if (appuser == null)
                 {
                     errorEmails.Add(email);
                 }
                 else {
+                    var uid = Guid.Parse(appuser.Id);
+                    var user = await db.ChartUsers.Where(u => u.Id == uid).FirstOrDefaultAsync();
                     appuser.ModifiedDate = DateTime.Now;
                     user.Expires = vm.ExpiredDate.Value;                 
 
