@@ -568,6 +568,7 @@ namespace RafflesChart.Controllers
                 BullBearTests = scheme.BullBearTests,
                 BackTests = scheme.BackTests,
                 PatternScanners = scheme.PatternScanners,
+                LiveFlag = scheme.LiveFlag,
                 Scanners = scheme.Scanners,
                 ScannerAddFlag = scheme.ScannerAddFlag,
                 ScannerFlag = scheme.ScannerFlag,

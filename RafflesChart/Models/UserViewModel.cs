@@ -39,5 +39,7 @@ namespace RafflesChart.Models
         public double? ModifiedDate { get; set; }
 
         public bool Picked { get; set; }
+
+        public DateTime ExpiresDate { get; set; }
     }
 }

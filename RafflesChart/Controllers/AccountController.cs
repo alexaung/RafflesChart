@@ -218,7 +218,7 @@ namespace RafflesChart.Controllers
               data.Append("," + item.PhoneNumber);
               data.Append("," + item.Role);
               data.Append("," + item.Scheme);
-              data.Append(",\"" + item.Expires + "\"");
+              data.Append(",\"" + item.ExpiresDate + "\"");
               data.Append("," + item.Live);
                           
               data.Append("," + item.CustomIndicators);
@@ -290,7 +290,7 @@ namespace RafflesChart.Controllers
                     {
                         item.ModifiedDate = new TimeSpan(ur.UID.ModifiedDate.Value.AddHours(-8).Ticks - d1.Ticks ).TotalMilliseconds;
                     }
-                    
+                    item.ExpiresDate = ur.CU.Expires;
                     item.Live = ur.CU.Live;
                     
                     item.CustomIndicators = ur.CU.CustomIndicators; 
