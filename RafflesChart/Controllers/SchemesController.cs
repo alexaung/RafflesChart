@@ -196,6 +196,7 @@ namespace RafflesChart.Controllers
                             select chartuser ).ToArrayAsync() ;
                 foreach (var user in users)
                 {
+                    user.Live = viewModel.LiveFlag;
                     user.CI_Add = viewModel.CIAddFlag;
                     user.CustomIndicators = viewModel.CustomIndicatorsFlag;
                     user.Pattern_Add = viewModel.PatternAddFlag;
@@ -216,7 +217,7 @@ namespace RafflesChart.Controllers
                 scheme.BackTests = viewModel.BackTests;
                 scheme.PatternScanners = viewModel.PatternScanners;
                 scheme.Scanners = viewModel.Scanners;
-
+                scheme.LiveFlag = viewModel.LiveFlag;
                 scheme.ScannerFlag = viewModel.ScannerFlag;
                 scheme.CustomIndicatorsFlag = viewModel.CustomIndicatorsFlag;
                 scheme.CIAddFlag = viewModel.CIAddFlag;
@@ -329,7 +330,7 @@ namespace RafflesChart.Controllers
                    user.Signal_Add     = scheme.SignalAddFlag  ;
                    user.Trend_Add    = scheme.TrendAddFlag  ;
                    user.Pattern_Add    = scheme.PatternAddFlag  ;
-                   
+                   user.Live = scheme.LiveFlag;
 
                     await db.UserBackTests.Where(bt => bt.UserId == userId).DeleteAsync();
                     await db.UserBullBearTests.Where(bt => bt.UserId == userId).DeleteAsync();

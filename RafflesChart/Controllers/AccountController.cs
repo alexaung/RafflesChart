@@ -178,6 +178,7 @@ namespace RafflesChart.Controllers
                 {                  
                     item.user.SchemeId = scheme;
                     item.user.ModifiedDate = DateTime.Now;
+                    item.cuser.Live = schemedb.LiveFlag;
                     item.cuser.CustomIndicators = schemedb.CustomIndicatorsFlag;
                     item.cuser.Scanner = schemedb.ScannerFlag;
                     item.cuser.CI_Add = schemedb.CIAddFlag;
@@ -294,7 +295,7 @@ namespace RafflesChart.Controllers
                     
                     item.CustomIndicators = ur.CU.CustomIndicators; 
                     item.Scanner = ur.CU.Scanner;
-
+                    
                     item.CiAdd = ur.CU.CI_Add;
                     item.ScannerAdd = ur.CU.Scanner_Add;
                     item.PatternAdd = ur.CU.Pattern_Add;                   

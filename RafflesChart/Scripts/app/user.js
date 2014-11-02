@@ -81,6 +81,7 @@ m.controller('usercontroller', ['$scope', '$http', function ($scope, $http) {
        .success(function (data) {
            
            $scope.scheme = data;
+           $("#ChartUserModel_Live").prop("checked", data.LiveFlag);
            $("#ChartUserModel_CI_Add").prop("checked",data.CIAddFlag);
            $("#ChartUserModel_CustomIndicators").prop("checked",data.CustomIndicatorsFlag);
            $("#ChartUserModel_Scanner").prop("checked",data.ScannerFlag);
