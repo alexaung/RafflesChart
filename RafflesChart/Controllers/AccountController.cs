@@ -266,7 +266,7 @@ namespace RafflesChart.Controllers
                             where u.Email == cu.Login
                             select new { CU = cu, UID = u };
 
-                foreach (var ur in users.OrderBy(x=> x.UID.ModifiedDate))
+                foreach (var ur in users.OrderByDescending(x=> x.UID.ModifiedDate))
                 {
                     var item = new UserViewModel();
                     var sql = (from r in roles
@@ -283,11 +283,11 @@ namespace RafflesChart.Controllers
                     
                     DateTime d1 = new DateTime(1970, 1, 1);
                     DateTime d2 = (DateTime)ur.CU.Expires;
-                    var x = new TimeSpan(d2.Ticks - d1.Ticks).TotalMilliseconds;
+                    var x = new TimeSpan(d2.AddHours(-8).Ticks - d1.Ticks).TotalMilliseconds;
                     item.Expires = x;
                     if (ur.UID.ModifiedDate.HasValue)
                     {
-                        item.ModifiedDate = new TimeSpan(ur.UID.ModifiedDate.Value.Ticks - d1.Ticks).TotalMilliseconds;
+                        item.ModifiedDate = new TimeSpan(ur.UID.ModifiedDate.Value.AddHours(-8).Ticks - d1.Ticks ).TotalMilliseconds;
                     }
                     
                     item.Live = ur.CU.Live;
