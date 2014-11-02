@@ -1,115 +1,160 @@
-﻿@model IEnumerable<RafflesChart.Models.UserViewModel>
+﻿@model RafflesChart.Models.SearchUserResult
 
-@{
-    ViewBag.Title = "User List";
-}
 
-<h2>User List3</h2>
-                      <div ng-controller="usercontroller">
-                          <a href="#" ng-click="sortusers()">sort by name</a>
-                          <div ng-repeat="user in users|orderBy:sortOrder">
-                              {{user.Name}}
-                          </div>
-                      </div>
-                      @Html.Partial("_SearchUser",new RafflesChart.Models.SearchUser())
-<table class="table" >
-    <tr>
-        <th>
-           <a href="#" ng-model="nameheader">Name</a>
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th> 
-        <th>
-            @Html.DisplayNameFor(model => model.Role)
-        </th> 
-        <th>
-            @Html.DisplayNameFor(model => model.Scheme)
-        </th> 
-        @*<th>
-            @Html.DisplayNameFor(model => model.Scanner)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CustomIndicators)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Live)
-        </th>   
-        <th>
-            @Html.DisplayNameFor(model => model.CiAdd)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ScannerAdd)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SignalAdd)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TrendAdd)
-        </th> <th>
-    @Html.DisplayNameFor(model => model.PatternAdd)
-</th>*@
-<th>
-    @Html.DisplayNameFor(model => model.Expires)
-</th>    
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>  
-            <td>
-                @Html.DisplayFor(modelItem => item.Role)
-            </td>  
-            <td>
-                @Html.DisplayFor(modelItem => item.Scheme)
-            </td> 
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Scanner)
-            </td>  
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomIndicators)
-            </td>  
-            <td>
-                @Html.DisplayFor(modelItem => item.Live)
-            </td>  
-            <td>
-                @Html.DisplayFor(modelItem => item.CiAdd)
-            </td> 
-            <td>
-                @Html.DisplayFor(modelItem => item.ScannerAdd)
-            </td> 
-            <td>
-                @Html.DisplayFor(modelItem => item.SignalAdd)
-            </td>   
-            <td>
-    @Html.DisplayFor(modelItem => item.TrendAdd)
-</td>      
-            <td>
-                @Html.DisplayFor(modelItem => item.PatternAdd)
-            </td>*@  
-            <td>
-                @Html.DisplayFor(modelItem => item.Expires)
-            </td>        
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { email = item.Email }) |
-                @Html.ActionLink("Details", "Details", new { email = item.Email }) |
-                @Html.ActionLink("Delete", "DeleteConfirm", new { email = item.Email })
-            </td>
-        </tr>
+    @{
+        ViewBag.Title = "User List";
+        var search = new RafflesChart.Models.SearchUser();
+        search.Schemes = Model.Schemes;
     }
 
-</table>
+@section Styles{
+<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+}
+    <h2>User List3</h2>
+                      <div ng-controller="usercontroller">
+                          @Html.Partial("_SearchUser", search)
+                          <div class="row">
+                            
+                                  <div class="col-md-1">
+                                      <input type="button" ng-disabled="PickedCount()==0" class="form-control" value="Delete" ng-click="pickconfirm=1" />
+                                      @*{{PickedCount()}}*@
+                                  </div>
+                                  <div ng-show="pickconfirm">
+                                      Confirm?
+                                      <a href="#" ng-click="DeleteAll()">Yes</a> &nbsp; &nbsp;
+                                      <a href="#" ng-click="pickconfirm=0">No</a>
+                                  </div>
+                              
+                          </div>
+                          <div class="row" style="margin-top: 5px;margin-bottom:12px">
+                            
+                                  <div class="col-md-1">
+                                      <input type="button" class="form-control" value="Scheme" ng-disabled="PickedCount()==0" ng-click="schemeconfirm=1" />
+                                  </div>
+                                  <div class="col-md-3" ng-show="schemeconfirm" style="white-space:nowrap">
+                                     
+                                      @Html.DropDownList("pickscheme", search.Schemes.AsEnumerable(), new { @class = "form-control" })
+                                      
+                                   </div>
+                              <div class="col-md-2" ng-show="schemeconfirm" style="padding-top:5px">
+                                  <a href="#" ng-click="ApplyScheme()">Apply</a> &nbsp; &nbsp;
+                                  <a href="#" ng-click="schemeconfirm=0">Cancel</a>
+                              </div>
+                             
+                        </div>
+                              <table class="table">
+                                  <tr>
+                                      <th>
+                                          <input type="checkbox" ng-model="allflag" ng-click="PickedAll()" /> All
+                                      </th>
+                                      <th>
+                                          <a href="#" ng-class="sorticon('Name')" ng-click="sortusers('Name')">Name</a>
+                                      </th>
+                                      <th>
+                                          <a href="#" ng-class="sorticon('PhoneNumber')" ng-click="sortusers('PhoneNumber')">Phone Number</a>
+                                      </th>
+                                      <th>
+                                          <a href="#" ng-class="sorticon('Email')" ng-click="sortusers('Email')">Email</a>
+                                      </th>
+                                      <th>
+                                          <a href="#" ng-class="sorticon('Role')" ng-click="sortusers('Role')">Role</a>
+                                      </th>
+                                      <th>
+                                          <a href="#" ng-class="sorticon('Scheme')" ng-click="sortusers('Scheme')">Scheme</a>
+                                      </th>
+                                      @*<th>
+                                @Html.DisplayNameFor(model => model.Scanner)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CustomIndicators)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Live)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CiAdd)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ScannerAdd)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SignalAdd)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TrendAdd)
+                            </th> <th>
+                        @Html.DisplayNameFor(model => model.PatternAdd)
+                    </th>*@
+                                      <th>
+                                          <a href="#" ng-class="sorticon('Expires')" ng-click="sortusers('Expires')">Expiry Date</a>
+                                      </th>
+                                      <th>
+                                          <a href="#" ng-class="sorticon('ModifiedDate')" ng-click="sortusers('ModifiedDate')">Modified Date</a>
+                                      </th>
+                                      <th></th>
+                                  </tr>
 
-                      <script src="~/Scripts/app/user.js"></script>
+                                  @*@foreach (var item in Model)
+                { }*@
+                                  <tr ng-repeat="user in users|orderBy:sortOrder">
+                                      <td>
+                                          <input type="checkbox" ng-model="user.Picked" /> 
+                                      </td>
+                                      <td>
+                                          {{user.Name}}
+                                      </td>
+                                      <td>
+                                          {{user.PhoneNumber}}
+                                      </td>
+                                      <td>
+                                          {{user.Email}}
+                                      </td>
+                                      <td>
+                                          {{user.Role}}
+                                      </td>
+                                      <td>
+                                          {{user.Scheme}}
+                                      </td>
+                                      @*<td>
+                                    @Html.DisplayFor(modelItem => item.Scanner)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CustomIndicators)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Live)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CiAdd)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ScannerAdd)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SignalAdd)
+                                </td>
+                                <td>
+                        @Html.DisplayFor(modelItem => item.TrendAdd)
+                    </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PatternAdd)
+                                </td>*@
+                                      <td>
+                                          {{user.Expires | date:'medium'}}
+                                      </td>
+                                      <td>
+                                          {{user.ModifiedDate}}
+                                      </td>
+                                      <td>
+                                          <a href="Edit?email={{user.Email}}"> Edit</a>|
+                                          <a href="Details?email={{user.Email}}"> Details</a>|
+                                          <a href="DeleteConfirm?email={{user.Email}}"> Delete</a>
+
+                                      </td>
+                                  </tr>
+
+
+                              </table>
+                          </div>
+
+    <script src="~/Scripts/app/user.js"></script>

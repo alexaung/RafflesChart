@@ -18,6 +18,7 @@ using System.Drawing;
 using Microsoft.AspNet.Identity.EntityFramework;
 using RafflesChart.App_Start;
 using NLog;
+using System.Text;
 
 namespace RafflesChart.Controllers
 {
@@ -122,7 +123,7 @@ namespace RafflesChart.Controllers
 
         [HttpGet]        
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> GetUsersJson(SearchUser suser)
+        public async Task<ActionResult> GetUsersJson(SearchKey suser)
         {
             var vm = await GetUserViewModel(suser);
             return Json(vm, JsonRequestBehavior.AllowGet);
@@ -130,29 +131,133 @@ namespace RafflesChart.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> GetUsers(SearchUser suser)
+        public async Task<ActionResult> GetUsers(SearchKey suser)
         {
             var vm = await GetUserViewModel(suser);
             return View(vm);
         }
 
-        private async Task<List<UserViewModel>> GetUserViewModel(SearchUser suser)
+        [HttpPost]
+        [Authorize(Roles="Admin")]
+        public async Task<ActionResult> DeletePicked(string[] picked)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var users = await db.Users.Where(x=> picked.Contains( x.Email)).ToArrayAsync();
+                foreach (var item in users)
+	            {
+		            db.Users.Remove(item);
+	            }
+                
+                var chartuser = await db.ChartUsers.Where(x=> picked.Contains(x.Login)).ToArrayAsync();
+                foreach (var item in chartuser)
+                {
+                    db.ChartUsers.Remove(item);
+                }
+                await db.SaveChangesAsync();
+            }
+            return Json(true);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> SchemePicked(string[] picked, int scheme)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var users = await (
+                        from user in db.Users 
+                        from cuser in db.ChartUsers
+                        where  picked.Contains(user.Email)
+                        select new { user,cuser}
+                            ).ToArrayAsync();
+
+                var schemedb = await db.Schemes.FirstOrDefaultAsync(x => x.Id == scheme);
+               
+                foreach (var item in users)
+                {                  
+                    item.user.SchemeId = scheme;
+                    item.user.ModifiedDate = DateTime.Now;
+                    item.cuser.CustomIndicators = schemedb.CustomIndicatorsFlag;
+                    item.cuser.Scanner = schemedb.ScannerFlag;
+                    item.cuser.CI_Add = schemedb.CIAddFlag;
+                    item.cuser.Pattern_Add = schemedb.PatternAddFlag;
+                    item.cuser.Scanner_Add = schemedb.SignalAddFlag;
+                    item.cuser.Trend_Add = schemedb.TrendAddFlag;
+                    item.cuser.Signal_Add = schemedb.SignalAddFlag;
+                }
+
+                await db.SaveChangesAsync();
+            }
+            return Json(true);
+        }
+
+        public async Task<ActionResult> Download()
+        {
+            string header = "Name,Email,PhoneNumber,Role,Scheme,Expires" + 
+                    ",Live,CustomIndicators,Scanner,CiAdd,ScannerAdd,PatternAdd,SignalAdd,TrendAdd";
+
+           
+            string filename = "users.csv";
+
+            var skey = new SearchKey();
+            skey.Name = Request.Form["Name"];
+            skey.Email = Request.Form["Email"];
+            skey.PhoneNumber = Request.Form["PhoneNumber"];
+            skey.SelectedScheme = Request.Form["SelectedScheme"];
+
+            var datalist = await GetUserViewModel(skey);
+            //var data = Encoding.UTF8.GetBytes(billcsv);
+            var data = new StringBuilder();
+            data.AppendLine(header);
+            foreach (var item in datalist)
+            {
+              data.Append(item.Name);
+              data.Append("," + item.Email);
+              data.Append("," + item.PhoneNumber);
+              data.Append("," + item.Role);
+              data.Append("," + item.Scheme);
+              data.Append(",\"" + item.Expires + "\"");
+              data.Append("," + item.Live);
+                          
+              data.Append("," + item.CustomIndicators);
+              data.Append("," + item.Scanner);
+                         
+              data.Append("," + item.CiAdd);
+              data.Append("," + item.ScannerAdd);
+              data.Append("," + item.PatternAdd);
+              data.Append("," + item.SignalAdd );
+              data.Append("," + item.TrendAdd);
+              data.AppendLine();
+            }
+            var fdata = Encoding.UTF8.GetBytes(data.ToString());
+            return File(fdata, "text/csv", filename);
+        }
+
+        private async Task<List<UserViewModel>> GetUserViewModel(SearchKey suser)
         {
             using (var db = new ApplicationDbContext())
             {
                 var usr = suser.Name ?? "";
                 var email = suser.Email ?? "";
                 var ph = suser.PhoneNumber ?? "";
+                var scheme = suser.SelectedScheme ?? "";
+               
                 var uids = await db.Users.Where(x => x.Name.StartsWith(usr) &&
                                         x.Email.StartsWith(email) &&
-                                        x.PhoneNumber.StartsWith(ph)
-                            ).Select(x => new { x.Name, x.Email, x.PhoneNumber, Id = x.Id, x.Roles, x.SchemeId }).ToArrayAsync();
-
+                                        x.PhoneNumber.StartsWith(ph) 
+                            ).Select(x => new { x.Name, x.Email, x.PhoneNumber, Id = x.Id, x.Roles, x.SchemeId,x.ModifiedDate }).ToArrayAsync();
+                
                 var schemes = await db.Schemes.ToListAsync();
 
                 List<UserViewModel> vm = new List<UserViewModel>();
                 var roles = await db.Roles.ToListAsync();
                 var ids = uids.Select(x => x.Email);
+                if (string.IsNullOrEmpty(suser.SelectedScheme) == false)
+                {
+                    var selectedscheme = int.Parse(suser.SelectedScheme);
+                    ids =  uids.Where(x => x.SchemeId == selectedscheme).Select(x=> x.Email);
+                }
                 var usersql = await (from cu in db.ChartUsers
                                      where ids.Contains(cu.Login)
                                      select cu).ToArrayAsync();
@@ -161,36 +266,67 @@ namespace RafflesChart.Controllers
                             where u.Email == cu.Login
                             select new { CU = cu, UID = u };
 
-                foreach (var ur in users)
+                foreach (var ur in users.OrderBy(x=>x.UID.ModifiedDate))
                 {
                     var item = new UserViewModel();
-                    item.CiAdd = ur.CU.CI_Add;
-                    item.CustomIndicators = ur.CU.CustomIndicators;
-                    item.Email = ur.UID.Email;
-                    item.Expires = ur.CU.Expires;
-                    item.PhoneNumber = ur.UID.PhoneNumber;
-                    item.Live = ur.CU.Live;
-                    item.Name = ur.UID.Name;
-                    item.PatternAdd = ur.CU.Pattern_Add;
-
-                    item.Scanner = ur.CU.Scanner;
-                    item.ScannerAdd = ur.CU.Scanner_Add;
-                    item.Scheme = "na";
-                    item.SignalAdd = ur.CU.Signal_Add;
-                    item.TrendAdd = ur.CU.Trend_Add;
                     var sql = (from r in roles
                                from r2 in ur.UID.Roles
                                where r.Id == r2.RoleId
                                select r.Name).ToList();
                     var rr = string.Join(",", sql);
+
+                    item.Name = ur.UID.Name;
+                    item.Email = ur.UID.Email;                   
+                    item.PhoneNumber = ur.UID.PhoneNumber;
                     item.Role = rr ?? "User";
+                    item.Scheme = "na";
+                    
+                    DateTime d1 = new DateTime(1970, 1, 1);
+                    DateTime d2 = (DateTime)ur.CU.Expires;
+                    var x = new TimeSpan(d2.Ticks - d1.Ticks).TotalMilliseconds;
+                    item.Expires = x;
+                    if (ur.UID.ModifiedDate.HasValue)
+                    {
+                        item.ModifiedDate = new TimeSpan(ur.UID.ModifiedDate.Value.Ticks - d1.Ticks).TotalMilliseconds;
+                    }
+                    
+                    item.Live = ur.CU.Live;
+                   
+                    item.CustomIndicators = ur.CU.CustomIndicators; 
+                    item.Scanner = ur.CU.Scanner;
+
+                    item.CiAdd = ur.CU.CI_Add;
+                    item.ScannerAdd = ur.CU.Scanner_Add;
+                    item.PatternAdd = ur.CU.Pattern_Add;                   
+                    item.SignalAdd = ur.CU.Signal_Add;
+                    item.TrendAdd = ur.CU.Trend_Add;
+                    
+                    item.Picked = false;
                     if (ur.UID.SchemeId.HasValue)
                     {
-                        item.Scheme = schemes.FirstOrDefault(x => x.Id == ur.UID.SchemeId).Name;
+                        item.Scheme = schemes.FirstOrDefault(xx => xx.Id == ur.UID.SchemeId).Name;
                     }
                     vm.Add(item);
                 }
                 return vm;
+            }
+        }
+
+        public bool SchemeCheck(int? dbScheme, string scheme)
+        {
+            if (string.IsNullOrEmpty(scheme))
+            {
+                return true;
+            }
+            else
+            {
+                if (dbScheme.HasValue)
+                {
+                    return (dbScheme.Value == int.Parse(scheme));
+                }
+                else {
+                    return false;
+                }
             }
         }
 
@@ -317,7 +453,7 @@ namespace RafflesChart.Controllers
             var us = await db.Users.Where(u => u.Email == user.Email).FirstOrDefaultAsync();
             us.Name = user.Name;
             us.PhoneNumber = user.PhoneNumber;
-
+            us.ModifiedDate = DateTime.Now;
             if (string.IsNullOrEmpty(vm.SelectedScheme) == false)
             {
                 us.SchemeId = int.Parse( vm.SelectedScheme);
@@ -455,6 +591,7 @@ namespace RafflesChart.Controllers
                         db.ChartUsers.Add(chartuser);
                         var usertoconfirm = db.Users.FirstOrDefault(x=>x.Email == user.Email);
                         usertoconfirm.EmailConfirmed = true;
+                        usertoconfirm.CreatedDate = DateTime.Now;
                         db.SaveChanges();
 	                } 
                     await SendUserRegistrationEmailAsync(model.Email, cpt);
@@ -1009,9 +1146,19 @@ namespace RafflesChart.Controllers
 
         //
         [SessionExpireFilter]
-        public ActionResult GetUsers() {
-            using (var db = new ApplicationDbContext()) {
-                List<UserViewModel> vm = new List<UserViewModel>();
+        public async Task<ActionResult> GetUsers() {
+            using (var db = new ApplicationDbContext()) 
+            {
+                var vm = new SearchUserResult();
+                
+                List<UserViewModel> list = new List<UserViewModel>();
+                vm.Result = list;
+                var schemes = await db.Schemes.ToArrayAsync();
+                vm.Schemes = schemes.Select(s => new SelectListItem()
+                {
+                    Text = string.Format("({0}) {1}", s.Name, s.Description),
+                    Value = s.Id.ToString()
+                }).ToArray();
                 return View(vm);
             }
         }        
@@ -1067,6 +1214,8 @@ namespace RafflesChart.Controllers
                         user.UserName = emailval;
                         user.Email =emailval;
                         user.EmailConfirmed = true;
+                        user.CreatedDate = DateTime.Now;
+                        user.ModifiedDate = DateTime.Now;
                         //user.Expires = DateTime.ParseExact("2030-Dec-31", "yyyy-MMM-dd", null);
                     yield return user;
                 }

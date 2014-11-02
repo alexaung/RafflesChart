@@ -10,8 +10,9 @@ namespace RafflesChart.Models
     public class ApplicationUser : IdentityUser
     {
         public string Name { get; set; }
-        public int? SchemeId { get; set; } 
-
+        public int? SchemeId { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

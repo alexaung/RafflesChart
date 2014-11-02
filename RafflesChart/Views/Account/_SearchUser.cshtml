@@ -1,5 +1,5 @@
 ﻿@model RafflesChart.Models.SearchUser
-@using (Html.BeginForm("GetUsers", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Download", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
 {
 <div class="form-group">
     @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
@@ -16,18 +16,28 @@
         @Html.ValidationMessageFor(model => model.Email)
     </div>
 </div>
-    
-    <div class="form-group">
-    @Html.LabelFor(model => model.PhoneNumber, new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.EditorFor(model => model.PhoneNumber)
-        @Html.ValidationMessageFor(model => model.PhoneNumber)
-    </div>
-</div>
 
+    <div class="form-group">
+        @Html.LabelFor(model => model.PhoneNumber, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PhoneNumber)
+            @Html.ValidationMessageFor(model => model.PhoneNumber)
+        </div>
+    </div>
+    <div class="form-group">
+
+        <label class="control-label col-md-2">Scheme</label>
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.SelectedScheme, Model.Schemes, "Please select", new { @ng_model = "schemeDb", @class = "form-control", @id = "SelectedSchemeDD" })
+
+        </div>
+    </div>
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="Search" class="btn btn-default" />
+        <input type="button" value="Search" class="btn btn-default" ng-click="searchUserByFilter()" />
+
+        <input id="Download" type="Submit" value="Download" class="btn btn-default"  />
     </div>
 </div>
 }
+

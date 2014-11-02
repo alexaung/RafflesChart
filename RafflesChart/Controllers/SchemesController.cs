@@ -321,7 +321,7 @@ namespace RafflesChart.Controllers
                     var userId = user.Id;
 
                     user.Expires = vm.ExpiredDate.Value;
-                     
+                    appuser.ModifiedDate = DateTime.Now; 
                    user.Scanner      = scheme.ScannerFlag; 
                    user.CustomIndicators     = scheme.CustomIndicatorsFlag  ;
                    user.CI_Add       = scheme.CIAddFlag  ;
@@ -329,7 +329,7 @@ namespace RafflesChart.Controllers
                    user.Signal_Add     = scheme.SignalAddFlag  ;
                    user.Trend_Add    = scheme.TrendAddFlag  ;
                    user.Pattern_Add    = scheme.PatternAddFlag  ;
-
+                   
 
                     await db.UserBackTests.Where(bt => bt.UserId == userId).DeleteAsync();
                     await db.UserBullBearTests.Where(bt => bt.UserId == userId).DeleteAsync();
@@ -428,6 +428,7 @@ namespace RafflesChart.Controllers
                     errorEmails.Add(email);
                 }
                 else {
+                    appuser.ModifiedDate = DateTime.Now;
                     user.Expires = vm.ExpiredDate.Value;                 
 
                     if (backTests.Any()) {

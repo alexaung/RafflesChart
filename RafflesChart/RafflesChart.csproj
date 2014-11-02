@@ -224,6 +224,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SchemesController.cs" />
     <Compile Include="Controllers\SchemesAController.cs" />
+    <Compile Include="Controllers\SearchKey.cs" />
+    <Compile Include="Controllers\SearchUserResult.cs" />
     <Compile Include="Controllers\UploadSpecialViewModel.cs" />
     <Compile Include="DI\Autofac\Modules\MvcModule.cs" />
     <Compile Include="DI\Autofac\Modules\MvcSiteMapProviderModule.cs" />
@@ -285,6 +287,8 @@
     <Content Include="Content\close_16x16.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\info_16x16.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -297,6 +301,7 @@
     </Content>
     <Content Include="DI\Autofac\ReadMe.txt" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -342,6 +347,10 @@
     <Content Include="Scripts\angular-animate.min.js.map" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Mvc.sitemap" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\FontAwesome.otf" />
     <None Include="MvcSiteMapSchema.xsd" />
     <Content Include="nlog.config" />
     <None Include="Properties\PublishProfiles\demorchart.pubxml" />

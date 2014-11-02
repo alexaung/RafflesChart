@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace RafflesChart.Models
 {
@@ -27,12 +28,16 @@ namespace RafflesChart.Models
 
         public bool PatternAdd { get; set; }
 
-        public DateTime? Expires { get; set; }
+        public double Expires { get; set; }
 
         public string PhoneNumber { get; set; }
 
         public string Email { get; set; }
 
         public string Role { get; set; }
+
+        public double? ModifiedDate { get; set; }
+
+        public bool Picked { get; set; }
     }
 }
