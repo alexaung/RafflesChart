@@ -162,7 +162,7 @@ namespace RafflesChart.Controllers
         }
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public async Task<List<string>> UpdateUserProperties(int schemeid,  string[] emails)
+        public async Task<List<string>> UpdateUserProperties(int schemeid,  string[] emails,string exp)
         {
             Scheme scheme = await db.Schemes
                                         .Where(s => s.Id == schemeid)
@@ -196,7 +196,7 @@ namespace RafflesChart.Controllers
                     }
                     var userId = user.Id;
 
-                    //user.Expires = expiry;
+                    user.Expires = DateTime.Parse(exp);
                     appuser.ModifiedDate = DateTime.Now;
                     user.Scanner = scheme.ScannerFlag;
                     user.CustomIndicators = scheme.CustomIndicatorsFlag;
@@ -269,7 +269,7 @@ namespace RafflesChart.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> SchemePicked(string[] picked, int scheme)
+        public async Task<ActionResult> SchemePicked(string[] picked, int scheme,string exp)
         {
             using (var db = new ApplicationDbContext())
             {
@@ -298,7 +298,7 @@ namespace RafflesChart.Controllers
 
                 await db.SaveChangesAsync();
 
-                await UpdateUserProperties(scheme, picked);
+                await UpdateUserProperties(scheme, picked, exp);
             }
             return Json(true);
         }

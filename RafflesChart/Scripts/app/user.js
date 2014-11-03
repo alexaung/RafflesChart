@@ -44,6 +44,10 @@ m.controller('usercontroller', ['$scope', '$http', function ($scope, $http) {
         });        
     }
     $scope.ApplyScheme = function () {
+        var expdate = $('#ExpiredDate').val();
+        if (expdate == '') {
+            return; 
+        }
         var pick = $scope.users.filter(function (val) {
             return val.Picked;
         });
@@ -51,8 +55,9 @@ m.controller('usercontroller', ['$scope', '$http', function ($scope, $http) {
             return pic.Email;
         });
         var shcemeid = $('#pickscheme').val();
-        console.log(shcemeid)
-        $http.post('/Account/SchemePicked', { picked: del, scheme: shcemeid })
+       
+        console.log(expdate)
+        $http.post('/Account/SchemePicked', { picked: del, scheme: shcemeid , exp:expdate })
             .success(function (data) {               
                 $scope.schemeconfirm = 0;
                 $scope.searchUserByFilter();
@@ -73,7 +78,11 @@ m.controller('usercontroller', ['$scope', '$http', function ($scope, $http) {
                 $scope.searchUserByFilter();
             })
     }
-
+    $scope.$watch('schemeconfirm', function (newVal, oldVal) {
+        if (newVal == 1) {
+            $('#monthset').click();
+        }
+    });
     $scope.$watch('schemeDb', function (newVal, oldVal) {
         console.log(newVal);
         console.log(oldVal);

@@ -31,11 +31,24 @@
                                   <div class="col-md-1">
                                       <input type="button" class="form-control" value="Scheme" ng-disabled="PickedCount()==0" ng-click="schemeconfirm=1" />
                                   </div>
-                                  <div class="col-md-3" ng-show="schemeconfirm" style="white-space:nowrap">
-                                     
-                                      @Html.DropDownList("pickscheme", search.Schemes.AsEnumerable(), new { @class = "form-control" })
-                                      
-                                   </div>
+                              <div class="col-md-3" ng-show="schemeconfirm" style="white-space:nowrap">
+
+                                  @Html.DropDownList("pickscheme", search.Schemes.AsEnumerable(), new { @class = "form-control" })
+
+                              </div>
+
+                              <div class="col-md-3" ng-show="schemeconfirm" style="width:200px">
+
+
+                                  <label id="monthset" class="label label-info img-button" value="1" name="dtmonth">1 Month</label>
+                                  <label class="label label-info img-button" value="12" name="dtmonth">1 Year</label>
+                                  <label class="label label-info img-button" value="3" name="dtmonth">3 Months</label>
+                                  <br />
+                                  <input id="ExpiredDate" type="datetime" />
+
+
+                              </div>
+
                               <div class="col-md-2" ng-show="schemeconfirm" style="padding-top:5px">
                                   <a href="#" ng-click="ApplyScheme()">Apply</a> &nbsp; &nbsp;
                                   <a href="#" ng-click="schemeconfirm=0">Cancel</a>
@@ -156,5 +169,35 @@
 
                               </table>
                           </div>
+<script src="~/Scripts/app/user.js"></script>
+@section Scripts {
 
-    <script src="~/Scripts/app/user.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/datetimepicker")
+    <script type="text/javascript">
+        (function ($, window) {
+            $(function () {
+                $('#ExpiredDate').datetimepicker({
+                    format: 'm/d/Y h:i:s A'
+                });
+
+                $('label[name = dtmonth]').click(function () {
+                    var chk = $(this).attr("value");
+                    console.log(chk);
+                    $.ajax({
+                        url: '/Events/GetEventDate',
+                        type: 'POST',
+                        data: { 'i': chk },
+                        success: function myfunction(data) {
+                            $('#ExpiredDate').val(data);
+                        }
+                    });
+
+                });
+            });
+        })(jQuery, window);
+
+    </script>
+}
+
+
