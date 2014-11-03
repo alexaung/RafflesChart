@@ -18,6 +18,7 @@ using System.Drawing;
 using Microsoft.AspNet.Identity.EntityFramework;
 using RafflesChart.App_Start;
 using NLog;
+using EntityFramework.Extensions;
 using System.Text;
 
 namespace RafflesChart.Controllers
@@ -154,10 +155,117 @@ namespace RafflesChart.Controllers
                 {
                     db.ChartUsers.Remove(item);
                 }
+               
                 await db.SaveChangesAsync();
             }
             return Json(true);
         }
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        public async Task<List<string>> UpdateUserProperties(int schemeid,  string[] emails)
+        {
+            Scheme scheme = await db.Schemes
+                                        .Where(s => s.Id == schemeid)
+                                        .FirstOrDefaultAsync();
+
+            var backTests = (scheme.BackTests == null) ? new string[] { } : scheme.BackTests.ToString().Split(';');
+            var bullBearTests = (scheme.BullBearTests == null) ? new string[] { } : scheme.BullBearTests.ToString().Split(';');
+            var indicators = (scheme.Indicators == null) ? new string[] { } : scheme.Indicators.ToString().Split(';');
+            var markets = (scheme.Markets == null) ? new string[] { } : scheme.Markets.ToString().Split(';');
+            var patternScanners = (scheme.PatternScanners == null) ? new string[] { } : scheme.PatternScanners.ToString().Split(';');
+            var scanners = (scheme.Scanners == null) ? new string[] { } : scheme.Scanners.ToString().Split(';');
+
+            var errorEmails = new List<string>();
+            foreach (string email in emails)
+            {
+
+                var appuser = await db.Users.FirstOrDefaultAsync(x => x.Email == email);
+
+                if (appuser == null)
+                {
+                    errorEmails.Add(email);
+                }
+                else
+                {
+                    var uid = Guid.Parse(appuser.Id);
+                    var user = await db.ChartUsers.FirstOrDefaultAsync(x => x.Id == uid);
+                    if (user == null)
+                    {
+                        errorEmails.Add(email);
+                        continue;
+                    }
+                    var userId = user.Id;
+
+                    //user.Expires = expiry;
+                    appuser.ModifiedDate = DateTime.Now;
+                    user.Scanner = scheme.ScannerFlag;
+                    user.CustomIndicators = scheme.CustomIndicatorsFlag;
+                    user.CI_Add = scheme.CIAddFlag;
+                    user.Scanner_Add = scheme.ScannerAddFlag;
+                    user.Signal_Add = scheme.SignalAddFlag;
+                    user.Trend_Add = scheme.TrendAddFlag;
+                    user.Pattern_Add = scheme.PatternAddFlag;
+                    user.Live = scheme.LiveFlag;
+
+                    await db.UserBackTests.Where(bt => bt.UserId == userId).DeleteAsync();
+                    await db.UserBullBearTests.Where(bt => bt.UserId == userId).DeleteAsync();
+                    await db.UserIndicators.Where(bt => bt.UserId == userId).DeleteAsync();
+                    await db.UserMarkets.Where(bt => bt.UserId == userId).DeleteAsync();
+                    await db.UserPatternScanners.Where(bt => bt.UserId == userId).DeleteAsync();
+                    await db.UserScanners.Where(bt => bt.UserId == userId).DeleteAsync();
+
+                    if (backTests.Any())
+                    {
+                        AddUserFunction(backTests, user, db.UserBackTests);
+                    }
+                    if (bullBearTests.Any())
+                    {
+                        AddUserFunction(bullBearTests, user, db.UserBullBearTests);
+                    }
+                    if (indicators.Any())
+                    {
+                        AddUserFunction(indicators, user, db.UserIndicators);
+                        //user.CustomIndicators = true;
+                    }
+                    if (markets.Any())
+                    {
+                        AddUserFunction(markets, user, db.UserMarkets);
+                    }
+                    if (patternScanners.Any())
+                    {
+                        AddUserFunction(patternScanners, user, db.UserPatternScanners);
+                        //user.Pattern_Add = true;
+                    }
+                    if (scanners.Any())
+                    {
+                        AddUserFunction(scanners, user, db.UserScanners);
+                        //user.Scanner = true;
+                        //user.Scanner_Add = true;
+                    }
+                    appuser.SchemeId = scheme.Id;
+                }
+
+                await db.SaveChangesAsync();
+            }
+            return errorEmails;
+        }
+
+        private void AddUserFunction<T>(string[] functions, ChartUser user, IDbSet<T> dbSet)
+          where T : class, IUserFunction, new()
+        {
+
+            foreach (string function in functions)
+            {
+                var model = new T()
+                {
+                    UserId = user.Id,
+                    FunctionName = function
+                };
+
+                dbSet.Add(model);
+            }
+        }
+
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
@@ -189,6 +297,8 @@ namespace RafflesChart.Controllers
                 }
 
                 await db.SaveChangesAsync();
+
+                await UpdateUserProperties(scheme, picked);
             }
             return Json(true);
         }

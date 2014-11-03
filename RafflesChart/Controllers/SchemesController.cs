@@ -296,46 +296,60 @@ namespace RafflesChart.Controllers
 
             var emails = GetEmails(vm.Users.InputStream).ToArray();
 
+            var errorEmails = await UpdateUserProperties(vm.SelectedSchemeId, vm.ExpiredDate.Value, emails);
+
+            if (errorEmails.Any()) {
+                this.TempData.AddErrorEmails(errorEmails);
+                return RedirectToAction("ActivateErrorEmails");
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<List<string>> UpdateUserProperties(int schemeid,DateTime expiry, string[] emails)
+        {
             Scheme scheme = await db.Schemes
-                                        .Where(s => s.Id == vm.SelectedSchemeId)
+                                        .Where(s => s.Id == schemeid)
                                         .FirstOrDefaultAsync();
 
             var backTests = (scheme.BackTests == null) ? new string[] { } : scheme.BackTests.ToString().Split(';');
-            var bullBearTests = (scheme.BullBearTests == null) ? new string[]{} : scheme.BullBearTests.ToString().Split(';');
-            var indicators = (scheme.Indicators == null) ? new string[]{} : scheme.Indicators.ToString().Split(';');
+            var bullBearTests = (scheme.BullBearTests == null) ? new string[] { } : scheme.BullBearTests.ToString().Split(';');
+            var indicators = (scheme.Indicators == null) ? new string[] { } : scheme.Indicators.ToString().Split(';');
             var markets = (scheme.Markets == null) ? new string[] { } : scheme.Markets.ToString().Split(';');
             var patternScanners = (scheme.PatternScanners == null) ? new string[] { } : scheme.PatternScanners.ToString().Split(';');
             var scanners = (scheme.Scanners == null) ? new string[] { } : scheme.Scanners.ToString().Split(';');
 
-            var errorEmails = new List<string>();            
-            foreach (string email in emails) {
-             
+            var errorEmails = new List<string>();
+            foreach (string email in emails)
+            {
+
                 var appuser = await db.Users.FirstOrDefaultAsync(x => x.Email == email);
 
                 if (appuser == null)
                 {
                     errorEmails.Add(email);
                 }
-                else {
+                else
+                {
                     var uid = Guid.Parse(appuser.Id);
                     var user = await db.ChartUsers.FirstOrDefaultAsync(x => x.Id == uid);
-                    if(user==null)
+                    if (user == null)
                     {
                         errorEmails.Add(email);
                         continue;
                     }
                     var userId = user.Id;
 
-                    user.Expires = vm.ExpiredDate.Value;
-                    appuser.ModifiedDate = DateTime.Now; 
-                   user.Scanner      = scheme.ScannerFlag; 
-                   user.CustomIndicators     = scheme.CustomIndicatorsFlag  ;
-                   user.CI_Add       = scheme.CIAddFlag  ;
-                   user.Scanner_Add     = scheme.ScannerAddFlag  ;
-                   user.Signal_Add     = scheme.SignalAddFlag  ;
-                   user.Trend_Add    = scheme.TrendAddFlag  ;
-                   user.Pattern_Add    = scheme.PatternAddFlag  ;
-                   user.Live = scheme.LiveFlag;
+                    user.Expires = expiry;
+                    appuser.ModifiedDate = DateTime.Now;
+                    user.Scanner = scheme.ScannerFlag;
+                    user.CustomIndicators = scheme.CustomIndicatorsFlag;
+                    user.CI_Add = scheme.CIAddFlag;
+                    user.Scanner_Add = scheme.ScannerAddFlag;
+                    user.Signal_Add = scheme.SignalAddFlag;
+                    user.Trend_Add = scheme.TrendAddFlag;
+                    user.Pattern_Add = scheme.PatternAddFlag;
+                    user.Live = scheme.LiveFlag;
 
                     await db.UserBackTests.Where(bt => bt.UserId == userId).DeleteAsync();
                     await db.UserBullBearTests.Where(bt => bt.UserId == userId).DeleteAsync();
@@ -344,24 +358,30 @@ namespace RafflesChart.Controllers
                     await db.UserPatternScanners.Where(bt => bt.UserId == userId).DeleteAsync();
                     await db.UserScanners.Where(bt => bt.UserId == userId).DeleteAsync();
 
-                    if (backTests.Any()) {
+                    if (backTests.Any())
+                    {
                         AddUserFunction(backTests, user, db.UserBackTests);
                     }
-                    if (bullBearTests.Any()) {
+                    if (bullBearTests.Any())
+                    {
                         AddUserFunction(bullBearTests, user, db.UserBullBearTests);
                     }
-                    if (indicators.Any()) {
+                    if (indicators.Any())
+                    {
                         AddUserFunction(indicators, user, db.UserIndicators);
                         //user.CustomIndicators = true;
                     }
-                    if (markets.Any()) {
+                    if (markets.Any())
+                    {
                         AddUserFunction(markets, user, db.UserMarkets);
                     }
-                    if (patternScanners.Any()) {
+                    if (patternScanners.Any())
+                    {
                         AddUserFunction(patternScanners, user, db.UserPatternScanners);
                         //user.Pattern_Add = true;
                     }
-                    if (scanners.Any()) {
+                    if (scanners.Any())
+                    {
                         AddUserFunction(scanners, user, db.UserScanners);
                         //user.Scanner = true;
                         //user.Scanner_Add = true;
@@ -371,13 +391,7 @@ namespace RafflesChart.Controllers
 
                 await db.SaveChangesAsync();
             }
-
-            if (errorEmails.Any()) {
-                this.TempData.AddErrorEmails(errorEmails);
-                return RedirectToAction("ActivateErrorEmails");
-            }
-
-            return RedirectToAction("Index");
+            return errorEmails;
         }
 
         [HttpGet]
