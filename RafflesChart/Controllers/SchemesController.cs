@@ -193,18 +193,20 @@ namespace RafflesChart.Controllers
                             from chartuser in db.ChartUsers 
                             where user.Email == chartuser.Login && 
                                     user.SchemeId == viewModel.Id
-                            select chartuser ).ToArrayAsync() ;
+                            select new{chartuser,user} ).ToArrayAsync() ;
                 foreach (var user in users)
                 {
-                    user.Live = viewModel.LiveFlag;
-                    user.CI_Add = viewModel.CIAddFlag;
-                    user.CustomIndicators = viewModel.CustomIndicatorsFlag;
-                    user.Pattern_Add = viewModel.PatternAddFlag;
-                    user.Scanner = viewModel.ScannerFlag;
-                    user.Scanner_Add = viewModel.ScannerAddFlag;
-                    user.Signal_Add = viewModel.SignalAddFlag;
-                    user.Trend_Add = viewModel.TrendAddFlag;                    
+                    user.chartuser.Live = viewModel.LiveFlag;
+                    user.chartuser.CI_Add = viewModel.CIAddFlag;
+                    user.chartuser.CustomIndicators = viewModel.CustomIndicatorsFlag;
+                    user.chartuser.Pattern_Add = viewModel.PatternAddFlag;
+                    user.chartuser.Scanner = viewModel.ScannerFlag;
+                    user.chartuser.Scanner_Add = viewModel.ScannerAddFlag;
+                    user.chartuser.Signal_Add = viewModel.SignalAddFlag;
+                    user.chartuser.Trend_Add = viewModel.TrendAddFlag;
+                    user.user.ModifiedDate = DateTime.Now;
                 }
+
                 Scheme scheme = await db.Schemes
                                         .Where(s => s.Id == viewModel.Id)
                                         .FirstOrDefaultAsync();
