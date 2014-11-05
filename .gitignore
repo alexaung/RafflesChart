@@ -18,3 +18,17 @@ Thumbs.db
 _ReSharper.Hive/
 Publish/
 .sass-cache/
+/.nuget/NuGet.exe
+/.nuget/NuGet.Config
+/.nuget/NuGet.targets
+/check.png
+/RafflesChart/Scripts/app/custdir.js
+/RafflesChart/Views/Home/ghome/ghome.html
+/RafflesChart/Views/Home/ghome/gwd_workspace.json
+/RafflesChart/Views/Home/gwd_workspace.json
+/RafflesChart/Views/Home/IndexH.html
+/RafflesChart/Views/Home/Sort.cshtml
+/scheme data.png
+/upload - Copy.xlsx
+/upload.xlsx
+/uploadcreateuser.xlsx
