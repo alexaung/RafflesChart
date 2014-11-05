@@ -2,6 +2,14 @@
 @{
     ViewBag.Title = "Sort";
 }
-
+<script type="text/javascript" src="/Scripts/App/sorttest.js"></script>
 <h2>Sort</h2>
 
+<div ng-controller="sorttest">
+	
+	<div ng-repeat="user in sortdata">
+		{{user}}
+	</div>
+
+	<div dir="init" order-ctl user-param="sortdata[0]" valtwo="ttt" ></div>
+</div>		
