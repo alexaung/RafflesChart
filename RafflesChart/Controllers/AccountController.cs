@@ -277,6 +277,7 @@ namespace RafflesChart.Controllers
                         from user in db.Users 
                         from cuser in db.ChartUsers
                         where  picked.Contains(user.Email)
+                         && user.Email == cuser.Login
                         select new { user,cuser}
                             ).ToArrayAsync();
 
