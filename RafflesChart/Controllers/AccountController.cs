@@ -148,14 +148,27 @@ namespace RafflesChart.Controllers
                 foreach (var item in users)
 	            {
 		            db.Users.Remove(item);
+                   
 	            }
                 
                 var chartuser = await db.ChartUsers.Where(x=> picked.Contains(x.Login)).ToArrayAsync();
                 foreach (var item in chartuser)
                 {
-                    db.ChartUsers.Remove(item);
+                    var userId = item.Id;
+                    db.ChartUsers.Remove(item); 
+                   
+                    await db.UserBackTests.Where(bt => bt.UserId == userId).DeleteAsync();
+                    await db.UserBullBearTests.Where(bt => bt.UserId == userId).DeleteAsync();
+                    await db.UserIndicators.Where(bt => bt.UserId == userId).DeleteAsync();
+                    await db.UserMarkets.Where(bt => bt.UserId == userId).DeleteAsync();
+                    await db.UserPatternScanners.Where(bt => bt.UserId == userId).DeleteAsync();
+                    await db.UserScanners.Where(bt => bt.UserId == userId).DeleteAsync();
                 }
+
+
                
+
+                
                 await db.SaveChangesAsync();
             }
             return Json(true);
