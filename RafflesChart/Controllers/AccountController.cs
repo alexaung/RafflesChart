@@ -371,26 +371,28 @@ namespace RafflesChart.Controllers
                 var uids = await db.Users.Where(x => x.Name.StartsWith(usr) &&
                                         x.Email.StartsWith(email) &&
                                         x.PhoneNumber.StartsWith(ph)
-                            ).Select(x => new { x.Name, x.Email, x.PhoneNumber, Id = x.Id, x.Roles, x.SchemeId,x.ModifiedDate }).ToArrayAsync();
+                            ).Select(x => new { x.Name, x.Email, x.PhoneNumber, x.CreatedDate, Id = x.Id, x.Roles, x.SchemeId,x.ModifiedDate }).ToArrayAsync();
 
                 var schemes = await db.Schemes.ToListAsync();
                 
                 List<UserViewModel> vm = new List<UserViewModel>();
                 var roles = await db.Roles.ToListAsync();
-                var ids = uids.Select(x => x.Email);
+                var emails = uids.Select(x => x.Email);
+                var userids = uids.Select(x =>  Guid.Parse( x.Id));
                 if (string.IsNullOrEmpty(suser.SelectedScheme) == false)
                 {
                     var selectedscheme = int.Parse(suser.SelectedScheme);
-                    ids =  uids.Where(x => x.SchemeId == selectedscheme).Select(x=> x.Email);
+                    emails =  uids.Where(x => x.SchemeId == selectedscheme).Select(x=> x.Email);
                 }
                 var usersql = await (from cu in db.ChartUsers
-                            where ids.Contains(cu.Login)
+                            where emails.Contains(cu.Login)
                                   select cu).ToArrayAsync();
                 var users = from u in uids
                             from cu in usersql
                             where u.Email == cu.Login
                             select new { CU = cu, UID = u };
-
+                var usermkts = db.UserMarkets.Where(u => userids.Contains(u.UserId));
+                               
                 foreach (var ur in users.OrderByDescending(x=> x.UID.ModifiedDate))
                 {
                     var item = new UserViewModel();
@@ -415,6 +417,13 @@ namespace RafflesChart.Controllers
                         item.ModifiedDate = new TimeSpan(ur.UID.ModifiedDate.Value.AddHours(-8).Ticks - d1.Ticks ).TotalMilliseconds;
                     }
                     item.ExpiresDate = ur.CU.Expires;
+
+                    if (ur.UID.CreatedDate.HasValue)
+                    {
+                        item.CreatedDate = new TimeSpan(ur.UID.CreatedDate.Value.AddHours(-8).Ticks - d1.Ticks).TotalMilliseconds;
+                    }
+                    item.ExpiresDate = ur.CU.Expires;
+
                     item.Live = ur.CU.Live;
                     
                     item.CustomIndicators = ur.CU.CustomIndicators; 
@@ -431,6 +440,9 @@ namespace RafflesChart.Controllers
                     {
                         item.Scheme = schemes.FirstOrDefault(xx => xx.Id == ur.UID.SchemeId).Name;
                     }
+
+                    var mkts = usermkts.Where(m=> m.UserId == ur.CU.Id).Select(r=> r.Market).Aggregate((p,q) => p + "," + q );
+                    item.UserMarkets = mkts;
                     vm.Add(item);
                 }
                 return vm;

@@ -41,5 +41,9 @@ namespace RafflesChart.Models
         public bool Picked { get; set; }
 
         public DateTime ExpiresDate { get; set; }
+
+        public string UserMarkets { get; set; }
+
+        public double CreatedDate { get; set; }
     }
 }

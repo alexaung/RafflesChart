@@ -57,7 +57,7 @@ namespace RafflesChart.Controllers
 
             Scheme scheme = await db.Schemes
                                         .Where(s => s.Id == id)
-                                        .FirstOrDefaultAsync();
+                                    .FirstOrDefaultAsync();
             if (scheme == null)
             {
                 return HttpNotFound();
