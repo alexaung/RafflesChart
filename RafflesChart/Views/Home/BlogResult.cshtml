@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "BlogResult";
+    var data = TempData["blogresult"].ToString();
+}
+
+<h2>BlogResult</h2>
+@Html.Raw(data)
+<div id="resultnote"></div>
+ 
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#blogresult").html('');
+        });
+        
+    </script>
+    }
+   

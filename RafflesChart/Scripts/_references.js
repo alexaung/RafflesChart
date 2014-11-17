@@ -302,3 +302,4 @@
 /// <reference path="app/scheme.js" />
 /// <reference path="app/sorttest.js" />
 /// <reference path="app/user.js" />
+/// <reference path="summernote.js" />

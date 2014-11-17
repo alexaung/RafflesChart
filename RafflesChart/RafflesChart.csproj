@@ -222,6 +222,7 @@
     <Compile Include="Controllers\ContactViewModel.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\NoteViewModel.cs" />
     <Compile Include="Controllers\SchemesController.cs" />
     <Compile Include="Controllers\SchemesAController.cs" />
     <Compile Include="Controllers\SearchKey.cs" />
@@ -296,6 +297,9 @@
     <Content Include="Content\person_checked_16x16.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\summernote-bs2.css" />
+    <Content Include="Content\summernote-bs3.css" />
+    <Content Include="Content\summernote.css" />
     <Content Include="Content\task_16x16.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -658,6 +662,8 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\summernote.js" />
+    <Content Include="Scripts\summernote.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Emails\Event.cshtml" />
     <Content Include="Views\Account\Welcome.cshtml" />
@@ -671,6 +677,8 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Events\EventRegisterMessage.cshtml" />
     <Content Include="Views\Account\AccountRegisterMessage.cshtml" />
+    <Content Include="Views\Home\Blog.cshtml" />
+    <Content Include="Views\Home\BlogResult.cshtml" />
     <None Include="Views\Schemes\_CreateOrEditA.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

@@ -1,4 +1,6 @@
-﻿using Postal;
+﻿using NLog;
+using Postal;
+using RafflesChart.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,6 +53,31 @@ namespace RafflesChart.Controllers {
         [AllowAnonymous]
         public ActionResult Contact() {
             ViewBag.Message = "Contact Us";
+
+            return View();
+        }
+
+       [HttpPost]     
+        [AllowAnonymous, ValidateInput(false)]
+        public ActionResult Upload(NoteViewModel vm)
+        {
+            ViewBag.Message = "Blog";
+            Logger logger = LogManager.GetCurrentClassLogger();
+            TempData["blogresult"] = vm.NoteData;
+            //logger.Trace("content:" + Request.Form["content"]);
+            return RedirectToAction("BlogResult");
+        }
+
+        [AllowAnonymous]
+        public ActionResult BlogResult()
+       {
+           return View();
+       }
+
+        [AllowAnonymous]
+        public ActionResult Blog()
+        {
+            ViewBag.Message = "Blog";
 
             return View();
         }

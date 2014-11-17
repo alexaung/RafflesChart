@@ -1,0 +1,38 @@
+﻿@model RafflesChart.ViewModels.NoteViewModel
+@{
+    ViewBag.Title = "Blog";
+}
+@section Styles{
+@Styles.Render("~/Content/css")
+<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Content/summernote.css" rel="stylesheet" />
+}
+<h2>Blog</h2>
+<div class="row">
+    <form class="span12" id="postForm" action="Upload" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
+        <fieldset>
+            <legend>Make Post</legend>
+            <p class="container">
+                <textarea class="input-block-level" id="summernote" name="NoteData" rows="18"></textarea>
+            </p>
+        </fieldset>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+        <button type="button" id="cancel" class="btn">Cancel</button>
+    </form>
+</div>
+@section Scripts{
+ 
+<script src="~/Scripts/summernote.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#summernote').summernote({ height: "500px" });
+        });
+        function safe_tags(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+        var postForm = function () {
+            var content = $('textarea[name="NoteData"]').html($('#summernote').code());
+        }
+        
+    </script>
+}
