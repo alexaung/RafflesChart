@@ -222,6 +222,8 @@
     <Compile Include="Controllers\ContactViewModel.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\Blog.cs" />
+    <Compile Include="Models\BlogViewModel.cs" />
     <Compile Include="Models\NoteViewModel.cs" />
     <Compile Include="Controllers\SchemesController.cs" />
     <Compile Include="Controllers\SchemesAController.cs" />
@@ -679,6 +681,7 @@
     <Content Include="Views\Account\AccountRegisterMessage.cshtml" />
     <Content Include="Views\Home\Blog.cshtml" />
     <Content Include="Views\Home\BlogResult.cshtml" />
+    <Content Include="Views\Home\BlogList.cshtml" />
     <None Include="Views\Schemes\_CreateOrEditA.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

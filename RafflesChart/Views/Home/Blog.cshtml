@@ -10,6 +10,8 @@
 <h2>Blog</h2>
 <div class="row">
     <form class="span12" id="postForm" action="Upload" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
+        <input  name="Title"/>
+        
         <fieldset>
             <legend>Make Post</legend>
             <p class="container">
@@ -26,6 +28,12 @@
     <script>
         $(document).ready(function () {
             $('#summernote').summernote({ height: "500px" });
+
+            $('#summernote').summernote({
+                onImageUpload: function (files, editor, $editable) {
+                    console.log('image upload:', files, editor, $editable);
+                }
+            });
         });
         function safe_tags(str) {
             return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
