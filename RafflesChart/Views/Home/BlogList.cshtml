@@ -1,7 +1,15 @@
-﻿@model RafflesChart.Models.Blog
+﻿@model IEnumerable<RafflesChart.Models.Blog>
+
 @{
     ViewBag.Title = "BlogList";
 }
 
 <h2>BlogList</h2>
 
+@foreach (var item in Model)
+{
+    <div>@item.Id</div>
+    <div>@item.Title</div>
+    <div>@item.Content</div>
+    <div>@item.Id</div>
+}
