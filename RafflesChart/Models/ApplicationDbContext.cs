@@ -29,6 +29,8 @@ namespace RafflesChart.Models {
         public DbSet<UserScanner> UserScanners { get; set; }
 
         public DbSet<ChartUser> ChartUsers { get; set; }
+
+        public DbSet<Blog> Blogs { get; set; }
         
         public ApplicationDbContext()
             : base("LocalConnection", throwIfV1Schema: false)

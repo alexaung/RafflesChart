@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RafflesChart.Models.Blog>
+﻿@model IEnumerable<RafflesChart.Models.BlogViewModel>
 
 @{
     ViewBag.Title = "BlogList";
@@ -8,8 +8,9 @@
 
 @foreach (var item in Model)
 {
-    <div>@item.Id</div>
-    <div>@item.Title</div>
-    <div>@item.Content</div>
-    <div>@item.Id</div>
+    <div>@item.CreatedDate</div>
+    <div><a href="BlogView/@item.Id">@item.Title</a></div>
+   
+    <hr />
+
 }

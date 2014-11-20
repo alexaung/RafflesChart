@@ -1,4 +1,4 @@
-﻿@model RafflesChart.ViewModels.NoteViewModel
+﻿@model RafflesChart.Models.BlogViewModel
 @{
     ViewBag.Title = "Blog";
 }
@@ -15,7 +15,7 @@
         <fieldset>
             <legend>Make Post</legend>
             <p class="container">
-                <textarea class="input-block-level" id="summernote" name="NoteData" rows="18"></textarea>
+                <textarea class="input-block-level" id="summernote" name="Content" rows="18"></textarea>
             </p>
         </fieldset>
         <button type="submit" class="btn btn-primary">Save changes</button>
@@ -29,17 +29,17 @@
         $(document).ready(function () {
             $('#summernote').summernote({ height: "500px" });
 
-            $('#summernote').summernote({
-                onImageUpload: function (files, editor, $editable) {
-                    console.log('image upload:', files, editor, $editable);
-                }
-            });
+           // $('#summernote').summernote({
+           //    // onImageUpload: function (files, editor, $editable) {
+           //    //     console.log('image upload:', files, editor, $editable);
+           //    // }
+           // });
         });
         function safe_tags(str) {
             return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         }
         var postForm = function () {
-            var content = $('textarea[name="NoteData"]').html($('#summernote').code());
+            var content = $('textarea[name="Content"]').html($('#summernote').code());
         }
         
     </script>

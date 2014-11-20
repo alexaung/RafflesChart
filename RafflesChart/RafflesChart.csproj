@@ -682,6 +682,7 @@
     <Content Include="Views\Home\Blog.cshtml" />
     <Content Include="Views\Home\BlogResult.cshtml" />
     <Content Include="Views\Home\BlogList.cshtml" />
+    <Content Include="Views\Home\BlogView.cshtml" />
     <None Include="Views\Schemes\_CreateOrEditA.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
