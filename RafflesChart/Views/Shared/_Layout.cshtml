@@ -37,6 +37,10 @@
                     {
                         <li>@Html.ActionLink("Special Member", "SpecialMember", "Home")</li>
                     }
+                    @if (Html.ActionAuthorized("SpecialMember", "Home"))
+                    {
+                        <li>@Html.ActionLink("Blogs", "RecentBlogs", "Home")</li>
+                    }
                     
                     @if (Html.ActionAuthorized("Welcome", "Account"))
                     {
@@ -71,6 +75,7 @@
                                 <li>@Html.ActionLink("Upload", "UploadUsers", "Account")</li>
                                 <li>@Html.ActionLink("Listing", "GetUsers", "Account")</li>
                                 <li>@Html.ActionLink("Manage Special Page", "UploadSpecial", "Account")</li>
+                                <li>@Html.ActionLink("Manage Blog", "Index", "Blogs")</li>
                             </ul>
 
                         </li>

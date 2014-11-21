@@ -1,0 +1,134 @@
+﻿using NLog;
+using RafflesChart.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Data.Entity;
+namespace RafflesChart.Controllers
+{
+    public class BlogsController : Controller
+    {
+        [AllowAnonymous]
+        public ActionResult Create()
+        {
+            ViewBag.Message = "Blog";
+
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous, ValidateInput(false)]
+        public ActionResult SaveBlog(BlogViewModel vm)
+        {
+            ViewBag.Message = "Blog";
+            //Logger logger = LogManager.GetCurrentClassLogger();            
+
+            using (var context = new ApplicationDbContext())
+            {
+                var blogentry = new Blog();
+                blogentry.Content = System.Text.Encoding.ASCII.GetBytes(vm.Content);
+                blogentry.CreatedDate = DateTime.Now;
+                blogentry.Title = vm.Title;
+
+                context.Blogs.Add(blogentry);
+                context.SaveChanges();
+            }
+
+            //logger.Trace("content:" + Request.Form["content"]);
+            return RedirectToAction("Index");
+        }
+
+        [AllowAnonymous]
+        public ActionResult Index()
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var vm = from x in context.Blogs.ToList()
+                         let blogvm = new BlogViewModel()
+                         {
+                             Title = x.Title,
+                             CreatedDate = x.CreatedDate,
+                             Id = x.Id,
+                             Content = System.Text.Encoding.ASCII.GetString(x.Content)
+                         }
+                         select blogvm;
+                return View(vm.ToList());
+            }
+        }
+
+        [AllowAnonymous]
+        public ActionResult Detail(int Id)
+        {
+            return RetrieveBlogViewModel("Detail",Id);
+        }
+
+        private ActionResult RetrieveBlogViewModel(string vname ,int Id)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var blog = context.Blogs.SingleOrDefault(x => x.Id == Id);
+                var blogvm = new BlogViewModel()
+                {
+                    Title = blog.Title,
+                    CreatedDate = blog.CreatedDate,
+                    Id = blog.Id,
+                    Content = System.Text.Encoding.ASCII.GetString(blog.Content)
+                };
+                return View(vname,blogvm);
+            }
+        }      
+
+
+        [AllowAnonymous]
+        public ActionResult Edit(int Id)
+        {
+            return RetrieveBlogViewModel("Edit", Id);
+        }
+
+        [HttpPost]
+        [AllowAnonymous, ValidateInput(false)]
+        public ActionResult EditBlog(BlogViewModel vm)
+        {
+            ViewBag.Message = "Blog";
+            //Logger logger = LogManager.GetCurrentClassLogger();            
+
+            using (var context = new ApplicationDbContext())
+            {
+                var blogentry = context.Blogs.SingleOrDefault(x=> x.Id== vm.Id);
+                blogentry.Content = System.Text.Encoding.ASCII.GetBytes(vm.Content);
+                blogentry.CreatedDate =vm.CreatedDate;
+                blogentry.Title = vm.Title;
+                
+                context.SaveChanges();
+            }
+            
+            return RedirectToAction("Index");
+        }
+
+        [AllowAnonymous]
+        public ActionResult Delete(int Id)
+        {
+            return RetrieveBlogViewModel("Delete", Id);
+        }
+
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfrim(BlogViewModel vm)
+        {
+            ViewBag.Message = "Blog";
+            //Logger logger = LogManager.GetCurrentClassLogger();            
+
+            using (var context = new ApplicationDbContext())
+            {
+                var blogentry = context.Blogs.SingleOrDefault(x => x.Id == vm.Id);
+                context.Blogs.Remove(blogentry);                
+                context.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+    }
+}

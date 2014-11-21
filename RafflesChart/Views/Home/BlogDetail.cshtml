@@ -1,0 +1,16 @@
+﻿@model RafflesChart.Models.BlogViewModel
+
+@{
+    ViewBag.Title = "Blog";
+}
+
+<h2>Blog</h2>
+
+
+<div>@Model.CreatedDate</div>
+<div>@Model.Title</div>
+<div>@Html.Raw(Model.Content)</div>
+
+<div>
+    <a href="RecentBlogs">Back to list</a>
+</div>

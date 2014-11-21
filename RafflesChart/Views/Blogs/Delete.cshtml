@@ -1,0 +1,34 @@
+﻿@model RafflesChart.Models.BlogViewModel
+
+@{
+    ViewBag.Title = "Edit Blog";
+}
+
+<h2>Edit Blog</h2>
+
+<div class="row">
+    <form class="span12" id="postForm" action="DeleteConfirm" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model=> model.Id)
+        <fieldset>
+            <div>
+                Title :
+                @Html.DisplayFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+
+            </div>
+            <div>
+                Date :
+                @Html.DisplayFor(model => model.CreatedDate, new { htmlAttributes = new { @class = "form-control" } })
+
+            </div>
+            <div>
+                @Html.Raw(Model.Content)
+            </div>
+        </fieldset>
+        <button type="submit" class="btn btn-primary">Confirm Delete</button>
+    </form>
+</div>
+<div>
+    <a href="BlogList">Back to list</a>
+</div>
+

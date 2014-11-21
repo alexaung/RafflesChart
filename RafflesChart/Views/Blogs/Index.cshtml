@@ -1,0 +1,19 @@
+﻿@model IEnumerable<RafflesChart.Models.BlogViewModel>
+
+@{
+    ViewBag.Title = "BlogList";
+}
+
+<h2>BlogList</h2>
+<div>
+    <a href="Create">
+        Add new blog
+    </a>
+</div>
+@foreach (var item in Model.OrderBy(x => x.CreatedDate))
+{
+    <div>@item.CreatedDate</div>
+    <div><a href="Detail/@item.Id">@item.Title</a></div>
+    <div><a href="Edit/@item.Id">edit</a> | <a href="Delete/@item.Id">delete</a></div>
+    <hr />
+}

@@ -219,6 +219,7 @@
     <Compile Include="App_Start\SessionExpireFilter.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BlogsController.cs" />
     <Compile Include="Controllers\ContactViewModel.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -679,10 +680,16 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Events\EventRegisterMessage.cshtml" />
     <Content Include="Views\Account\AccountRegisterMessage.cshtml" />
-    <Content Include="Views\Home\Blog.cshtml" />
-    <Content Include="Views\Home\BlogResult.cshtml" />
-    <Content Include="Views\Home\BlogList.cshtml" />
-    <Content Include="Views\Home\BlogView.cshtml" />
+    <Content Include="Views\Blogs\Create.cshtml" />
+    <Content Include="Views\Blogs\BlogResult.cshtml" />
+    <Content Include="Views\Blogs\Index.cshtml" />
+    <Content Include="Views\Blogs\Detail.cshtml" />
+    <Content Include="Views\Blogs\Edit.cshtml" />
+    <Content Include="Views\Blogs\Delete.cshtml" />
+    <Content Include="Views\Home\BlogArchives.cshtml" />
+    <Content Include="Views\Blogs\Confrim.cshtml" />
+    <Content Include="Views\Home\RecentBlogs.cshtml" />
+    <Content Include="Views\Home\BlogDetail.cshtml" />
     <None Include="Views\Schemes\_CreateOrEditA.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

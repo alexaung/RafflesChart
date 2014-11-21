@@ -4,13 +4,11 @@
     ViewBag.Title = "BlogList";
 }
 
-<h2>BlogList</h2>
+<h2>Archives</h2>
 
-@foreach (var item in Model)
+@foreach (var item in Model.OrderBy(x => x.CreatedDate))
 {
     <div>@item.CreatedDate</div>
-    <div><a href="BlogView/@item.Id">@item.Title</a></div>
-   
+    <div><a href="BlogView/@item.Id">@item.Title</a></div>    
     <hr />
-
 }

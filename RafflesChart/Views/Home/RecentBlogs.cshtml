@@ -1,0 +1,16 @@
+﻿@model IEnumerable<RafflesChart.Models.BlogViewModel>
+
+@{
+    ViewBag.Title = "BlogList";
+}
+
+<h2>Blogs</h2>
+
+@foreach (var item in Model.OrderBy(x => x.CreatedDate).Take(2))
+{
+    <div>@item.CreatedDate</div>
+    <div>@item.Title</div>
+    <div>@Html.Raw(item.Title)</div>
+    <hr />
+}
+<div><a href="BlogArchives">View Archives</a></div>

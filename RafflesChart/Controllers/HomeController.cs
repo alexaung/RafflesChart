@@ -74,80 +74,7 @@ namespace RafflesChart.Controllers
 
             return View();
         }
-
-        [HttpPost]
-        [AllowAnonymous, ValidateInput(false)]
-        public ActionResult Upload(BlogViewModel vm)
-        {
-            ViewBag.Message = "Blog";
-            Logger logger = LogManager.GetCurrentClassLogger();
-            TempData["blogresult"] = vm.Content;
-
-            using (var context = new ApplicationDbContext())
-            {
-                var blogentry = new Blog();
-                blogentry.Content = System.Text.Encoding.ASCII.GetBytes(vm.Content);
-                blogentry.CreatedDate = DateTime.Now;
-                blogentry.Title = vm.Title;
-
-                context.Blogs.Add(blogentry);
-                context.SaveChanges();
-            }
-
-            //logger.Trace("content:" + Request.Form["content"]);
-            return RedirectToAction("BlogList");
-        }
-        
-        [AllowAnonymous]
-        public ActionResult BlogResult()
-        {
-            return View();
-        }
-
-        [AllowAnonymous]
-        public ActionResult BlogList()
-        {
-            using (var context = new ApplicationDbContext())
-            {
-                var vm = from x in context.Blogs.ToList()
-                         let blogvm = new BlogViewModel()
-                         {
-                             Title = x.Title,
-                             CreatedDate = x.CreatedDate,
-                             Id = x.Id,
-                             Content = System.Text.Encoding.ASCII.GetString(x.Content)
-                         }
-                         select blogvm;
-                return View(vm.ToList());
-            }
-        }
-
-        [AllowAnonymous]
-        public ActionResult BlogView(int Id)
-        {
-            ViewBag.Message = "Blog";
-            using (var context = new ApplicationDbContext())
-            {
-                var blog = context.Blogs.SingleOrDefault( x=> x.Id == Id) ;
-                var blogvm = new BlogViewModel()
-                         {
-                             Title = blog.Title,
-                             CreatedDate = blog.CreatedDate,
-                             Id = blog.Id,
-                             Content = System.Text.Encoding.ASCII.GetString(blog.Content)
-                         };
-                return View(blogvm);
-            }            
-        }
-
-        [AllowAnonymous]
-        public ActionResult Blog()
-        {
-            ViewBag.Message = "Blog";
-
-            return View();
-        }
-
+                
         [AllowAnonymous]
         public ActionResult Privacy()
         {
@@ -196,6 +123,52 @@ namespace RafflesChart.Controllers
         public ActionResult SpecialMember()
         {
             return View();
+        }
+
+        [Authorize(Roles = "Admin,SpecialMember")]
+        public ActionResult RecentBlogs()
+        {
+            return RetrieveBlogList("RecentBlogs");
+        }
+
+        [Authorize(Roles = "Admin,SpecialMember")]
+        public ActionResult Archives()
+        {
+            return RetrieveBlogList("Archives");
+        }
+
+        private ActionResult RetrieveBlogList(string vname)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var vm = from x in context.Blogs.ToList()
+                         let blogvm = new BlogViewModel()
+                         {
+                             Title = x.Title,
+                             CreatedDate = x.CreatedDate,
+                             Id = x.Id,
+                             Content = System.Text.Encoding.ASCII.GetString(x.Content)
+                         }
+                         select blogvm;
+                return View(vname,vm.ToList());
+            }
+        }
+
+        [Authorize(Roles = "Admin,SpecialMember")]      
+        public ActionResult BlogDetail(int Id)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var blog = context.Blogs.SingleOrDefault(x => x.Id == Id);
+                var blogvm = new BlogViewModel()
+                {
+                    Title = blog.Title,
+                    CreatedDate = blog.CreatedDate,
+                    Id = blog.Id,
+                    Content = System.Text.Encoding.ASCII.GetString(blog.Content)
+                };
+                return View(blogvm);
+            }
         }
 
     }

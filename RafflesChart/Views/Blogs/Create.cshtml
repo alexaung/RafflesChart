@@ -9,17 +9,17 @@
 }
 <h2>Blog</h2>
 <div class="row">
-    <form class="span12" id="postForm" action="Upload" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
-        <input  name="Title"/>
-        
-        <fieldset>
-            <legend>Make Post</legend>
+    <form class="span12" id="postForm" action="SaveBlog" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
+        <fieldset>            
+            <div>
+                Title : 
+                <input name="Title" />
+            </div>
             <p class="container">
                 <textarea class="input-block-level" id="summernote" name="Content" rows="18"></textarea>
             </p>
         </fieldset>
-        <button type="submit" class="btn btn-primary">Save changes</button>
-        <button type="button" id="cancel" class="btn">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>        
     </form>
 </div>
 @section Scripts{
@@ -28,19 +28,9 @@
     <script>
         $(document).ready(function () {
             $('#summernote').summernote({ height: "500px" });
-
-           // $('#summernote').summernote({
-           //    // onImageUpload: function (files, editor, $editable) {
-           //    //     console.log('image upload:', files, editor, $editable);
-           //    // }
-           // });
-        });
-        function safe_tags(str) {
-            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        }
+        });        
         var postForm = function () {
             var content = $('textarea[name="Content"]').html($('#summernote').code());
-        }
-        
+        }        
     </script>
 }
