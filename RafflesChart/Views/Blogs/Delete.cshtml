@@ -7,9 +7,10 @@
 <h2>Edit Blog</h2>
 
 <div class="row">
-    <form class="span12" id="postForm" action="DeleteConfirm" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
+    @using (Html.BeginForm("DeleteConfrim","Blogs"))
+    {
         @Html.AntiForgeryToken()
-        @Html.HiddenFor(model=> model.Id)
+        @Html.HiddenFor(model => model.Id)
         <fieldset>
             <div>
                 Title :
@@ -26,9 +27,10 @@
             </div>
         </fieldset>
         <button type="submit" class="btn btn-primary">Confirm Delete</button>
-    </form>
+    }
 </div>
+<br />
 <div>
-    <a href="BlogList">Back to list</a>
+    <a href="/Blogs/Index">Back to list</a>
 </div>
 

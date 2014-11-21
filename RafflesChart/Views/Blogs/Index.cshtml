@@ -10,10 +10,30 @@
         Add new blog
     </a>
 </div>
-@foreach (var item in Model.OrderBy(x => x.CreatedDate))
-{
-    <div>@item.CreatedDate</div>
-    <div><a href="Detail/@item.Id">@item.Title</a></div>
-    <div><a href="Edit/@item.Id">edit</a> | <a href="Delete/@item.Id">delete</a></div>
-    <hr />
-}
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>
+                Date
+            </th>
+            <th>
+                Title
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    @foreach (var item in Model.OrderBy(x => x.CreatedDate))
+    {
+        <tr>
+            <td><a href="/Blogs/Detail/@item.Id">@item.Title</a></td>
+            <td>@item.CreatedDate</td>
+
+            <td><a href="/Blogs/Edit/@item.Id">edit</a> | <a href="/Blogs/Delete/@item.Id">delete</a></td>
+        </tr>
+
+
+    }
+</table>

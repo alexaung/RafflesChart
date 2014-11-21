@@ -9,6 +9,6 @@
 @foreach (var item in Model.OrderBy(x => x.CreatedDate))
 {
     <div>@item.CreatedDate</div>
-    <div><a href="BlogView/@item.Id">@item.Title</a></div>    
+    <div><a href="BlogDetail/@item.Id">@item.Title</a></div>    
     <hr />
 }

@@ -10,7 +10,7 @@ namespace RafflesChart.Controllers
 {
     public class BlogsController : Controller
     {
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             ViewBag.Message = "Blog";
@@ -19,7 +19,8 @@ namespace RafflesChart.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous, ValidateInput(false)]
+        [Authorize(Roles = "Admin")]
+        [ ValidateInput(false)]
         public ActionResult SaveBlog(BlogViewModel vm)
         {
             ViewBag.Message = "Blog";
@@ -40,7 +41,7 @@ namespace RafflesChart.Controllers
             return RedirectToAction("Index");
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             using (var context = new ApplicationDbContext())
@@ -58,11 +59,12 @@ namespace RafflesChart.Controllers
             }
         }
 
-        [AllowAnonymous]
+       [Authorize(Roles = "Admin")]
         public ActionResult Detail(int Id)
         {
             return RetrieveBlogViewModel("Detail",Id);
         }
+
 
         private ActionResult RetrieveBlogViewModel(string vname ,int Id)
         {
@@ -78,22 +80,22 @@ namespace RafflesChart.Controllers
                 };
                 return View(vname,blogvm);
             }
-        }      
+        }
 
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int Id)
         {
             return RetrieveBlogViewModel("Edit", Id);
         }
 
         [HttpPost]
-        [AllowAnonymous, ValidateInput(false)]
+        [Authorize(Roles = "Admin")]
+        [ValidateInput(false)]
         public ActionResult EditBlog(BlogViewModel vm)
         {
             ViewBag.Message = "Blog";
-            //Logger logger = LogManager.GetCurrentClassLogger();            
-
+          
             using (var context = new ApplicationDbContext())
             {
                 var blogentry = context.Blogs.SingleOrDefault(x=> x.Id== vm.Id);
@@ -107,7 +109,7 @@ namespace RafflesChart.Controllers
             return RedirectToAction("Index");
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int Id)
         {
             return RetrieveBlogViewModel("Delete", Id);
@@ -116,18 +118,17 @@ namespace RafflesChart.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfrim(BlogViewModel vm)
         {
             ViewBag.Message = "Blog";
-            //Logger logger = LogManager.GetCurrentClassLogger();            
-
+            
             using (var context = new ApplicationDbContext())
             {
                 var blogentry = context.Blogs.SingleOrDefault(x => x.Id == vm.Id);
                 context.Blogs.Remove(blogentry);                
                 context.SaveChanges();
             }
-
             return RedirectToAction("Index");
         }
     }

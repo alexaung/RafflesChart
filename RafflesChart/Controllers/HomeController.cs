@@ -132,9 +132,9 @@ namespace RafflesChart.Controllers
         }
 
         [Authorize(Roles = "Admin,SpecialMember")]
-        public ActionResult Archives()
+        public ActionResult BlogArchives()
         {
-            return RetrieveBlogList("Archives");
+            return RetrieveBlogList("BlogArchives");
         }
 
         private ActionResult RetrieveBlogList(string vname)
