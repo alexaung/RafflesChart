@@ -225,6 +225,9 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Models\Blog.cs" />
     <Compile Include="Models\BlogViewModel.cs" />
+    <Compile Include="Models\Hit.cs" />
+    <Compile Include="Models\HitLabel.cs" />
+    <Compile Include="Models\HitViewModel.cs" />
     <Compile Include="Models\NoteViewModel.cs" />
     <Compile Include="Controllers\SchemesController.cs" />
     <Compile Include="Controllers\SchemesAController.cs" />
@@ -341,6 +344,7 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.js" />
     <Content Include="Scripts\app\event.js" />
+    <Content Include="Scripts\app\hit.js" />
     <Content Include="Scripts\app\user.js" />
     <Content Include="Scripts\app\sorttest.js" />
     <Content Include="Scripts\app\scheme.js" />
@@ -690,6 +694,8 @@
     <Content Include="Views\Blogs\Confrim.cshtml" />
     <Content Include="Views\Home\RecentBlogs.cshtml" />
     <Content Include="Views\Home\BlogDetail.cshtml" />
+    <Content Include="Views\Home\ViewHit.cshtml" />
+    <Content Include="Views\Home\ConfigureHit.cshtml" />
     <None Include="Views\Schemes\_CreateOrEditA.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

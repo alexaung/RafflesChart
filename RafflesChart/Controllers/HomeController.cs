@@ -8,7 +8,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-
+using System.Data.Entity;
+using EntityFramework.Extensions;
 namespace RafflesChart.Controllers
 {
 
@@ -154,7 +155,7 @@ namespace RafflesChart.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin,SpecialMember")]      
+        [Authorize(Roles = "Admin,SpecialMember")]
         public ActionResult BlogDetail(int Id)
         {
             using (var context = new ApplicationDbContext())
@@ -171,5 +172,65 @@ namespace RafflesChart.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]      
+        public ActionResult ViewHit()
+        {           
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult GetHitsJson()
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var hits = from h in context.Hits
+                           join hl in context.HitLabels on h.Url equals hl.Url into sub
+                           from s in sub.DefaultIfEmpty()
+                           select new { h.Url, Description = s.Description ?? "", h.CreatedDate };
+                var hgrp = from h in hits
+                           group h by h.Url into grp
+                           select new { grp.Key, Count = grp.Count() };
+
+                var vm = from g in hgrp
+                         from h in hits.Select(x => new { x.Description, x.Url }).Distinct()
+                         where g.Key == h.Url
+                         select new HitViewModel() { Url = h.Url, Page = h.Description, Count = g.Count };
+
+
+                return Json(vm.ToList() , JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult ConfigureHit()
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var hits = from h in context.HitLabels
+                         select h;  
+                var urls = hits.Select( x=> x.Url).ToList();
+                var raw = (from h in context.Hits.ToList()
+                           where urls.Contains(h.Url) == false
+                           select new { h.Url}).Distinct().ToList();
+                var result = hits.ToList().Concat(raw.Select(x=> new HitLabel(){ Description ="" , Url = x.Url}));
+                return View(result.ToList());
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> SaveLabel(IList<HitLabel> vm)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var urlList = vm.Select(x => x.Url).ToString();
+                context.HitLabels.Where(x => urlList.Contains(x.Url)).Delete();
+                foreach (var item in vm)
+                {
+                    context.HitLabels.Add(item);
+                }
+                await context.SaveChangesAsync();
+                return RedirectToAction("ViewHit");
+            }
+        }
     }
 }

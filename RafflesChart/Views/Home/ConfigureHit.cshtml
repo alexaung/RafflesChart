@@ -1,0 +1,38 @@
+﻿@model IList<RafflesChart.Models.HitLabel>
+
+@{
+    ViewBag.Title = "Configure";
+}
+
+<h2>Configure</h2>
+
+
+@using (Html.BeginForm("SaveLabel","Home"))
+{
+    @Html.AntiForgeryToken()
+    <table class="table">
+        <tr>
+            <th>
+               Url
+            </th>
+            <th>
+                Page Name
+            </th>
+            <th></th>
+        </tr>
+
+        @for (var i = 0; i < Model.Count(); i++)
+        {
+            <tr>
+                <td>
+                    @Html.EditorFor(modelItem => modelItem[i].Url)
+                </td>
+                <td>
+                    @Html.EditorFor(modelItem => modelItem[i].Description)
+                </td>
+            </tr>
+        }
+    </table>
+    <input type="submit" name="name" value="Save" class="btn btn-primary" />
+}
+

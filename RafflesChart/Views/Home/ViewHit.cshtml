@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "ViewHit";
+}
+@section Styles{
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+}
+<h2>ViewHit</h2>
+
+<div ng-controller="hitcontroller">
+    <table class="table">
+        <tr>
+
+            <th>
+                <a href="#" ng-class="sorticon('Url')" ng-click="sorthits('Url')">Url</a>
+            </th>
+            <th>
+                <a href="#" ng-class="sorticon('Count')" ng-click="sorthits('Count')">Count</a>
+            </th>
+            <th></th>
+        </tr>
+
+
+        <tr ng-repeat="hit in hits|orderBy:sortOrder">
+
+            <td>
+                {{hit.Url}}
+            </td>
+            <td>
+                {{hit.Count}}
+            </td>
+
+        </tr>
+
+    </table>
+</div>
+<script src="~/Scripts/app/hit.js"></script>
+@section Scripts {
+  
+}

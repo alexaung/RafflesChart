@@ -32,6 +32,10 @@ namespace RafflesChart.Models {
 
         public DbSet<Blog> Blogs { get; set; }
         
+        public DbSet<Hit> Hits { get; set; }
+
+        public DbSet<HitLabel> HitLabels { get; set; }
+        
         public ApplicationDbContext()
             : base("LocalConnection", throwIfV1Schema: false)
         {        

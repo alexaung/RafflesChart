@@ -21,11 +21,22 @@ namespace RafflesChart.App_Start
 {
     public class SessionExpireFilterAttribute : ActionFilterAttribute
     {
-       
+        private void SaveHit(string url)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var hit = new Hit();
+                hit.Url = url;
+                hit.CreatedDate = DateTime.Now;
+
+                context.Hits.Add(hit);
+                context.SaveChanges();
+            }
+        }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             HttpContext ctx = HttpContext.Current;
-
+            Task.Run(() => SaveHit(ctx.Request.Url.AbsolutePath));
             if (ctx.Request.Url.AbsolutePath.Equals("/"))
             {
                 return;

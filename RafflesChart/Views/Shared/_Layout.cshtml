@@ -68,14 +68,15 @@
                     {
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                Users <span class="caret"></span>
+                                Manage <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-
-                                <li>@Html.ActionLink("Upload", "UploadUsers", "Account")</li>
-                                <li>@Html.ActionLink("Listing", "GetUsers", "Account")</li>
+                                <li>@Html.ActionLink("Manage Users", "GetUsers", "Account")</li>
+                                <li>@Html.ActionLink("Upload Users", "UploadUsers", "Account")</li>
+                                
                                 <li>@Html.ActionLink("Manage Special Page", "UploadSpecial", "Account")</li>
                                 <li>@Html.ActionLink("Manage Blog", "Index", "Blogs")</li>
+                                <li>@Html.ActionLink("Site Visits", "ViewHit", "Home")</li>
                             </ul>
 
                         </li>
