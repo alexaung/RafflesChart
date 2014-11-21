@@ -5,10 +5,29 @@
 }
 
 <h2>Archives</h2>
+<table class="table" style="width:300px">
+    <thead>
+        <tr>
+            <th>
+                Date
+            </th>
+            <th>
+                Title
+            </th>
+            <th>
 
-@foreach (var item in Model.OrderBy(x => x.CreatedDate))
-{
-    <div>@item.CreatedDate</div>
-    <div><a href="BlogDetail/@item.Id">@item.Title</a></div>    
-    <hr />
-}
+            </th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model.OrderBy(x => x.CreatedDate))
+    {
+       
+       
+    <tr>
+        <td>@item.CreatedDate</td>
+        <td><a href="BlogDetail/@item.Id">@item.Title</a></td>
+    </tr>
+    }
+    
+</table>
