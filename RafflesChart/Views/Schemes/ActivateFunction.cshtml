@@ -72,14 +72,23 @@
                 @Html.ValidationMessageFor(model => model.ExpiredDate, "", new { @class = "text-danger" })
             </div>
         </div>
-
+       
         <div class="form-group">
             @Html.LabelFor(model => model.Users, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <input type="file" name="Users" id="Users" />
             </div>
         </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                &nbsp;
+            </label>
+            <div class="col-md-10">
 
+                @Html.CheckBoxFor(model => model.ReplaceRecords, new { htmlAttributes = new { @text = Model.ReplaceRecords } })
+                @Html.LabelFor(model => model.ReplaceRecords)
+            </div>
+        </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />

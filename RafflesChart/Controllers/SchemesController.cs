@@ -421,24 +421,24 @@ namespace RafflesChart.Controllers
             var patternScanners = (vm.PatternScanners == null) ? new string[] { } : vm.PatternScanners.ToString().Split(';');
             var scanners = (vm.Scanners == null) ? new string[] { } : vm.Scanners.ToString().Split(';');
 
-            if (backTests.Any()) {
-                await db.UserBackTests.Where(ub => backTests.Contains(ub.FormulaName)).DeleteAsync();
-            }
-            if (bullBearTests.Any()) {
-                await db.UserBullBearTests.Where(ub => bullBearTests.Contains(ub.FormulaName)).DeleteAsync();
-            }
-            if (indicators.Any()) {
-                await db.UserIndicators.Where(ub => indicators.Contains(ub.Indicator)).DeleteAsync();
-            }
-            if (markets.Any()) {
-                await db.UserMarkets.Where(ub => markets.Contains(ub.Market)).DeleteAsync();
-            }
-            if (patternScanners.Any()) {
-                await db.UserPatternScanners.Where(ub => patternScanners.Contains(ub.Scanner)).DeleteAsync();
-            }
-            if (scanners.Any()) {
-                await db.UserScanners.Where(ub => scanners.Contains(ub.Scanner)).DeleteAsync();
-            }
+           //// if (backTests.Any()) {
+           ////     await db.UserBackTests.Where(ub => backTests.Contains(ub.FormulaName)).DeleteAsync();
+           //// }
+           //// if (bullBearTests.Any()) {
+           ////     await db.UserBullBearTests.Where(ub => bullBearTests.Contains(ub.FormulaName)).DeleteAsync();
+           //// }
+           //// if (indicators.Any()) {
+           ////     await db.UserIndicators.Where(ub => indicators.Contains(ub.Indicator)).DeleteAsync();
+           //// }
+           //// if (markets.Any()) {
+           ////     await db.UserMarkets.Where(ub => markets.Contains(ub.Market)).DeleteAsync();
+           //// }
+           //// if (patternScanners.Any()) {
+           ////     await db.UserPatternScanners.Where(ub => patternScanners.Contains(ub.Scanner)).DeleteAsync();
+           //// }
+           //// if (scanners.Any()) {
+           ////     await db.UserScanners.Where(ub => scanners.Contains(ub.Scanner)).DeleteAsync();
+           //// }
 
             var errorEmails = new List<string>();            
             foreach (string email in emails) {
@@ -457,8 +457,16 @@ namespace RafflesChart.Controllers
                         continue;
                     }
                     appuser.ModifiedDate = DateTime.Now;
-                    user.Expires = vm.ExpiredDate.Value;                 
-
+                    user.Expires = vm.ExpiredDate.Value;
+                    if (vm.ReplaceRecords) { 
+                        var userId = user.Id;
+                        await db.UserBackTests.Where(bt => bt.UserId == userId).DeleteAsync();
+                        await db.UserBullBearTests.Where(bt => bt.UserId == userId).DeleteAsync();
+                        await db.UserIndicators.Where(bt => bt.UserId == userId).DeleteAsync();
+                        await db.UserMarkets.Where(bt => bt.UserId == userId).DeleteAsync();
+                        await db.UserPatternScanners.Where(bt => bt.UserId == userId).DeleteAsync();
+                        await db.UserScanners.Where(bt => bt.UserId == userId).DeleteAsync();
+                    }
                     if (backTests.Any()) {
                         AddUserFunction(backTests, user, db.UserBackTests);
                     }

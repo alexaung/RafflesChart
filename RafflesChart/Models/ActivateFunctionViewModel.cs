@@ -26,6 +26,7 @@ namespace RafflesChart.Models {
 
         public HttpPostedFileBase Users { get; set; }
 
-        
+        [DisplayName("Replace Records")]
+        public bool ReplaceRecords { get; set; }
     }
 }
