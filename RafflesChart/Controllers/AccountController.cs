@@ -441,8 +441,8 @@ namespace RafflesChart.Controllers
                         item.Scheme = schemes.FirstOrDefault(xx => xx.Id == ur.UID.SchemeId).Name;
                     }
 
-                    var mkts = usermkts.Where(m=> m.UserId == ur.CU.Id).Select(r=> r.Market).Aggregate((p,q) => p + "," + q );
-                    item.UserMarkets = mkts;
+                    //var mkts = usermkts.Where(m=> m.UserId == ur.CU.Id).Select(r=> r.Market).Aggregate((p,q) => p + "," + q );
+                    //item.UserMarkets = mkts;
                     vm.Add(item);
                 }
                 return vm;

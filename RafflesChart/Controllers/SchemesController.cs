@@ -458,7 +458,8 @@ namespace RafflesChart.Controllers
                     }
                     appuser.ModifiedDate = DateTime.Now;
                     user.Expires = vm.ExpiredDate.Value;
-                    if (vm.ReplaceRecords) { 
+                    if (vm.ReplaceRecords)
+                    { 
                         var userId = user.Id;
                         await db.UserBackTests.Where(bt => bt.UserId == userId).DeleteAsync();
                         await db.UserBullBearTests.Where(bt => bt.UserId == userId).DeleteAsync();
