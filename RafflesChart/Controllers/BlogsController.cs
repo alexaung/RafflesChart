@@ -106,7 +106,7 @@ namespace RafflesChart.Controllers
                 context.SaveChanges();
             }
             
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Blogs");
         }
 
         [Authorize(Roles = "Admin")]

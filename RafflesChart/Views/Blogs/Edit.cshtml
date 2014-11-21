@@ -11,7 +11,7 @@
 <h2>Edit Blog</h2>
 
 <div class="row">
-    <form class="span12" id="postForm" action="EditBlog" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
+    <form class="span12" id="postForm" action="/Blogs/EditBlog" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
          <fieldset>  
              @Html.HiddenFor(model=> model.Id)          
             <div>
