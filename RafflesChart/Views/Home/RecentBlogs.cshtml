@@ -6,10 +6,11 @@
 
 <h2>Blogs</h2>
 
-@foreach (var item in Model.OrderBy(x => x.CreatedDate).Take(2))
+@foreach (var item in Model.OrderByDescending(x => x.CreatedDate).Take(2))
 {
-    <div>@item.CreatedDate</div>
-    <div>@item.Title</div>
+    <H2><b>@item.Title</b></H2>
+    <div>Posted @item.CreatedDate.ToString("dd MMM yyyy hh:mm tt")</div>
+    
     <div>@Html.Raw(item.Content)</div>
     <hr />
 }
