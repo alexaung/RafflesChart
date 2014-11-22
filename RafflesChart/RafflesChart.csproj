@@ -242,10 +242,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201409210339377_newcolumn.cs" />
-    <Compile Include="Migrations\201409210339377_newcolumn.Designer.cs">
-      <DependentUpon>201409210339377_newcolumn.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201409281254048_schemechanges.cs" />
     <Compile Include="Migrations\201409281254048_schemechanges.Designer.cs">
       <DependentUpon>201409281254048_schemechanges.cs</DependentUpon>
@@ -294,6 +290,7 @@
     <Content Include="Content\close_16x16.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\daterangepicker-bs3.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\info_16x16.png">
@@ -348,6 +345,7 @@
     <Content Include="Scripts\app\user.js" />
     <Content Include="Scripts\app\sorttest.js" />
     <Content Include="Scripts\app\scheme.js" />
+    <Content Include="Scripts\daterangepicker.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular-touch.min.js.map" />
     <Content Include="Scripts\angular-sanitize.min.js.map" />
@@ -665,6 +663,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.7.2.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
@@ -781,9 +780,6 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201409210339377_newcolumn.resx">
-      <DependentUpon>201409210339377_newcolumn.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201409281254048_schemechanges.resx">
       <DependentUpon>201409281254048_schemechanges.cs</DependentUpon>
     </EmbeddedResource>

@@ -303,3 +303,6 @@
 /// <reference path="app/sorttest.js" />
 /// <reference path="app/user.js" />
 /// <reference path="summernote.js" />
+/// <reference path="app/hit.js" />
+/// <reference path="daterangepicker.js" />
+/// <reference path="moment.js" />

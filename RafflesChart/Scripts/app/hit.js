@@ -2,6 +2,8 @@
 
 
 m.controller('hitcontroller', ['$scope', '$http', function ($scope, $http) {
+
+    $scope.visitdate = "";
     $scope.sorthits = function (skey) {
         if ($scope.sortOrder == skey) {
             $scope.sortOrder = '-' + skey;
@@ -23,15 +25,17 @@ m.controller('hitcontroller', ['$scope', '$http', function ($scope, $http) {
     };
    
     $scope.getHits = function () {
-
-
-        $http.get('/Home/GetHitsJson', {
-            headers: { 'Content-Type': 'application/json; charset=UTF-8' }
-        })
-        .success(function (data) {
-            $scope.hits = data;
-            console.log(data);
-        });
+    $scope.visitdate = $("#visitdate").val();
+    if($scope.visitdate == undefined || $scope.visitdate.length==23){
+            $http.get('/Home/GetHitsJson', {
+                params: {dt:$scope.visitdate},
+                headers: { 'Content-Type': 'application/json; charset=UTF-8' }
+            })
+            .success(function (data) {
+                $scope.hits = data;
+                console.log(data);
+            });
+        }
     };
 
     $scope.getHits();

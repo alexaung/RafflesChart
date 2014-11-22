@@ -179,11 +179,27 @@ namespace RafflesChart.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public ActionResult GetHitsJson()
+        public ActionResult GetHitsJson(string dt)
         {
+            var dtstart = DateTime.ParseExact("1 Jan 2014", "d MMM yyyy",null);
+            var dtend = DateTime.Now;
+
+            if (dt != null && dt.Length == 23)
+            {
+                string strstart = dt.Split(" - ".ToCharArray())[0];
+                string strend = dt.Split(" - ".ToCharArray())[3];
+                DateTime.TryParseExact(strstart, new string[] { "MM/dd/yyyy" }, null, System.Globalization.DateTimeStyles.None, out dtstart);
+                bool parseok = DateTime.TryParseExact(strend, new string[] { "MM/dd/yyyy" }, null, System.Globalization.DateTimeStyles.None, out dtend);
+                if (parseok)
+                {
+                   dtend= dtend.Date.AddDays(1);
+                }
+            }
+
             using (var context = new ApplicationDbContext())
             {
                 var hits = from h in context.Hits
+                           where h.CreatedDate >= dtstart && h.CreatedDate <=dtend
                            join hl in context.HitLabels on h.Url equals hl.Url into sub
                            from s in sub.DefaultIfEmpty()
                            select new { h.Url, Description = s.Description ?? "", h.CreatedDate };

@@ -4,10 +4,22 @@
 }
 @section Styles{
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Content/daterangepicker-bs3.css" rel="stylesheet" />
 }
 <h2>ViewHit</h2>
 
 <div ng-controller="hitcontroller">
+    <fieldset>
+        <div class="control-group">
+            <div class="controls">
+                <div class="input-prepend input-group">
+                    <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span><input ng-change="getHits();" ng-model="visitdate" type="text" style="width: 200px" name="visitdate" id="visitdate" class="form-control" />
+                    <button class="btn btn-default"  ng-click="getHits();">Refresh</button> 
+                </div>
+                
+            </div>
+        </div>
+    </fieldset>
     <table class="table">
         <tr>
 
@@ -34,7 +46,27 @@
 
     </table>
 </div>
-<script src="~/Scripts/app/hit.js"></script>
+
 @section Scripts {
-  
+  <script src="~/Scripts/app/hit.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/daterangepicker.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#visitdate').daterangepicker({
+            ranges: {
+                'Today': [new Date(), new Date()],
+                'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+                'Last 7 Days': [moment().subtract('days', 6), new Date()],
+                'Last 30 Days': [moment().subtract('days', 29), new Date()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+            }
+        }, function (start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+            $('#visitdate').change();
+        });
+    });
+</script>
+
 }
