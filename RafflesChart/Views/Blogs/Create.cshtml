@@ -1,23 +1,45 @@
 ﻿@model RafflesChart.Models.BlogViewModel
 @{
     ViewBag.Title = "Blog";
+    var pages = new List<SelectListItem>(){
+                new SelectListItem(){ Text = "Home" , Value = "0"},
+                 new SelectListItem(){ Text = "Special Member" , Value = "1"},
+                  new SelectListItem(){ Text = "Offer" , Value = "2"},
+            };
 }
 @section Styles{
 @Styles.Render("~/Content/css")
 <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
 <link href="~/Content/summernote.css" rel="stylesheet" />
+<style>
+    .pageselect {
+        height: 40px;
+    }
+</style>
+
 }
 <h2>Blog</h2>
+
 <div class="row">
     <form class="span12" id="postForm" action="SaveBlog" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
-        <fieldset>            
-            <div>
-                Title : 
-                <input name="Title" />
+        <fieldset>
+            <div class="row form-group">
+                <div class="control-label col-md-1"><label>Title</label>    </div>
+                <div class="col-md-4">
+
+                    <input name="Title" class="form-control" />
+                </div>
             </div>
-            <p class="container">
+
+            <div class="row form-group">
+                <div class="control-label col-md-1"><label>Page</label>    </div>
+                <div class="col-md-4">
+                    @Html.DropDownList("page", pages, new { @class="form-control" })
+                </div>
+            </div>
+            <div class="row form-group" >
                 <textarea class="input-block-level" id="summernote" name="Content" rows="18"></textarea>
-            </p>
+            </div>
         </fieldset>
         <button type="submit" class="btn btn-primary">Save changes</button>        
     </form>

@@ -3,13 +3,24 @@
 @{
     ViewBag.Title = "BlogList";
 }
-
+@section Styles{
+    @Styles.Render("~/Content/css")
+   
+    <style>
+        .postdate {
+            color: grey;
+            margin-top:-8px;
+            margin-bottom:20px;
+            font-size:.8 em;
+        }
+    </style>
+}
 <h2>Blogs</h2>
 
 @foreach (var item in Model.OrderByDescending(x => x.CreatedDate).Take(2))
 {
     <H2><b>@item.Title</b></H2>
-    <div>Posted @item.CreatedDate.ToString("dd MMM yyyy hh:mm tt")</div>
+    <div class="postdate">Posted @item.CreatedDate.ToString("dd MMM yyyy hh:mm tt")</div>
     
     <div>@Html.Raw(item.Content)</div>
     <hr />

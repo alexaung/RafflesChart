@@ -2,33 +2,56 @@
 
 @{
     ViewBag.Title = "Edit Blog";
+    var pages = new List<SelectListItem>(){
+                new SelectListItem(){ Text = "Home" , Value = "0"},
+                 new SelectListItem(){ Text = "Special Member" , Value = "1"},
+                  new SelectListItem(){ Text = "Offer" , Value = "2"},
+            };
 }
 @section Styles{
     @Styles.Render("~/Content/css")
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Content/summernote.css" rel="stylesheet" />
+    <style>
+        .pageselect 
+        {
+            height:40px;
+        }        
+    </style>
 }
 <h2>Edit Blog</h2>
 
-<div class="row">
+<div class="container">
     <form class="span12" id="postForm" action="/Blogs/EditBlog" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
-         <fieldset>  
-             @Html.HiddenFor(model=> model.Id)          
-            <div>
-                Title :
-                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+        <fieldset>
+            @Html.HiddenFor(model => model.Id)
+            <div class="row form-group" >
+                <div class="control-label col-md-1"><label>Title</label>    </div>
+                <div class="col-md-4">
+
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
             </div>
-            <div>
-                Date :
-                @Html.EditorFor(model => model.CreatedDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CreatedDate, "", new { @class = "text-danger" })
+            <div class="row form-group" >
+                <div class="control-label col-md-1"><label>Date</label>    </div>
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.CreatedDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CreatedDate, "", new { @class = "text-danger" })
+                </div>
             </div>
-            <p class="container">
+            <div class="row form-group">
+                <div class="control-label col-md-1"><label>Page</label>    </div>
+                <div class="col-md-4">
+                    @Html.DropDownListFor(model => model.Page, pages,  new { @class = "pageselect form-control"  })
+
+                </div>
+            </div>
+            <div class="row form-group" >
                 <textarea class="input-block-level" id="summernote" name="Content" rows="18">@Model.Content</textarea>
-            </p>
+            </div>
         </fieldset>
-        <button type="submit" class="btn btn-primary">Save changes</button>        
+        <div class="row form-group" > <div class=" col-lg-2"><button type="submit" class="btn btn-primary">Save changes</button>   </div >    </div> 
     </form>
 </div>
 <br />

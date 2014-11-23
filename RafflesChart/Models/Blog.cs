@@ -14,5 +14,7 @@ namespace RafflesChart.Models
         public Byte[] Content { get; set; }
 
         public DateTime CreatedDate { get; set; }
+
+        public string Page { get; set; }
     }
 }

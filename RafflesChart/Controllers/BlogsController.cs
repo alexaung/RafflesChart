@@ -32,7 +32,7 @@ namespace RafflesChart.Controllers
                 blogentry.Content = System.Text.Encoding.ASCII.GetBytes(vm.Content);
                 blogentry.CreatedDate = DateTime.Now;
                 blogentry.Title = vm.Title;
-
+                blogentry.Page = vm.Page; 
                 context.Blogs.Add(blogentry);
                 context.SaveChanges();
             }
@@ -76,6 +76,7 @@ namespace RafflesChart.Controllers
                     Title = blog.Title,
                     CreatedDate = blog.CreatedDate,
                     Id = blog.Id,
+                    Page = blog.Page,
                     Content = System.Text.Encoding.ASCII.GetString(blog.Content)
                 };
                 return View(vname,blogvm);
@@ -102,7 +103,7 @@ namespace RafflesChart.Controllers
                 blogentry.Content = System.Text.Encoding.ASCII.GetBytes(vm.Content);
                 blogentry.CreatedDate =vm.CreatedDate;
                 blogentry.Title = vm.Title;
-                
+                blogentry.Page = vm.Page;
                 context.SaveChanges();
             }
             

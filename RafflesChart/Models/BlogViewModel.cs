@@ -20,5 +20,7 @@ namespace RafflesChart.Models
 
         [Required]
         public DateTime CreatedDate { get; set; }
+
+        public string Page { get; set; }
     }
 }
