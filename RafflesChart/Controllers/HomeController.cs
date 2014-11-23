@@ -131,6 +131,17 @@ namespace RafflesChart.Controllers
         {
             return RetrieveBlogList("RecentBlogs");
         }
+          
+        [AllowAnonymous]
+        public ActionResult Latest()
+        {
+            return RetrieveBlogList("Latest");
+        }
+
+        public ActionResult Offer()
+        {
+            return RetrieveBlogList("Offer");
+        }
 
         [Authorize(Roles = "Admin,SpecialMember")]
         public ActionResult BlogArchives()
@@ -147,6 +158,8 @@ namespace RafflesChart.Controllers
                          {
                              Title = x.Title,
                              CreatedDate = x.CreatedDate,
+                             UpdatedDate = x.UpdatedDate,
+                             Page = x.Page,
                              Id = x.Id,
                              Content = System.Text.Encoding.ASCII.GetString(x.Content)
                          }
@@ -165,6 +178,7 @@ namespace RafflesChart.Controllers
                 {
                     Title = blog.Title,
                     CreatedDate = blog.CreatedDate,
+                    UpdatedDate = blog.UpdatedDate,
                     Id = blog.Id,
                     Content = System.Text.Encoding.ASCII.GetString(blog.Content)
                 };

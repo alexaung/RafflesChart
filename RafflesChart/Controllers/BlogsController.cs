@@ -31,6 +31,7 @@ namespace RafflesChart.Controllers
                 var blogentry = new Blog();
                 blogentry.Content = System.Text.Encoding.ASCII.GetBytes(vm.Content);
                 blogentry.CreatedDate = DateTime.Now;
+                blogentry.UpdatedDate = blogentry.CreatedDate;
                 blogentry.Title = vm.Title;
                 blogentry.Page = vm.Page; 
                 context.Blogs.Add(blogentry);
@@ -51,12 +52,36 @@ namespace RafflesChart.Controllers
                          {
                              Title = x.Title,
                              CreatedDate = x.CreatedDate,
+                             UpdatedDate = x.UpdatedDate,
+                             PageType = ConvertToPageType(x.Page),
                              Id = x.Id,
                              Content = System.Text.Encoding.ASCII.GetString(x.Content)
                          }
                          select blogvm;
                 return View(vm.ToList());
             }
+        }
+
+        private string ConvertToPageType(string p)
+        {
+            if (string.IsNullOrEmpty(p)) { return ""; }
+            if (p.Equals("0"))
+            {
+                return "Home";
+            }
+            else if (p.Equals("1"))
+            {
+                return "Special Member";
+            }
+            else if (p.Equals("2"))
+            {
+                return "Offer";
+            }
+            else
+            {
+                return "";
+            }
+
         }
 
        [Authorize(Roles = "Admin")]
@@ -102,6 +127,7 @@ namespace RafflesChart.Controllers
                 var blogentry = context.Blogs.SingleOrDefault(x=> x.Id== vm.Id);
                 blogentry.Content = System.Text.Encoding.ASCII.GetBytes(vm.Content);
                 blogentry.CreatedDate =vm.CreatedDate;
+                blogentry.UpdatedDate = DateTime.Now ;
                 blogentry.Title = vm.Title;
                 blogentry.Page = vm.Page;
                 context.SaveChanges();

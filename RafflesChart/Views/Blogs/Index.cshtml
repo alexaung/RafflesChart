@@ -15,22 +15,28 @@
     <thead>
         <tr>
             <th>
-                Date
-            </th>
-            <th>
                 Title
             </th>
             <th>
-
+                Type
+            </th>
+            <th>
+                Created Date
+            </th>
+            
+          
+            <th>
+                Updated Date
             </th>
         </tr>
     </thead>
-    @foreach (var item in Model.OrderBy(x => x.CreatedDate))
+    @foreach (var item in Model.OrderByDescending(x => x.CreatedDate))
     {
         <tr>
             <td><a href="/Blogs/Detail/@item.Id">@item.Title</a></td>
+            <td>@item.PageType</td>
             <td>@item.CreatedDate</td>
-
+            <td>@item.UpdatedDate</td>
             <td><a href="/Blogs/Edit/@item.Id">edit</a> | <a href="/Blogs/Delete/@item.Id">delete</a></td>
         </tr>
 

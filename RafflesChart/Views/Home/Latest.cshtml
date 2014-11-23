@@ -1,0 +1,34 @@
+﻿@model IEnumerable<RafflesChart.Models.BlogViewModel>
+
+
+    @{
+        ViewBag.Title = "BlogList";
+    }
+    @section Styles{
+        @Styles.Render("~/Content/css")
+
+        <style>
+            .postdate {
+                color: grey;
+                margin-top: -8px;
+                margin-bottom: 20px;
+                font-size: .8 em;
+            }
+
+            .editdate {
+            }
+        </style>
+    }
+    <h2>Blogs</h2>
+
+    @foreach (var item in Model.Where(x => x.Page == "0").OrderByDescending(x => x.CreatedDate).Take(2))
+    {
+        <h2><b>@item.Title</b></h2>
+        <div class="postdate">
+            <span>Posted @item.CreatedDate.ToString("dd MMM yyyy hh:mm tt")</span>
+            <span class="editdate">Edited @item.UpdatedDate.ToString("dd MMM yyyy hh:mm tt")</span>
+        </div>
+
+        <div>@Html.Raw(item.Content)</div>
+        <hr />
+    }

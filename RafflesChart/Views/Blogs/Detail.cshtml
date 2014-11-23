@@ -3,12 +3,21 @@
 @{
     ViewBag.Title = "Blog";
 }
+@section Styles{
+    @Styles.Render("~/Content/css")
 
-<h2>Blog</h2>
+    <style>
+        .postdate {
+            color: grey;
+            margin-top: -8px;
+            margin-bottom: 20px;
+            font-size: .8 em;
+        }
+    </style>
+}
 
-
-<div>@Model.CreatedDate</div>
-<div>@Model.Title</div>
+<h2><b>@Model.Title</b></h2>
+<div class="postdate">Posted @Model.CreatedDate.ToString("dd MMM yyyy hh:mm tt")</div>
 <div>@Html.Raw(Model.Content)</div>
 <br />
 <div>

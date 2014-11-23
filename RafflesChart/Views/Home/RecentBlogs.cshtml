@@ -13,14 +13,18 @@
             margin-bottom:20px;
             font-size:.8 em;
         }
+        .editdate {
+            margin-left: 150px;
+        }
     </style>
 }
 <h2>Blogs</h2>
 
-@foreach (var item in Model.OrderByDescending(x => x.CreatedDate).Take(2))
+@foreach (var item in Model.Where(x => x.Page == "1").OrderByDescending(x => x.CreatedDate).Take(2))
 {
     <H2><b>@item.Title</b></H2>
-    <div class="postdate">Posted @item.CreatedDate.ToString("dd MMM yyyy hh:mm tt")</div>
+    <div class="postdate"><span>Posted @item.CreatedDate.ToString("dd MMM yyyy hh:mm tt")</span>
+        <span class="editdate">Last Edited @item.UpdatedDate.ToString("dd MMM yyyy hh:mm tt")</span></div>
     
     <div>@Html.Raw(item.Content)</div>
     <hr />

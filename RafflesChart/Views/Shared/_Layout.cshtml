@@ -8,12 +8,24 @@
     <script type="text/javascript" src="/Scripts/angular.js"></script>
     <script type="text/javascript" src="/Scripts/angular-route.js"></script>
     <script type="text/javascript" src="/Scripts/app/app.js"></script>
-
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
     @RenderSection("styles", required: false)
-
+    <style>
+        /**/
+        .navbar-inverse {
+            background-color: white !Important;
+            border-bottom-color:white;
+        }
+        .navbar-nav > li > a {
+            color: grey !Important;
+        }
+        .navbar-nav > li > a:hover {
+            color: green !Important;
+        }
+    </style>
 </head>
 <body ng-app="main">
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -29,7 +41,7 @@
            
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Latest News", "Latest", "Home")</li>
 
                     <li>@Html.ActionLink("Events", "Index", "Events")</li>
 
@@ -44,25 +56,29 @@
                     
                     @if (Html.ActionAuthorized("Welcome", "Account"))
                     {
-                        <li>@Html.ActionLink("Welcome", "Welcome", "Account")</li>
+                       
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                Instructions <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>@Html.ActionLink("Welcome", "Welcome", "Account")</li>
+                                <li>@Html.ActionLink("FAQ", "FAQ", "Account")</li>
+                                <li>@Html.ActionLink("User Guide", "UserGuide", "Account")</li>
+                                <li>@Html.ActionLink("Tutorial", "Tutorial", "Account")</li>
+                                <li>@Html.ActionLink("Script Writing", "ScriptWriting", "Account")</li>
+                            </ul>
+                        </li>
                     }
                     
-                    @if (Html.ActionAuthorized("Welcome", "Account"))
+                    @if (Html.ActionAuthorized("Offer", "Home"))
                     {
-                        <li>@Html.ActionLink("FAQ", "FAQ", "Account")</li>
+                        <li >
+                            <span class="fa fa-gift">&nbsp;</span>
+                    @Html.ActionLink("Offer", "Offer", "Home" )</li>
                     }
-                    @if (Html.ActionAuthorized("UserGuide", "Account"))
-                    {
-                        <li>@Html.ActionLink("User Guide", "UserGuide", "Account")</li>
-                    }
-                    @if (Html.ActionAuthorized("Welcome", "Account"))
-                    {
-                        <li>@Html.ActionLink("Tutorial", "Tutorial", "Account")</li>
-                    }
-                    @if (Html.ActionAuthorized("Welcome", "Account"))
-                    {
-                        <li>@Html.ActionLink("Script Writing", "ScriptWriting", "Account")</li>
-                    }
+                    
+                   
 
                     @if (Html.ActionAuthorized("UploadUsers", "Account"))
                     {
