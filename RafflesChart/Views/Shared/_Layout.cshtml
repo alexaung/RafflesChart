@@ -14,7 +14,7 @@
 
     @RenderSection("styles", required: false)
     <style>
-        /**/
+        /*
         .navbar-inverse {
             background-color: white !Important;
             border-bottom-color:white;
@@ -24,7 +24,7 @@
         }
         .navbar-nav > li > a:hover {
             color: green !Important;
-        }
+        }*/
     </style>
 </head>
 <body ng-app="main">
@@ -53,10 +53,10 @@
                     {
                         <li>@Html.ActionLink("Blogs", "RecentBlogs", "Home")</li>
                     }
-                    
+
                     @if (Html.ActionAuthorized("Welcome", "Account"))
                     {
-                       
+
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 Instructions <span class="caret"></span>
@@ -70,15 +70,15 @@
                             </ul>
                         </li>
                     }
-                    
+
                     @if (Html.ActionAuthorized("Offer", "Home"))
                     {
-                        <li >
-                            <span class="fa fa-gift">&nbsp;</span>
-                    @Html.ActionLink("Offer", "Offer", "Home" )</li>
+                        <li>
+                            @Html.ActionLink("Offer", "Offer", "Home")
+                        </li>
                     }
-                    
-                   
+
+
 
                     @if (Html.ActionAuthorized("UploadUsers", "Account"))
                     {
@@ -89,7 +89,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li>@Html.ActionLink("Manage Users", "GetUsers", "Account")</li>
                                 <li>@Html.ActionLink("Upload Users", "UploadUsers", "Account")</li>
-                                
+
                                 <li>@Html.ActionLink("Manage Special Page", "UploadSpecial", "Account")</li>
                                 <li>@Html.ActionLink("Manage Blog", "Index", "Blogs")</li>
                                 <li>@Html.ActionLink("Site Visits", "ViewHit", "Home")</li>
@@ -114,6 +114,7 @@
                     @*<li>@Html.ActionLink("About", "About", "Home")</li>
             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                 </ul>
+
                 @Html.Partial("_LoginPartial")
             </div>
         </div>

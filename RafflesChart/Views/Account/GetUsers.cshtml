@@ -75,29 +75,47 @@
                                       <th>
                                           <a href="#" ng-class="sorticon('Scheme')" ng-click="sortusers('Scheme')">Scheme</a>
                                       </th>
+                                      <th>
+                                          <a href="#" ng-class="sorticon('UserMarkets')" ng-click="sortusers('UserMarkets')">User Markets</a>
+                                      </th>
+                                      <th>
+                                          <a href="#" ng-class="sorticon('UserIndicators')" ng-click="sortusers('UserIndicators')">User Indicators</a>
+                                      </th>
+                                      <th>
+                                          <a href="#" ng-class="sorticon('UserBackTests')" ng-click="sortusers('UserBackTests')">User Back Tests</a>
+                                      </th>
+                                      <th>
+                                          <a href="#" ng-class="sorticon('UserBullBearTests')" ng-click="sortusers('UserBullBearTests')">User BullBear Tests</a>
+                                      </th>
+                                      <th>
+                                          <a href="#" ng-class="sorticon('UserPatternScanners')" ng-click="sortusers('UserPatternScanners')">User Pattern Scanners</a>
+                                      </th>
+                                      <th>
+                                          <a href="#" ng-class="sorticon('UserScanners')" ng-click="sortusers('UserScanners')">User Scanners</a>
+                                      </th>
                                       @*<th>
-                                @Html.DisplayNameFor(model => model.Scanner)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CustomIndicators)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Live)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CiAdd)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.ScannerAdd)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.SignalAdd)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.TrendAdd)
-                            </th> <th>
-                        @Html.DisplayNameFor(model => model.PatternAdd)
-                    </th>*@
+                        @Html.DisplayNameFor(model => model.Scanner)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CustomIndicators)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Live)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CiAdd)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ScannerAdd)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SignalAdd)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TrendAdd)
+                    </th> <th>
+                @Html.DisplayNameFor(model => model.PatternAdd)
+            </th>*@
                                       <th>
                                           <a href="#" ng-class="sorticon('Expires')" ng-click="sortusers('Expires')">Expiry Date</a>
                                       </th>
@@ -127,6 +145,24 @@
                                       </td>
                                       <td>
                                           {{user.Scheme}}
+                                      </td>
+                                      <td>
+                                          {{user.UserMarkets}}
+                                      </td>
+                                      <td>
+                                          {{user.UserIndicators}}
+                                      </td>
+                                      <td>
+                                          {{user.UserBackTests}}
+                                      </td>
+                                      <td>
+                                          {{user.UserBullBearTests}}
+                                      </td>
+                                      <td>
+                                          {{user.UserPatternScanners}}
+                                      </td>
+                                      <td>
+                                          {{user.UserScanners}}
                                       </td>
                                       @*<td>
                                     @Html.DisplayFor(modelItem => item.Scanner)

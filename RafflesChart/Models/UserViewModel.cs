@@ -45,5 +45,15 @@ namespace RafflesChart.Models
         public string UserMarkets { get; set; }
 
         public double CreatedDate { get; set; }
+
+        public string UserScanners { get; set; }
+
+        public string UserPatternScanners { get; set; }
+
+        public string UserBullBearTests { get; set; }
+
+        public string UserBackTests { get; set; }
+
+        public string UserIndicators { get; set; }
     }
 }

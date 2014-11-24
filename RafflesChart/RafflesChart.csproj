@@ -223,6 +223,10 @@
     <Compile Include="Controllers\ContactViewModel.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Migrations\201411240213112_BlogColumn.cs" />
+    <Compile Include="Migrations\201411240213112_BlogColumn.Designer.cs">
+      <DependentUpon>201411240213112_BlogColumn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Blog.cs" />
     <Compile Include="Models\BlogViewModel.cs" />
     <Compile Include="Models\Hit.cs" />
@@ -784,6 +788,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409281254048_schemechanges.resx">
       <DependentUpon>201409281254048_schemechanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411240213112_BlogColumn.resx">
+      <DependentUpon>201411240213112_BlogColumn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

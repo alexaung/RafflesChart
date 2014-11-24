@@ -391,7 +391,12 @@ namespace RafflesChart.Controllers
                             from cu in usersql
                             where u.Email == cu.Login
                             select new { CU = cu, UID = u };
-                var usermkts = db.UserMarkets.Where(u => userids.Contains(u.UserId));
+                var usermkts = await db.UserMarkets.Where(u => userids.Contains(u.UserId)).ToArrayAsync();
+                var userindicators = await db.UserIndicators.Where(u => userids.Contains(u.UserId)).ToArrayAsync();
+                var userbacktests = await db.UserBackTests .Where(u => userids.Contains(u.UserId)).ToArrayAsync();
+                var userbullbeartests = await db.UserBullBearTests.Where(u => userids.Contains(u.UserId)).ToArrayAsync();
+                var userpatternscanners = await db.UserPatternScanners.Where(u => userids.Contains(u.UserId)).ToArrayAsync();
+                var userscanners = await db.UserScanners.Where(u => userids.Contains(u.UserId)).ToArrayAsync();
                                
                 foreach (var ur in users.OrderByDescending(x=> x.UID.ModifiedDate))
                 {
@@ -441,8 +446,36 @@ namespace RafflesChart.Controllers
                         item.Scheme = schemes.FirstOrDefault(xx => xx.Id == ur.UID.SchemeId).Name;
                     }
 
-                    //var mkts = usermkts.Where(m=> m.UserId == ur.CU.Id).Select(r=> r.Market).Aggregate((p,q) => p + "," + q );
-                    //item.UserMarkets = mkts;
+                    var mkts = usermkts.Where(m => m.UserId == ur.CU.Id).Select(r => r.Market);
+                    if (mkts.Count() > 0)
+                    {
+                        item.UserMarkets = mkts.Aggregate((p, q) => p + "," + q);
+                    }
+                    var indicators = userindicators.Where(m => m.UserId == ur.CU.Id).Select(r => r.Indicator);
+                    if (indicators.Count() > 0)
+                    {
+                        item.UserIndicators = indicators.Aggregate((p, q) => p + "," + q);
+                    }
+                    var backtests = userbacktests.Where(m => m.UserId == ur.CU.Id).Select(r => r.FormulaName);
+                    if (backtests.Count() > 0)
+                    {
+                        item.UserBackTests = backtests.Aggregate((p, q) => p + "," + q);
+                    }
+                    var bullbeartests = userbullbeartests.Where(m => m.UserId == ur.CU.Id).Select(r => r.FormulaName);
+                    if (bullbeartests.Count() > 0)
+                    {
+                        item.UserBullBearTests = bullbeartests.Aggregate((p, q) => p + "," + q);
+                    }
+                    var patternscanners = userpatternscanners.Where(m => m.UserId == ur.CU.Id).Select(r => r.Scanner);
+                    if (patternscanners.Count() > 0)
+                    {
+                        item.UserPatternScanners = patternscanners.Aggregate((p, q) => p + "," + q);
+                    }
+                    var scanners = userscanners.Where(m => m.UserId == ur.CU.Id).Select(r => r.Scanner);
+                    if (scanners.Count() > 0)
+                    {
+                        item.UserScanners = scanners.Aggregate((p, q) => p + "," + q);
+                    }
                     vm.Add(item);
                 }
                 return vm;
