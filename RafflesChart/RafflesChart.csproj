@@ -701,6 +701,7 @@
     <Content Include="Views\Home\ConfigureHit.cshtml" />
     <Content Include="Views\Home\Offer.cshtml" />
     <Content Include="Views\Home\Latest.cshtml" />
+    <Content Include="Views\Home\Subscription.cshtml" />
     <None Include="Views\Schemes\_CreateOrEditA.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

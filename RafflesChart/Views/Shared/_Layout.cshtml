@@ -14,17 +14,45 @@
 
     @RenderSection("styles", required: false)
     <style>
-        /*
+       
         .navbar-inverse {
-            background-color: white !Important;
-            border-bottom-color:white;
+            background-color: #f5f5f5 !Important;
+            border-bottom-color:#d8d8d8 !important;
         }
         .navbar-nav > li > a {
-            color: grey !Important;
+            color: black !Important;
+            font-weight:bold;
         }
         .navbar-nav > li > a:hover {
-            color: green !Important;
-        }*/
+            color: #4183c4 !Important;
+        }
+        .navbar-header a
+        {
+            font-weight:bold;
+        }
+         .navbar-header a:hover {
+            color: #4183c4 !Important;
+        }
+        .navbar-nav > .open > a
+        {
+            background-color:#e7ecee !important;
+        }
+        .admin-menu ul
+        {
+            list-style:none;
+           margin-left:70%;
+        }
+        .admin-menu li
+        {
+           margin-left:20px;
+        }
+        .admin-menu li  a{
+            text-decoration:none;
+        }
+        .admin-menu .open > a
+        {
+            background-color:white !important;
+        }
     </style>
 </head>
 <body ng-app="main">
@@ -42,6 +70,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Latest News", "Latest", "Home")</li>
+                    <li>@Html.ActionLink("Subscription", "Subscription", "Home")</li>
 
                     <li>@Html.ActionLink("Events", "Index", "Events")</li>
 
@@ -80,37 +109,7 @@
 
 
 
-                    @if (Html.ActionAuthorized("UploadUsers", "Account"))
-                    {
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                Manage <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>@Html.ActionLink("Manage Users", "GetUsers", "Account")</li>
-                                <li>@Html.ActionLink("Upload Users", "UploadUsers", "Account")</li>
-
-                                <li>@Html.ActionLink("Manage Special Page", "UploadSpecial", "Account")</li>
-                                <li>@Html.ActionLink("Manage Blog", "Index", "Blogs")</li>
-                                <li>@Html.ActionLink("Site Visits", "ViewHit", "Home")</li>
-                            </ul>
-
-                        </li>
-                    }
-                    @if (Html.ActionAuthorized("Index", "Schemes"))
-                    {
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                Scheme <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>@Html.ActionLink("Listing", "Index", "Schemes")</li>
-                                <li>@Html.ActionLink("Activate Scheme", "Activate", "Schemes")</li>
-                                <li>@Html.ActionLink("Activate Function", "ActivateFunction", "Schemes")</li>
-                                <li>@Html.ActionLink("Uploaded scheme data", "SchemeUserData", "Schemes")</li>
-                            </ul>
-                        </li>
-                    }
+                    
                     @*<li>@Html.ActionLink("About", "About", "Home")</li>
             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                 </ul>
@@ -118,6 +117,41 @@
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
+    </div>
+    <div class="container admin-menu">
+        <ul class="navbar-nav">
+            @if (Html.ActionAuthorized("UploadUsers", "Account"))
+            {
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        Manage <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>@Html.ActionLink("Manage Users", "GetUsers", "Account")</li>
+                        <li>@Html.ActionLink("Upload Users", "UploadUsers", "Account")</li>
+
+                        <li>@Html.ActionLink("Manage Special Page", "UploadSpecial", "Account")</li>
+                        <li>@Html.ActionLink("Manage Blog", "Index", "Blogs")</li>
+                        <li>@Html.ActionLink("Site Visits", "ViewHit", "Home")</li>
+                    </ul>
+
+                </li>
+            }
+            @if (Html.ActionAuthorized("Index", "Schemes"))
+            {
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        Scheme <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>@Html.ActionLink("Listing", "Index", "Schemes")</li>
+                        <li>@Html.ActionLink("Activate Scheme", "Activate", "Schemes")</li>
+                        <li>@Html.ActionLink("Activate Function", "ActivateFunction", "Schemes")</li>
+                        <li>@Html.ActionLink("Uploaded scheme data", "SchemeUserData", "Schemes")</li>
+                    </ul>
+                </li>
+            }
+        </ul>
     </div>
     <div class="container body-content">
         @RenderBody()

@@ -262,5 +262,10 @@ namespace RafflesChart.Controllers
                 return RedirectToAction("ViewHit");
             }
         }
+        [AllowAnonymous]
+        public ActionResult Subscription()
+        {
+            return View();
+        }
     }
 }
