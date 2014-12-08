@@ -223,6 +223,7 @@
     <Compile Include="Controllers\ContactViewModel.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SubscriptionController.cs" />
     <Compile Include="Migrations\201411240213112_BlogColumn.cs" />
     <Compile Include="Migrations\201411240213112_BlogColumn.Designer.cs">
       <DependentUpon>201411240213112_BlogColumn.cs</DependentUpon>
@@ -261,6 +262,7 @@
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\IUserFunction.cs" />
     <Compile Include="Models\Registrant.cs" />
+    <Compile Include="Models\SubscriptionViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\Scheme.cs" />
     <Compile Include="Models\SchemeUserViewModel.cs" />
@@ -345,10 +347,15 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.js" />
     <Content Include="Scripts\app\event.js" />
+    <Content Include="Scripts\app\subscription.js" />
     <Content Include="Scripts\app\hit.js" />
     <Content Include="Scripts\app\user.js" />
     <Content Include="Scripts\app\sorttest.js" />
     <Content Include="Scripts\app\scheme.js" />
+    <Content Include="Content\bootstrap-select.css" />
+    <Content Include="Scripts\bootstrap-select.js" />
+    <Content Include="Content\bootstrap-select.min.css" />
+    <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\daterangepicker.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular-touch.min.js.map" />
@@ -373,6 +380,7 @@
     <None Include="Properties\PublishProfiles\localdeploy.pubxml" />
     <None Include="Properties\PublishProfiles\refflechart - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\refflechart - Web Deploy.pubxml" />
+    <Content Include="Scripts\bootstrap-select.js.map" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -780,6 +788,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Subscription\" />
     <Folder Include="Views\UserBackTests\" />
   </ItemGroup>
   <ItemGroup>
