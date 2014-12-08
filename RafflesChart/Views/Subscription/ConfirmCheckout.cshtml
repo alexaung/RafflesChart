@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "ConfirmCheckout";
+}
+
+<h2>ConfirmCheckout</h2>
+@using (Html.BeginForm("ProceedCheckout", "Subscription"))
+{
+
+
+    <div>
+        <div>
+            Total <input type="text" name="Total" value="@ViewBag.Total" readonly="readonly" class="form-control" />
+        </div>
+        <div>
+            Token <input type="text" name="Token" value="@ViewBag.Token" readonly="readonly" class="form-control" />
+        </div>
+        <div>
+            Payer Id <input type="text" name="PayerId" value="@ViewBag.PayerId" readonly="readonly" class="form-control" />
+        </div>
+        <div>
+            <input type="submit" value="Submit" />
+        </div>
+    </div>
+
+}
+

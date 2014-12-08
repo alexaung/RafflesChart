@@ -1,0 +1,46 @@
+@model RafflesChart.ViewModels.SubscriptionViewModel
+@{
+    ViewBag.Title = "Subscription";
+}
+@section styles{
+    <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+}
+<p class="alert alert-success">@TempData["Success"] </p>
+<h2>Subscription</h2>
+
+@{
+    var months = new List<SelectListItem>()
+                    {
+                        new SelectListItem(){ Value ="1" , Text="1 Month"},
+                        new SelectListItem(){ Value ="2" , Text="2 Month"},
+                        new SelectListItem(){ Value ="3" , Text="3 Month"}
+                    };
+}
+@using (Html.BeginForm("Add", "Subscription"))
+{
+    <div>
+        <div>
+            <input type="text" name="ItemName" value="Tutorial" readonly="readonly" class="form-control" />
+        </div>
+        <div>
+            <input type="text" name="Price" value="11.0" readonly="readonly" class="form-control" />
+        </div>
+        <div>
+            @Html.DropDownListFor(m => m.SelectedMonth, months, new { @class = "selectpicker" })
+        </div>
+        <div>
+            <input type="submit" name="name" value="Add" class="btn btn-primary" />
+        </div>
+    </div>
+}
+
+@section scripts{
+
+
+    <script src="~/Scripts/bootstrap-select.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.selectpicker').selectpicker();
+        });
+    </script>
+}

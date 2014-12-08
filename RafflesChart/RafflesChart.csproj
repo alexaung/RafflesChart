@@ -215,6 +215,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\paypalfunctions.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SessionExpireFilter.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
@@ -223,6 +224,8 @@
     <Compile Include="Controllers\ContactViewModel.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PayPalController.cs" />
+    <Compile Include="Models\PayPalModel.cs" />
     <Compile Include="Controllers\SubscriptionController.cs" />
     <Compile Include="Migrations\201411240213112_BlogColumn.cs" />
     <Compile Include="Migrations\201411240213112_BlogColumn.Designer.cs">
@@ -785,10 +788,15 @@
     <Content Include="Views\Shared\DisplayTemplates\MetaRobotsHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
+    <Content Include="Views\Subscription\Add.cshtml" />
+    <Content Include="Views\Subscription\ConfirmCheckout.cshtml" />
+    <Content Include="Views\Subscription\ExpressCheckOut.cshtml" />
+    <Content Include="Views\Subscription\Index.cshtml" />
+    <Content Include="Views\Subscription\Subscription.cshtml" />
+    <Content Include="Views\Subscription\ValidateCommand.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Subscription\" />
     <Folder Include="Views\UserBackTests\" />
   </ItemGroup>
   <ItemGroup>

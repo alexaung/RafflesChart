@@ -1,0 +1,23 @@
+@{
+	ViewBag.Title = "Purchase";
+}
+
+@using (Html.BeginForm("ValidateCommand", "PayPal"))
+{
+	<div>
+		<div>
+			Product Name 
+			<input type="text" name="product" />
+		</div>
+		
+		<div>
+			Amount 
+			<input type="text" name="totalPrice" />
+		</div>
+		
+		<div>
+			
+			<input type="submit" name="btnConfirm" value="CheckOut" />
+		</div>
+	</div>
+}
