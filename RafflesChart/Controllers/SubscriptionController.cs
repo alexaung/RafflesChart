@@ -30,9 +30,10 @@ namespace RafflesChart.Controllers
             }
             else
             {
-                Response.Redirect("APIError.aspx?" + retMsg);
-            }
-            return View();
+                // Response.Redirect("APIError.aspx?" + retMsg);
+                TempData["SetError"] = retMsg;
+                return View();
+            }           
         }
 
         public ActionResult ConfirmCheckout()
@@ -63,9 +64,10 @@ namespace RafflesChart.Controllers
             }
             else
             {
-                Response.Redirect("APIError.aspx?" + retMsg);
+                TempData["ConfirmError"] = retMsg;
+                TempData["Total"] = total;
+                return RedirectToAction("ConfirmCheckout", new { @token = token, @PayerID = PayerId });
             }
-            return View();
         }
     }
 }

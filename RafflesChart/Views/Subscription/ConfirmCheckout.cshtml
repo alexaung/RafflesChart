@@ -3,7 +3,12 @@
     ViewBag.Title = "ConfirmCheckout";
 }
 
+@if (@TempData["ConfirmError"] != null && !string.IsNullOrEmpty(TempData["ConfirmError"].ToString()))
+{
+    <p class="alert alert-danger">@TempData["ConfirmError"] </p>
+}
 <h2>ConfirmCheckout</h2>
+
 @using (Html.BeginForm("ProceedCheckout", "Subscription"))
 {
 

@@ -5,7 +5,14 @@
 @section styles{
     <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 }
+@if (@TempData["Success"] != null && !string.IsNullOrEmpty(TempData["Success"].ToString())) 
+{ 
 <p class="alert alert-success">@TempData["Success"] </p>
+}
+@if (@TempData["SetError"] != null && !string.IsNullOrEmpty(TempData["SetError"].ToString()))
+{
+<p class="alert alert-danger">@TempData["SetError"] </p>
+}
 <h2>Subscription</h2>
 
 @{

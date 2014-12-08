@@ -19,7 +19,7 @@ public class NVPAPICaller
     private const string CVV2 = "CVV2";
 
     //Flag that determines the PayPal environment (live or sandbox)
-    private const bool bSandbox = true;
+    //private const bool bSandbox = true;
 
     private const string SIGNATURE = "SIGNATURE";
     private const string PWD = "PWD";
@@ -63,6 +63,9 @@ public class NVPAPICaller
     public bool ShortcutExpressCheckout(string amt, string itemName, string qty, string itemAmount, ref string token, ref string retMsg)
     {
 		string host = "www.paypal.com";
+
+        bool bSandbox = bool.Parse(ConfigurationManager.AppSettings["Sandbox"]);
+
 		if (bSandbox)
 		{
 			pendpointurl = "https://api-3t.sandbox.paypal.com/nvp";
@@ -71,12 +74,13 @@ public class NVPAPICaller
 
         string returnURL = ConfigurationManager.AppSettings["returnURL"] ;
         string cancelURL = ConfigurationManager.AppSettings["cancelURL"];
+        string currency = ConfigurationManager.AppSettings["currency"];
 
         NVPCodec encoder = new NVPCodec();
         encoder["METHOD"] = "SetExpressCheckout";
         encoder["RETURNURL"] = returnURL;
         encoder["CANCELURL"] = cancelURL;
-        encoder["PAYMENTREQUEST_0_CURRENCYCODE"] = "USD";
+        encoder["PAYMENTREQUEST_0_CURRENCYCODE"] = currency;
 
         encoder["PAYMENTREQUEST_0_AMT"] = amt;
         encoder["PAYMENTREQUEST_0_ITEMAMT"] = amt;
@@ -127,6 +131,8 @@ public class NVPAPICaller
                         string shipToCountryCode,ref string token, ref string retMsg)
     {
 		string host = "www.paypal.com";
+        bool bSandbox = bool.Parse(ConfigurationManager.AppSettings["Sandbox"]);
+
 		if (bSandbox)
 		{
 			pendpointurl = "https://api-3t.sandbox.paypal.com/nvp";
@@ -135,6 +141,7 @@ public class NVPAPICaller
 
         string returnURL = "www.minichart.com/paypal/return";
         string cancelURL = "www.minichart.com/paypal/calcnel";
+
 
         NVPCodec encoder = new NVPCodec();
         encoder["METHOD"] = "SetExpressCheckout";
@@ -191,6 +198,7 @@ public class NVPAPICaller
     /// <returns></returns>
     public bool GetShippingDetails(string token, ref string PayerId, ref string ShippingAddress, ref string retMsg)
     {
+        bool bSandbox = bool.Parse(ConfigurationManager.AppSettings["Sandbox"]);
 
 		if (bSandbox)
 		{
@@ -244,10 +252,14 @@ public class NVPAPICaller
     /// <returns></returns>
     public bool ConfirmPayment(string finalPaymentAmount, string token, string PayerId, ref NVPCodec decoder, ref string retMsg )
     {
+        bool bSandbox = bool.Parse(ConfigurationManager.AppSettings["Sandbox"]);
+
 		if (bSandbox)
 		{
 			pendpointurl = "https://api-3t.sandbox.paypal.com/nvp";
 		}
+
+        string currency = ConfigurationManager.AppSettings["currency"];
 		
         NVPCodec encoder = new NVPCodec();
         encoder["METHOD"] = "DoExpressCheckoutPayment";
@@ -255,7 +267,8 @@ public class NVPAPICaller
         encoder["PAYMENTREQUEST_0_PAYMENTACTION"] = "Sale";
         encoder["PAYERID"] = PayerId;
         encoder["PAYMENTREQUEST_0_AMT"] = finalPaymentAmount;
-		encoder["PAYMENTREQUEST_0_CURRENCYCODE"] = "USD";
+        encoder["PAYMENTREQUEST_0_CURRENCYCODE"] = currency;
+
 
         string pStrrequestforNvp = encoder.Encode();
         string pStresponsenvp = HttpCall(pStrrequestforNvp);
@@ -290,8 +303,8 @@ public class NVPAPICaller
 
         //To Add the credentials from the profile
         string strPost = NvpRequest + "&" + buildCredentialsNVPString();
-        string BNCode = ConfigurationManager.AppSettings["BNCode"];
-		strPost = strPost + "&BUTTONSOURCE=" + HttpUtility.UrlEncode( BNCode );
+        // string BNCode = ConfigurationManager.AppSettings["BNCode"];
+		// strPost = strPost + "&BUTTONSOURCE=" + HttpUtility.UrlEncode( BNCode );
 
         HttpWebRequest objRequest = (HttpWebRequest)WebRequest.Create(url);
         objRequest.Timeout = Timeout;
