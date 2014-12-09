@@ -1,0 +1,69 @@
+﻿@model IEnumerable<RafflesChart.ViewModels.SubscriptionEntryViewModel>
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+<table class="table">
+    <thead>
+        <th>
+            Name
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Detail
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Created Date
+        </th>
+        <th>
+            Updated Date
+        </th>
+    </thead>
+    @{
+        var entries = from en in Enumerable.Range(1, 10)
+                      select new RafflesChart.ViewModels.SubscriptionEntryViewModel()
+                      {
+                          Name = "Name " + en,
+                          Price = en * 100,
+                          Detail = "blah blah lbha lbha " + en,
+                          Status = "Sale",
+                          CreatedDate = DateTime.Now,
+                          UpdatedDate = DateTime.Now
+                      };
+    }
+
+    @foreach (var item in entries)
+    {
+        <tr>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Price
+            </td>
+            <td>
+                @item.Detail
+            </td>
+            <td>
+                @item.Status
+            </td>
+            <td>
+                @item.CreatedDate
+            </td>
+            <td>
+                @item.UpdatedDate
+            </td>
+            <td>
+                @Html.ActionLink("edit" , "Edit", "ManageSubscription") | 
+                @Html.ActionLink("delete", "Delete", "ManageSubscription")
+            </td>
+        </tr>
+    }
+
+</table>

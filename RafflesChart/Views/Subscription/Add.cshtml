@@ -22,23 +22,43 @@
                         new SelectListItem(){ Value ="2" , Text="2 Month"},
                         new SelectListItem(){ Value ="3" , Text="3 Month"}
                     };
+
+    var entries = from en in Enumerable.Range(1, 10)
+                  select new RafflesChart.ViewModels.SubscriptionEntryViewModel()
+                  {
+                      Name = "Name " + en,
+                      Price = en * 100,
+                      Detail = "blah blah lbha lbha " + en,
+                      Status = "Sale",
+                      CreatedDate = DateTime.Now,
+                      UpdatedDate = DateTime.Now
+                  };                    
 }
-@using (Html.BeginForm("Add", "Subscription"))
+
+@foreach (var item in entries)
 {
-    <div>
+    using (Html.BeginForm("Add", "Subscription"))
+    {
         <div>
-            <input type="text" name="ItemName" value="Tutorial" readonly="readonly" class="form-control" />
+            <div>
+                @item.Name
+            </div>
+            <div>
+                @Html.Raw(item.Detail)
+            </div>
+            <div>
+                @item.Price
+                <input type="hidden" name="Price" value="@item.Price" />
+            </div>
+            <div>
+                
+                @Html.DropDownListFor(m => m.SelectedMonth, months, new { @class = "selectpicker" })
+            </div>
+            <div>
+                <input type="image" src="~/Content/btn_pponly_142x27.png"  />
+            </div>
         </div>
-        <div>
-            <input type="text" name="Price" value="11.0" readonly="readonly" class="form-control" />
-        </div>
-        <div>
-            @Html.DropDownListFor(m => m.SelectedMonth, months, new { @class = "selectpicker" })
-        </div>
-        <div>
-            <input type="submit" name="name" value="Add" class="btn btn-primary" />
-        </div>
-    </div>
+    }
 }
 
 @section scripts{

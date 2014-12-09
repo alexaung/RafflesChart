@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Add";
+}
+
+<h2>Add</h2>
+@using( Html.BeginForm("Add","ManageSubscription"))
+{
+
+<div class="control-group">
+    <div class="row form-group">
+        <div class="col-xs-2">
+            <label>
+                Name
+            </label>
+        </div>
+        <div class="col-xs-4">
+            <input type="text" name="Name" value="" class="form-control" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-2">
+            <label>
+                Price
+            </label>
+        </div>
+        <div class="col-xs-4">
+            <input type="text" name="Price" value="" class="form-control" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-2">
+            <label>
+                Details
+            </label>
+        </div>
+        <div class="col-xs-4">
+            <textarea type="text" name="Detail" rows="8" class="form-control"></textarea>
+        </div>
+    </div>
+   
+    <div class="row form-group">
+        <div class="col-xs-2">
+            &nbsp;
+        </div>
+        <div class="col-xs-4">
+            <input type="submit" class="btn btn-primary" value="Add" />
+        </div>
+    </div>
+
+</div>
+}

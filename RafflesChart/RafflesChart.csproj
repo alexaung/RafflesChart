@@ -224,6 +224,7 @@
     <Compile Include="Controllers\ContactViewModel.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManageSubscriptionController.cs" />
     <Compile Include="Controllers\PayPalController.cs" />
     <Compile Include="Models\PayPalModel.cs" />
     <Compile Include="Controllers\SubscriptionController.cs" />
@@ -265,6 +266,7 @@
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\IUserFunction.cs" />
     <Compile Include="Models\Registrant.cs" />
+    <Compile Include="Models\SubscriptionEntryViewModel.cs" />
     <Compile Include="Models\SubscriptionViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\Scheme.cs" />
@@ -293,6 +295,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\btn_pponly_142x27.png" />
     <Content Include="Content\chosen-sprite%402x.png" />
     <Content Include="Content\chosen-sprite.png" />
     <Content Include="Content\chosen.css" />
@@ -713,6 +716,9 @@
     <Content Include="Views\Home\Offer.cshtml" />
     <Content Include="Views\Home\Latest.cshtml" />
     <Content Include="Views\Home\Subscription.cshtml" />
+    <Content Include="Views\ManageSubscription\Add.cshtml" />
+    <Content Include="Views\ManageSubscription\List.cshtml" />
+    <Content Include="Views\ManageSubscription\Edit.cshtml" />
     <None Include="Views\Schemes\_CreateOrEditA.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
