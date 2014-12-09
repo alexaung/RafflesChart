@@ -14,17 +14,40 @@
 
 
     <div>
-        <div>
-            Total <input type="text" name="Total" value="@ViewBag.Total" readonly="readonly" class="form-control" />
+        <div class="row form-group">
+            <div class="col-xs-2">
+                Total
+            </div>
+            <div class="col-xs-4">
+
+                <input type="text" name="Total" value="@ViewBag.Total" readonly="readonly" class="form-control" />
+            </div>
         </div>
-        <div>
-            Token <input type="text" name="Token" value="@ViewBag.Token" readonly="readonly" class="form-control" />
+        <div class="row form-group">
+            <div class="col-xs-2">
+                Token
+            </div>
+            <div class="col-xs-4">
+
+                <input type="text" name="Token" value="@ViewBag.Token" readonly="readonly" class="form-control" />
+            </div>
         </div>
-        <div>
-            Payer Id <input type="text" name="PayerId" value="@ViewBag.PayerId" readonly="readonly" class="form-control" />
+        <div class="row form-group">
+            <div class="col-xs-2">
+                Payer Id
+            </div>
+            <div class="col-xs-4">
+                <input type="text" name="PayerId" value="@ViewBag.PayerId" readonly="readonly" class="form-control" />
+            </div>
         </div>
-        <div>
-            <input type="submit" value="Submit" />
+        <div class="row form-group">
+            <div class="col-xs-2">
+                &nbsp;
+            </div>
+            <div class="col-xs-4">
+
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
         </div>
     </div>
 

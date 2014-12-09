@@ -1,0 +1,54 @@
+@model IEnumerable<RafflesChart.Models.UserSubscription>
+    @{
+        ViewBag.Title = "List";
+    }
+
+    <h2>List</h2>
+    <table class="table">
+        <thead>
+        <th>
+            Name
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Month
+        </th>
+        <th>
+            Total
+        </th>
+        <th>
+            Paypal Ref
+        </th>
+        <th>
+            Payment Date
+        </th>
+        </thead>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.ItemName
+                </td>
+                <td>
+                    @item.Price
+                </td>
+                <td>
+                    @item.Month
+                </td>
+                <td>
+                    @{ var total = item.Price * item.Month;}
+                    @total
+                </td>
+                <td>
+                    @item.PaypalRef
+                </td>
+                <td>
+                    @item.CreatedDate
+                </td>
+               
+            </tr>
+        }
+
+    </table>

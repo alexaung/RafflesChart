@@ -38,6 +38,8 @@ namespace RafflesChart.Models {
 
         public DbSet<Subscription> Subscriptions { get; set; }
 
+        public DbSet<UserSubscription> UserSubscriptions { get; set; }
+
         public ApplicationDbContext()
             : base("LocalConnection", throwIfV1Schema: false)
         {        

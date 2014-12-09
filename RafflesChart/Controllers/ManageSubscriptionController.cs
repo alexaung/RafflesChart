@@ -59,7 +59,10 @@ namespace RafflesChart.Controllers
                 return RedirectToAction("List");
             }
         }
-
+         public ActionResult Payment(){
+             return View();
+         }
+         
         public ActionResult List()
         {
             using (var db = new ApplicationDbContext())
@@ -68,6 +71,74 @@ namespace RafflesChart.Controllers
 
                 return View(vm);
             }            
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult GetPaymentsJson(string paymentdate,
+                               string username,string useremail,string subscriptionname,string paypalref )
+        {
+            var dtstart = DateTime.ParseExact("1 Jan 2014", "d MMM yyyy", null);
+            var dtend = DateTime.Now;
+            DateTime d1 = new DateTime(1970, 1, 1);
+            if (paymentdate != null && paymentdate.Length == 23)
+            {
+                string strstart = paymentdate.Split(" - ".ToCharArray())[0];
+                string strend = paymentdate.Split(" - ".ToCharArray())[3];
+                DateTime.TryParseExact(strstart, new string[] { "MM/dd/yyyy" }, null, System.Globalization.DateTimeStyles.None, out dtstart);
+                bool parseok = DateTime.TryParseExact(strend, new string[] { "MM/dd/yyyy" }, null, System.Globalization.DateTimeStyles.None, out dtend);
+                if (parseok)
+                {
+                    dtend = dtend.Date.AddDays(1);
+                }
+            }
+
+            using (var context = new ApplicationDbContext())
+            {
+                var subscriptions = context.UserSubscriptions.AsQueryable();
+                var users = context.Users.AsQueryable();
+                if (!string.IsNullOrEmpty(username))
+                {
+                    users = users.Where(u => u.Name.Contains(username));
+                }
+                if (!string.IsNullOrEmpty(useremail))
+                {
+                    users = users.Where(u => u.Email.Contains(useremail));
+                }
+                if (!string.IsNullOrEmpty(paypalref))
+                {
+                    subscriptions = subscriptions.Where(x => x.PaypalRef.Contains(paypalref));
+                }
+
+                if (!string.IsNullOrEmpty(subscriptionname))
+                {
+                    subscriptions = subscriptions.Where(x => x.ItemName.Contains(subscriptionname));
+                }
+                
+                 var vm =  from u in users
+                           from s in subscriptions
+                           where s.CreatedDate >= dtstart && s.CreatedDate <= dtend
+                            && s.UserId == u.UserName
+                            select new { UserEmail = u.Email , UserName= u.Name ,
+                                        SubscriptionName = s.ItemName , 
+                                        Price = s.Price,
+                                        Month =s.Month, 
+                                        CreatedDate = s.CreatedDate,
+                                        PaypalRef = s.PaypalRef};
+
+                 var ngvm = vm.ToList().Select(x => new
+                 {
+                     x.UserName,
+                     x.UserEmail,
+                     x.SubscriptionName,
+                     x.Price,
+                     x.Month,
+                     x.PaypalRef,
+                     CreatedDate = new TimeSpan(x.CreatedDate.AddHours(-8).Ticks - d1.Ticks).TotalMilliseconds,
+                 });
+
+
+                 return Json(ngvm, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

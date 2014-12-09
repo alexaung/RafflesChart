@@ -21,7 +21,13 @@
         }
         .navbar-nav > li > a {
             color: black !Important;
-            font-weight:bold;
+            font-weight: bold;
+            padding-left: 10px !important;
+            padding-right: 0px !important;
+        }
+        .navbar-nav > li 
+        {
+            
         }
         .navbar-nav > li > a:hover {
             color: #4183c4 !Important;
@@ -37,14 +43,16 @@
         {
             background-color:#e7ecee !important;
         }
-        .admin-menu ul
-        {
-            list-style:none;
-           margin-left:70%;
+        .admin-menu ul {
+            list-style: none;
+            margin-left: 70%;
         }
-        .admin-menu li
-        {
-           margin-left:20px;
+        .accountmenu{
+            margin-left:10%;
+        }
+        .admin-menu li {
+           
+            margin-left: 20px;
         }
         .admin-menu li  a{
             text-decoration:none;
@@ -64,19 +72,29 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Raffles Chart", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Minichart", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
            
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Latest News", "Latest", "Home")</li>
-                    <li>@Html.ActionLink("Subscription", "Subscription", "Home")</li>
-
+                    <li>@Html.ActionLink("2 Cents Worth", "Latest", "Home")</li>
+                    @if (Html.ActionAuthorized("Welcome", "Account"))
+                     {
+                       <li class="dropdown">
+                           <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                               Subscription <span class="caret"></span>
+                           </a>
+                           <ul class="dropdown-menu" role="menu">
+                               <li>@Html.ActionLink("Available", "Index", "Subscription")</li>
+                               <li>@Html.ActionLink("View Records", "MySubscription", "Subscription")</li>
+                           </ul>
+                       </li>
+                    }
                     <li>@Html.ActionLink("Events", "Index", "Events")</li>
 
                     @if (Html.ActionAuthorized("SpecialMember", "Home"))
                     {
-                        <li>@Html.ActionLink("Special Member", "SpecialMember", "Home")</li>
+                        <li>@Html.ActionLink("Members", "SpecialMember", "Home")</li>
                     }
                     @if (Html.ActionAuthorized("SpecialMember", "Home"))
                     {
@@ -88,7 +106,7 @@
 
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                Instructions <span class="caret"></span>
+                                About Minichart <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li>@Html.ActionLink("Welcome", "Welcome", "Account")</li>
@@ -109,51 +127,61 @@
 
 
 
-                    
+
                     @*<li>@Html.ActionLink("About", "About", "Home")</li>
             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                 </ul>
-
+               
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
-    <div class="container admin-menu">
-        <ul class="navbar-nav">
-            @if (Html.ActionAuthorized("UploadUsers", "Account"))
-            {
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        Manage <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li>@Html.ActionLink("Manage Users", "GetUsers", "Account")</li>
-                        <li>@Html.ActionLink("Upload Users", "UploadUsers", "Account")</li>
+  
+        <div class="container admin-menu" >
 
-                        <li>@Html.ActionLink("Manage Special Page", "UploadSpecial", "Account")</li>
-                        <li>@Html.ActionLink("Manage Blog", "Index", "Blogs")</li>
-                        <li>@Html.ActionLink("Site Visits", "ViewHit", "Home")</li>
-                    </ul>
+             <ul class="nav navbar-nav">
 
-                </li>
-            }
-            @if (Html.ActionAuthorized("Index", "Schemes"))
-            {
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        Scheme <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li>@Html.ActionLink("Listing", "Index", "Schemes")</li>
-                        <li>@Html.ActionLink("Activate Scheme", "Activate", "Schemes")</li>
-                        <li>@Html.ActionLink("Activate Function", "ActivateFunction", "Schemes")</li>
-                        <li>@Html.ActionLink("Uploaded scheme data", "SchemeUserData", "Schemes")</li>
-                    </ul>
-                </li>
-            }
-        </ul>
-    </div>
-    <div class="container body-content">
+
+        @if (Html.ActionAuthorized("UploadUsers", "Account"))
+        {
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    Manage <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu">
+                    <li>@Html.ActionLink("Manage Users", "GetUsers", "Account")</li>
+                    <li>@Html.ActionLink("Upload Users", "UploadUsers", "Account")</li>
+
+                    <li>@Html.ActionLink("Manage Special Page", "UploadSpecial", "Account")</li>
+                    <li>@Html.ActionLink("Manage Blog", "Index", "Blogs")</li>
+                    <li>@Html.ActionLink("Manage Subscription", "Add", "ManageSubscription")</li>
+                    <li>@Html.ActionLink("View User Paymens", "Payment", "ManageSubscription")</li>
+                    <li>@Html.ActionLink("Site Visits", "ViewHit", "Home")</li>
+                </ul>
+
+            </li>
+        }
+        @if (Html.ActionAuthorized("Index", "Schemes"))
+        {
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    Scheme <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu">
+                    <li>@Html.ActionLink("Listing", "Index", "Schemes")</li>
+                    <li>@Html.ActionLink("Activate Scheme", "Activate", "Schemes")</li>
+                    <li>@Html.ActionLink("Activate Function", "ActivateFunction", "Schemes")</li>
+                    <li>@Html.ActionLink("Uploaded scheme data", "SchemeUserData", "Schemes")</li>
+                </ul>
+            </li>
+        }
+    </ul>
+        </div>
+
+
+   
+  
+     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>

@@ -269,6 +269,7 @@
     <Compile Include="Models\Subscription.cs" />
     <Compile Include="Models\SubscriptionEntryViewModel.cs" />
     <Compile Include="Models\SubscriptionViewModel.cs" />
+    <Compile Include="Models\UserSubscription.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\Scheme.cs" />
     <Compile Include="Models\SchemeUserViewModel.cs" />
@@ -354,6 +355,7 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.js" />
     <Content Include="Scripts\app\event.js" />
+    <Content Include="Scripts\app\payment.js" />
     <Content Include="Scripts\app\subscription.js" />
     <Content Include="Scripts\app\hit.js" />
     <Content Include="Scripts\app\user.js" />
@@ -720,6 +722,7 @@
     <Content Include="Views\ManageSubscription\Add.cshtml" />
     <Content Include="Views\ManageSubscription\List.cshtml" />
     <Content Include="Views\ManageSubscription\Edit.cshtml" />
+    <Content Include="Views\ManageSubscription\Payment.cshtml" />
     <None Include="Views\Schemes\_CreateOrEditA.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -799,7 +802,7 @@
     <Content Include="Views\Subscription\ConfirmCheckout.cshtml" />
     <Content Include="Views\Subscription\ExpressCheckOut.cshtml" />
     <Content Include="Views\Subscription\Index.cshtml" />
-    <Content Include="Views\Subscription\Subscription.cshtml" />
+    <Content Include="Views\Subscription\MySubscription.cshtml" />
     <Content Include="Views\Subscription\ValidateCommand.cshtml" />
   </ItemGroup>
   <ItemGroup>

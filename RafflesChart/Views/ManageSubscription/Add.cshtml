@@ -3,7 +3,8 @@
     ViewBag.Title = "Add";
 }
 
-<h2>Add</h2>
+    <h2 style="text-align:left">Add</h2>
+
 @using( Html.BeginForm("Add","ManageSubscription"))
 {
 
@@ -64,6 +65,10 @@
             <input type="submit" class="btn btn-primary" value="Add" />
         </div>
     </div>
-
-</div>
+    <div class="row form-group">
+        <div class="col-xs-2">
+           @Html.ActionLink("View List" , "List")
+        </div>
+        </div>
+ </div>  
 }

@@ -1,4 +1,4 @@
-@model RafflesChart.ViewModels.SubscriptionViewModel
+@model IEnumerable<RafflesChart.Models.Subscription>
 @{
     ViewBag.Title = "Subscription";
 }
@@ -19,23 +19,24 @@
     var months = new List<SelectListItem>()
                     {
                         new SelectListItem(){ Value ="1" , Text="1 Month"},
-                        new SelectListItem(){ Value ="2" , Text="2 Month"},
-                        new SelectListItem(){ Value ="3" , Text="3 Month"}
+                        new SelectListItem(){ Value ="2" , Text="2 Months"},
+                        new SelectListItem(){ Value ="3" , Text="3 Months"},
+                         new SelectListItem(){ Value ="4" , Text="4 Months"},
+                        new SelectListItem(){ Value ="5" , Text="5 Months"},
+                        new SelectListItem(){ Value ="6" , Text="6 Months"},
+                         new SelectListItem(){ Value ="7" , Text="7 Months"},
+                        new SelectListItem(){ Value ="8" , Text="8 Months"},
+                        new SelectListItem(){ Value ="9" , Text="9 Months"},
+                         new SelectListItem(){ Value ="10" , Text="10 Months"},
+                        new SelectListItem(){ Value ="11" , Text="11 Months"},
+                        new SelectListItem(){ Value ="12" , Text="1 Year"},
+                         new SelectListItem(){ Value ="24" , Text="2 Years"}
                     };
 
-    var entries = from en in Enumerable.Range(1, 10)
-                  select new RafflesChart.ViewModels.SubscriptionEntryViewModel()
-                  {
-                      Name = "Name " + en,
-                      Price = en * 100,
-                      Detail = "blah blah lbha lbha " + en,
-                      Status = "Sale",
-                      CreatedDate = DateTime.Now,
-                      UpdatedDate = DateTime.Now
-                  };                    
+                    
 }
 
-@foreach (var item in entries)
+@foreach (var item in Model)
 {
     using (Html.BeginForm("Add", "Subscription"))
     {
@@ -44,7 +45,7 @@
                 <div class="col-xs-offset-2 col-xs-2">
                     <b><u> @item.Name</u></b>
                 </div>
-                
+                <input type="hidden" name="SubscriptionId" value="@item.Id" />
                 <input type="hidden" name="ItemName" value="@item.Name" />
             </div>
             <div class="row form-group">
@@ -71,7 +72,7 @@
                     Months
                 </div>
                 <div class="col-xs-2">
-                    @Html.DropDownListFor(m => m.SelectedMonth, months, new { @class = "selectpicker" })
+                    @Html.DropDownList("Month",months, new { @class = "selectpicker" })
                 </div>                
             </div>
             <div class="row">

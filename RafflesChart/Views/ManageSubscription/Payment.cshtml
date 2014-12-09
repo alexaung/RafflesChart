@@ -1,0 +1,149 @@
+﻿
+@{
+    ViewBag.Title = "Payment";
+}
+@section Styles{
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/daterangepicker-bs3.css" rel="stylesheet" />
+}
+<h2>Payment</h2>
+
+<div ng-controller="paymentcontroller">
+    <div>
+        <div class="row form-group">
+            <div class="col-xs-2">
+                User Name
+            </div>
+            <div class="col-xs-4">
+                <input type=" text" ng-model="username" class="form-control" />
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-xs-2">
+                Email
+            </div>
+            <div class="col-xs-4">
+                <input type="text" ng-model="useremail" class="form-control" />
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-xs-2">
+                Subscription
+            </div>
+            <div class="col-xs-4">
+                <input type="text" ng-model="subscriptioname" class="form-control" />
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-xs-2">
+                Paypal Ref
+            </div>
+            <div class="col-xs-4">
+                <input type="text" ng-model="paypalref" class="form-control" />
+            </div>
+        </div>
+       
+        <div class="row form-group">
+            <div class="col-xs-2">
+                Date
+            </div>
+            <div class="col-xs-4">
+                <div class="input-prepend input-group">
+                    <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span><input ng-model="paymentdate" type="text" style="width: 200px" name="paymentdate" id="paymentdate" class="form-control" />
+
+                </div>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-xs-2">
+                Subscription
+            </div>
+            <div class="col-xs-4">
+                <input type="submit" ng-click="getPayments();" class="btn btn-primary"   />
+            </div>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+        <th>
+            User Name
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Subscription
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Month
+        </th>
+        <th>
+            Total
+        </th>
+        <th>
+            Paypal Ref
+        </th>
+        <th>
+            Payment Date
+        </th>
+        </thead>
+
+
+        <tr ng-repeat="payment in payments">
+            <td>
+                {{payment.UserName}}
+            </td>
+            <td>
+                {{payment.UserEmail}}
+            </td>
+            <td>
+                {{payment.SubscriptionName}}
+            </td>
+            <td>
+                {{payment.Price}}
+            </td>
+            <td>
+                {{payment.Month}}
+            </td>
+            <td>
+                {{payment.Price * payment.Month}}
+            </td>
+            <td>
+                {{payment.PaypalRef}}
+            </td>
+            <td>
+                {{payment.CreatedDate | date:'medium'}}
+            </td>
+        </tr>
+  
+
+    </table>
+
+</div>
+@section scripts{
+<script src="~/Scripts/app/app.js"></script>
+    <script src="~/Scripts/app/payment.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/daterangepicker.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#paymentdate').daterangepicker({
+            ranges: {
+                'Today': [new Date(), new Date()],
+                'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+                'Last 7 Days': [moment().subtract('days', 6), new Date()],
+                'Last 30 Days': [moment().subtract('days', 29), new Date()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+            }
+        }, function (start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+            $('#paymentdate').change();
+        });
+    });
+</script>
+}
