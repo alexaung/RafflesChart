@@ -266,6 +266,7 @@
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\IUserFunction.cs" />
     <Compile Include="Models\Registrant.cs" />
+    <Compile Include="Models\Subscription.cs" />
     <Compile Include="Models\SubscriptionEntryViewModel.cs" />
     <Compile Include="Models\SubscriptionViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />

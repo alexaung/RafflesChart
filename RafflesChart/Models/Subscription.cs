@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace RafflesChart.ViewModels
+namespace RafflesChart.Models
 {
-    public class SubscriptionEntryViewModel
+    public class Subscription
     {
         public int Id { get; set; }
 
