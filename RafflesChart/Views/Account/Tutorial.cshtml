@@ -1,7 +1,17 @@
-﻿
+﻿@model  int?
 @{
     ViewBag.Title = "Tutorial";
 }
 
 <h2>Tutorial</h2>
 
+@{
+    var schemes = new int[] { 3, 9 , 10 };    
+}
+
+@if ( Model == null || !schemes.Contains(Model.Value))
+{
+    <p class="alert-danger">
+        Not Authorised
+    </p>
+}

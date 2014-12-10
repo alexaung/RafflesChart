@@ -102,7 +102,13 @@ namespace RafflesChart.Controllers
         
         public ActionResult Tutorial()
         {
-            return View();
+            using (var db = new ApplicationDbContext())
+            {
+                var email = User.Identity.Name;
+                var schemes = db.Users.FirstOrDefault(e => e.Email == email).SchemeId ;
+                return View(schemes);
+            }
+           
         }
 
         [AllowAnonymous]
