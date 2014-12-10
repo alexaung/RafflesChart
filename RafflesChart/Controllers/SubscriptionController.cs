@@ -1,7 +1,9 @@
-﻿using RafflesChart.Models;
+﻿using Postal;
+using RafflesChart.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -47,6 +49,18 @@ namespace RafflesChart.Controllers
             }           
         }
 
+        public async Task SendPaymentEmail(string email , string subscription, string price, string month, string total, string paypalref)
+        {
+            dynamic mail = new Email("Payment");
+            mail.User =  email;
+            mail.Subscription = subscription;
+            mail.Price = price;
+            mail.Month = month;
+            mail.Total = total;
+            mail.PaypalRef = paypalref;
+            await mail.SendAsync();
+        }
+
         public ActionResult ConfirmCheckout()
         {
             var token = Request.QueryString["token"].ToString();
@@ -80,10 +94,10 @@ namespace RafflesChart.Controllers
             if (ret)
             {
                 string paypalref = decoder["PAYMENTINFO_0_TRANSACTIONID"];
-
+                var usersubscription = new UserSubscription();
                 using(var db = new ApplicationDbContext())
 	            {
-		            var usersubscription = new UserSubscription();
+		           
                     usersubscription.CreatedDate = DateTime.Now;
                     usersubscription.SubscriptionId = int.Parse(TempData["SubscriptionId"].ToString());
                     usersubscription.Price = decimal.Parse( TempData["Price"].ToString());
@@ -94,6 +108,11 @@ namespace RafflesChart.Controllers
                     db.UserSubscriptions.Add(usersubscription);
                     db.SaveChanges();
 	            }
+
+                var taskemail = SendPaymentEmail( User.Identity.Name, usersubscription.ItemName, usersubscription.Price.ToString() 
+                                , usersubscription.Month.ToString()
+                                , (usersubscription.Price * usersubscription.Month).ToString(), usersubscription.PaypalRef );
+                // taskemail.Start();
                 TempData["Success"] = "Payment Successful";
                 //Response.Redirect(retMsg);
                 return RedirectToAction("Index");
