@@ -13,7 +13,7 @@
     @Scripts.Render("~/bundles/modernizr")
 
     @RenderSection("styles", required: false)
-    <style>
+    <style type="text/css">
        
         .navbar-inverse {
             background-color: #f5f5f5 !Important;
@@ -61,6 +61,13 @@
         {
             background-color:white !important;
         }
+        @@media screen and (min-width: 0px) and (max-width: 750px) {
+          .nav-label { display: block; }  /* show it on small screens */
+        }
+
+        @@media screen and (min-width: 751px)  {
+          .nav-label { display: none; }   /* hide it elsewhere */
+}
     </style>
 </head>
 <body ng-app="main">
@@ -74,7 +81,7 @@
                 </button>
                 @Html.ActionLink("Minichart", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-           
+            <div class="nav-label"> Navigation</div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("2 Cents Worth", "Latest", "Home")</li>
