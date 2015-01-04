@@ -25,9 +25,8 @@
             padding-left: 14px !important;
             padding-right: 0px !important;
         }
-        .navbar-nav > li 
-        {
-            
+        .navbar-toggle {
+          background-color:gray  !Important;
         }
         .navbar-nav > li > a:hover {
             color: #4183c4 !Important;
@@ -62,7 +61,15 @@
             background-color:white !important;
         }
         @@media screen and (min-width: 0px) and (max-width: 750px) {
-          .nav-label { display: block; }  /* show it on small screens */
+            .nav-label {
+                display: block;
+                float: right;
+                padding-right: 80px;
+                top: -35px;
+                position: relative;
+                font-weight: bold;
+            }
+            /* show it on small screens */
         }
 
         @@media screen and (min-width: 751px)  {
@@ -121,6 +128,7 @@
                                 <li>@Html.ActionLink("User Guide", "UserGuide", "Account")</li>
                                 <li>@Html.ActionLink("Tutorial", "Tutorial", "Account")</li>
                                 <li>@Html.ActionLink("Script Writing", "ScriptWriting", "Account")</li>
+                                <li>@Html.ActionLink("Page1", "Page1", "Home")</li>
                             </ul>
                         </li>
                     }
@@ -128,7 +136,7 @@
                     @if (Html.ActionAuthorized("Offer", "Home"))
                     {
                         <li>
-                            @Html.ActionLink("Offer", "Offer", "Home")
+                            @Html.ActionLink("update1", "Offer", "Home")
                         </li>
                     }
 

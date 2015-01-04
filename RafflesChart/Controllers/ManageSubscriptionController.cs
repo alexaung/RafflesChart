@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace RafflesChart.Controllers
 {
+    [Authorize]
     public class ManageSubscriptionController : Controller
     {
         [HttpPost]

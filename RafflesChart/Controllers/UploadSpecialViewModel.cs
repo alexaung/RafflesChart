@@ -10,5 +10,7 @@ namespace RafflesChart.Models
     public class UploadSpecialViewModel
     {
         public HttpPostedFileBase Users { get; set; }
+
+        public bool Replace { get; set; }
     }
 }

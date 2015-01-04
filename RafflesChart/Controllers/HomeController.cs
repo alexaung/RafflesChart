@@ -144,6 +144,12 @@ namespace RafflesChart.Controllers
         }
 
         [Authorize(Roles = "Admin,SpecialMember")]
+        public ActionResult Page1()
+        {
+            return RetrieveBlogList("Page1");
+        }
+
+        [Authorize(Roles = "Admin,SpecialMember")]
         public ActionResult BlogArchives()
         {
             return RetrieveBlogList("BlogArchives");

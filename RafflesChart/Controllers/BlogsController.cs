@@ -67,15 +67,19 @@ namespace RafflesChart.Controllers
             if (string.IsNullOrEmpty(p)) { return ""; }
             if (p.Equals("0"))
             {
-                return "Home";
+                return "2 cents worth";
             }
             else if (p.Equals("1"))
             {
-                return "Special Member";
+                return "Blog";
             }
             else if (p.Equals("2"))
             {
-                return "Offer";
+                return "update1";
+            }
+            else if (p.Equals("3"))
+            {
+                return "page1";
             }
             else
             {

@@ -89,6 +89,10 @@ namespace RafflesChart.Controllers
             return RedirectToAction("Welcome");
         }
 
+        public ActionResult Page1()
+        {
+            return View();
+        }
 
         public ActionResult UserGuide()
         {
@@ -676,6 +680,15 @@ namespace RafflesChart.Controllers
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
+
+                    int timeout = model.RememberMe ? 525600 : 30; // Timeout in minutes, 525600 = 365 days.
+                    var ticket = new FormsAuthenticationTicket(model.Email, model.RememberMe, timeout);
+                    string encrypted = FormsAuthentication.Encrypt(ticket);
+                    var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encrypted);
+                    cookie.Expires = System.DateTime.Now.AddMinutes(timeout);// Not my line
+                    cookie.HttpOnly = true; // cookie not available in javascript.
+                    Response.Cookies.Add(cookie);
+
                     Session["activeuser"] = model.Email;
                     if (string.IsNullOrEmpty (returnUrl) || "/".Equals(returnUrl))
                     {
@@ -767,7 +780,9 @@ namespace RafflesChart.Controllers
                         db.ChartUsers.Add(chartuser);
                         var usertoconfirm = db.Users.FirstOrDefault(x=>x.Email == user.Email);
                         usertoconfirm.EmailConfirmed = true;
-                        usertoconfirm.CreatedDate = DateTime.Now;
+                        DateTime dtnow = DateTime.Now; ;
+                        usertoconfirm.CreatedDate = dtnow;
+                        usertoconfirm.ModifiedDate = dtnow;
                         db.SaveChanges();
 	                } 
                     await SendUserRegistrationEmailAsync(model.Email, cpt);
@@ -1222,16 +1237,26 @@ namespace RafflesChart.Controllers
                 }
                 if (string.IsNullOrEmpty(rid) ==false)
                 {
-                    memrole.Users.ToList().ForEach(x=> memrole.Users.Remove(x));
-                    succesUserCount = goodEmails.Count();
+                    var userlist = memrole.Users.ToList();
+                    if (vm.Replace) 
+                    {
+                        userlist.ForEach(x => memrole.Users.Remove(x));
+                    }
+                    userlist = memrole.Users.ToList();
+                    
                     foreach (var item in goodEmails)
                     {
-                        var urole = new IdentityUserRole();
-                        urole.RoleId = rid;
-                        urole.UserId = item.Id;
-                        item.Roles.Add(urole);
-                        successEmails.Add(item.Email);
+                        var exist = userlist.FirstOrDefault(x => x.UserId == item.Id);
+                        if (exist == null) 
+                        { 
+                            var urole = new IdentityUserRole();
+                            urole.RoleId = rid;
+                            urole.UserId = item.Id;
+                            item.Roles.Add(urole);
+                            successEmails.Add(item.Email);
+                        }
                     }
+                    succesUserCount = successEmails.Count();
                     await db.SaveChangesAsync();
                 }
                 errorEmails = users.Except(successEmails).ToList();
