@@ -12,6 +12,8 @@ namespace RafflesChart.Controllers
     public class ManageSubscriptionController : Controller
     {
         [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateInput(false)]
         public ActionResult Add(SubscriptionEntryViewModel vm)
         {
             using (var db= new ApplicationDbContext())
@@ -45,6 +47,8 @@ namespace RafflesChart.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateInput(false)]
         public ActionResult Edit(Subscription vm)
         {
             using (var db = new ApplicationDbContext())

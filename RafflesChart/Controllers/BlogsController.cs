@@ -20,7 +20,7 @@ namespace RafflesChart.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        [ ValidateInput(false)]
+        [ValidateInput(false)]
         public ActionResult SaveBlog(BlogViewModel vm)
         {
             ViewBag.Message = "Blog";

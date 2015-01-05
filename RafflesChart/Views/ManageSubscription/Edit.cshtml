@@ -2,7 +2,16 @@
 @{
     ViewBag.Title = "Add";
 }
-
+@section Styles{
+    @Styles.Render("~/Content/css")
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/summernote.css" rel="stylesheet" />
+    <style>
+        .pageselect {
+            height: 40px;
+        }
+    </style>
+}
 <h2>Add</h2>
 @using( Html.BeginForm("Edit","ManageSubscription"))
 {
@@ -36,7 +45,7 @@
             </label>
         </div>
         <div class="col-xs-4">
-            <textarea type="text" name="Detail" rows="8" class="form-control">@Model.Detail</textarea>
+            <textarea class="input-block-level" id="summernote" name="Detail" rows="18">@Model.Detail</textarea>
         </div>
     </div>
 
@@ -90,4 +99,17 @@
     </div>
 
 </div>
+}
+
+@section Scripts{
+
+    <script src="~/Scripts/summernote.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#summernote').summernote({ height: "500px" });
+        });
+        var postForm = function () {
+            var content = $('textarea[name="Detail"]').html($('#summernote').code());
+        }
+    </script>
 }
