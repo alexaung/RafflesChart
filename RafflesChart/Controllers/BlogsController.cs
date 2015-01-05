@@ -75,11 +75,11 @@ namespace RafflesChart.Controllers
             }
             else if (p.Equals("2"))
             {
-                return "update1";
+                return "Corporate Action";
             }
             else if (p.Equals("3"))
             {
-                return "page1";
+                return "Foreign Market";
             }
             else
             {
