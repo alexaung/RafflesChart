@@ -687,7 +687,7 @@ namespace RafflesChart.Controllers
                     var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encrypted);
                     cookie.Expires = System.DateTime.Now.AddMinutes(timeout);// Not my line
                     cookie.HttpOnly = true; // cookie not available in javascript.
-                    //Response.Cookies.Add(cookie);
+                    Response.Cookies.Add(cookie);
 
                     Session["activeuser"] = model.Email;
                     if (string.IsNullOrEmpty (returnUrl) || "/".Equals(returnUrl))

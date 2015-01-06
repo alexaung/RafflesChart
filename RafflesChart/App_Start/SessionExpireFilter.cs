@@ -80,9 +80,9 @@ namespace RafflesChart.App_Start
             if (active == null)
             {
                 //filterContext.HttpContext.GetOwinContext().Authentication.SignOut();
-                filterContext.Result = new RedirectToRouteResult(
-            new RouteValueDictionary {{ "Controller", "Account" },
-                                      { "Action", "LogOff" } });
+           //     filterContext.Result = new RedirectToRouteResult(
+           // new RouteValueDictionary {{ "Controller", "Account" },
+           //                           { "Action", "LogOff" } });
                 //filterContext.HttpContext.Response.Redirect("/Home");
                
                 //return;
