@@ -35,8 +35,29 @@
             </label>
         </div>
         <div class="col-xs-4">
-            <input type="text" name="Price" value="" class="form-control" />
+            <input type="text" name="Price" value="" id="Price" class="form-control" />
             @Html.ValidationMessage("Price")
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-2">
+            <label>
+                Quantity
+            </label>
+        </div>
+        <div class="col-xs-4">
+            <input type="text" name="Quantity" id="Quantity" value="" class="form-control" />
+            @Html.ValidationMessage("Quantity")
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-2">
+            <label>
+                Total
+            </label>
+        </div>
+        <div class="col-xs-4">
+            <input type="text" name="Total" id="Total" readonly value="" class="form-control" />            
         </div>
     </div>
     <div class="row form-group">
@@ -89,6 +110,14 @@
     <script>
         $(document).ready(function () {
             $('#summernote').summernote({ height: "500px" });
+
+            $('#Quantity').change(function () {
+                $('#Total').val($('#Quantity').val() * $('#Price').val());
+            });
+
+            $('#Price').change(function () {
+                $('#Total').val($('#Quantity').val() * $('#Price').val());
+            });
         });
         var postForm = function () {
             var content = $('textarea[name="Detail"]').html($('#summernote').code());

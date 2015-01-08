@@ -20,5 +20,7 @@ namespace RafflesChart.Models
         public DateTime UpdatedDate { get; set; }
 
         public string Status { get; set; }
+
+        public int Quantity { get; set; }
     }
 }

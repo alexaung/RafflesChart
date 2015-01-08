@@ -13,6 +13,8 @@ namespace RafflesChart.ViewModels
 
         public decimal Price { get; set; }
 
+        public int Quantity { get; set; }
+
         public string Detail { get; set; }
 
         public DateTime CreatedDate { get; set; }

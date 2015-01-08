@@ -35,7 +35,27 @@
             </label>
         </div>
         <div class="col-xs-4">
-            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @id = "Price" } })
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-2">
+            <label>
+                Quantity
+            </label>
+        </div>
+        <div class="col-xs-4">
+            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @id = "Quantity" } })
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-2">
+            <label>
+                Total
+            </label>
+        </div>
+        <div class="col-xs-4">
+            <input type="text" id="Total" name="Total" readonly value="" class="form-control" />       
         </div>
     </div>
     <div class="row form-group">
@@ -106,7 +126,16 @@
     <script src="~/Scripts/summernote.min.js"></script>
     <script>
         $(document).ready(function () {
+            $('#Total').val($('#Quantity').val() * $('#Price').val());
             $('#summernote').summernote({ height: "500px" });
+
+            $('#Quantity').change(function () {
+                $('#Total').val( $('#Quantity').val() * $('#Price').val());
+            });
+
+            $('#Price').change(function () {
+                $('#Total').val($('#Quantity').val() * $('#Price').val());
+            });
         });
         var postForm = function () {
             var content = $('textarea[name="Detail"]').html($('#summernote').code());

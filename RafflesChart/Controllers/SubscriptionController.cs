@@ -24,7 +24,7 @@ namespace RafflesChart.Controllers
         }
         public ActionResult Add()
         {
-            var month = Request.Form["Month"];
+            var month = Request.Form["Quantity"];
             var price = Request.Form["Price"];
             var itemName = Request.Form["ItemName"];
             var total = int.Parse(month) * double.Parse(price);
