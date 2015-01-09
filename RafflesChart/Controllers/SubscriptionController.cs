@@ -24,19 +24,19 @@ namespace RafflesChart.Controllers
         }
         public ActionResult Add()
         {
-            var month = Request.Form["Quantity"];
+            //var month = Request.Form["Des"];
             var price = Request.Form["Price"];
-            var itemName = Request.Form["ItemName"];
-            var total = int.Parse(month) * double.Parse(price);
+            var itemName = Request.Form["Description"];
+            var total = double.Parse(price);
             NVPAPICaller test = new NVPAPICaller();
             string retMsg = "";
             string token = "";
             TempData["Total"] = total.ToString();
             TempData["ItemName"] = itemName;
             TempData["Price"] = price;
-            TempData["Month"] = month;
+            TempData["Month"] = "1";
             TempData["SubscriptionId"] = Request.Form["SubscriptionId"];
-            bool ret = test.ShortcutExpressCheckout(total.ToString(), itemName, month, price, ref token, ref retMsg);
+            bool ret = test.ShortcutExpressCheckout(total.ToString(), itemName, "1", price, ref token, ref retMsg);
             if (ret)
             {
                return Redirect(retMsg);

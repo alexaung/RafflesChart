@@ -59,32 +59,24 @@
             
             <div class="row form-group">
                 <div class="col-xs-2">
-                    Price
+                    Total Amount
                 </div>
                 <div class="col-xs-4">
-                    @item.Price (SGD per month)
+                    @item.Price
                 </div>
                
                 <input type="hidden" name="Price" value="@item.Price" />
             </div>
             <div class="row form-group">
                 <div class="col-xs-2">
-                    Quantity
+                    Description
                 </div>
                 <div class="col-xs-2">
-                    <input type="hidden" name="Quantity" value="@item.Quantity" />
-                    @item.Quantity
+                    <input type="hidden" name="Quantity" value="@item.Description" />
+                    @item.Description
                 </div>                
             </div>
-            <div class="row form-group">
-                <div class="col-xs-2">
-                    Total
-                </div>
-                <div class="col-xs-2">
-                    @{var total = @item.Quantity * @item.Price;}
-                    @total
-                </div>
-            </div>
+           
             <div class="row">
                 <div class="col-lg-offset-2 col-xs-2">
                     <input type="image" src="~/Content/btn_pponly_142x27.png" />
