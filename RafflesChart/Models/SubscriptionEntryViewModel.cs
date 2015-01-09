@@ -22,5 +22,7 @@ namespace RafflesChart.ViewModels
         public DateTime UpdatedDate { get; set; }
 
         public string Status { get; set; }
+
+        public string Description { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace RafflesChart.Controllers
                 subscription.Name = vm.Name;
                 subscription.Price = vm.Price;
                 subscription.Detail = vm.Detail;
-                subscription.Quantity = vm.Quantity;
+                subscription.Description = vm.Description;
                 var dtnow = DateTime.Now;
                 subscription.CreatedDate = dtnow;
                 subscription.UpdatedDate = dtnow;
@@ -58,7 +58,7 @@ namespace RafflesChart.Controllers
 
                 subscription.Name = vm.Name;
                 subscription.Price = vm.Price;
-                subscription.Quantity = vm.Quantity;
+                subscription.Description = vm.Description;
                 subscription.Detail = vm.Detail;
                 subscription.UpdatedDate = DateTime.Now;
                 subscription.Status = vm.Status;
